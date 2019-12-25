@@ -4,28 +4,39 @@ import {
   StackViewTransitionConfigs,
 } from 'react-navigation-stack';
 
-import Login from './pages/Login';
-import CreateAccount from './pages/CreateAccount';
+import Login from '~/pages/Login';
+import CreateAccount from '~/pages/CreateAccount';
+import WelcomeBack from '~/pages/WelcomeBack';
+import Main from '~/pages/Main';
+
+import { fonts, colors } from '~/styles';
 
 const Routes = createAppContainer(
   createStackNavigator(
     {
       Login,
+      Main,
       CreateAccount,
+      WelcomeBack,
     },
     {
       headerLayoutPreset: 'center',
       headerBackTitleVisible: false,
+      mode: 'card',
+      transparentCard: true,
+      cardStyle: {
+        backgroundColor: colors.dark,
+      },
       defaultNavigationOptions: {
         headerStyle: {
-          backgroundColor: '#181818',
+          backgroundColor: colors.dark,
           elevation: 0,
         },
-        headerTintColor: '#eee',
-        headerBackTitleStyle: {
-          fontWeight: '700',
+        headerTitleStyle: {
+          fontFamily: fonts.semiBold,
         },
-        headerPressColorAndroid: '#666',
+        headerTintColor: colors.white,
+        headerPressColorAndroid: colors.inputBackground,
       },
       transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
     }

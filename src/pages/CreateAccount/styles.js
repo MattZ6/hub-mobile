@@ -1,36 +1,25 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+import { colors } from '~/styles';
+
+export const Container = styled.KeyboardAvoidingView`
   flex: 1;
-  padding: 30px;
-  background: #181818;
-`;
-
-export const Input = styled.TextInput.attrs({
-  placeholderTextColor: '#999',
-})`
-  margin-bottom: 26px;
-  background: #2a2a2a;
-  height: 42px;
-  padding: 0 16px;
-  border-radius: 8px;
-  color: #eee;
-  font-weight: 500;
-  font-size: 15px;
-`;
-
-export const SubmitButton = styled.TouchableOpacity`
-  height: 60px;
-  background: #ba3c43;
-  align-items: center;
   justify-content: center;
-  margin-top: 16px;
-  border-radius: 8px;
 `;
 
-export const SubmitButtonText = styled.Text`
-  font-size: 24px;
-  color: #fff;
-  text-align: center;
-  font-weight: 700;
+export const Form = styled.ScrollView.attrs({
+  keyboardShouldPersistTaps: 'handled',
+  showsVerticalScrollIndicator: false,
+})`
+  flex: 1;
+  padding: 20px 20px 0;
+`;
+
+export const Image = styled.Image`
+  align-self: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  background: ${colors.inputBackground};
 `;
