@@ -10,6 +10,10 @@ export const Container = styled.KeyboardAvoidingView`
 export const Form = styled.ScrollView.attrs({
   keyboardShouldPersistTaps: 'handled',
   showsVerticalScrollIndicator: false,
+  // marginBottom: 80,
+  contentContainerStyle: {
+    paddingBottom: 120,
+  },
 })`
   flex: 1;
   padding: 20px 20px 0;

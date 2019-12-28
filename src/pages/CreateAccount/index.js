@@ -5,6 +5,7 @@ import {
   Platform,
   Keyboard,
   ToastAndroid,
+  Text,
 } from 'react-native';
 
 import { Container, Form, Image } from './styles';
@@ -77,69 +78,91 @@ export default function CreateAccount() {
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}>
-        <Container>
-          <Form>
-            <Image source={{ uri: `https://i.pravatar.cc/150` }} />
+        {/* <Container> */}
+        <Form>
+          {/* <Image source={{ uri: `https://i.pravatar.cc/150` }} /> */}
 
-            <Input
-              title="Nome"
-              placeholder="Seu nome completo"
-              returnKeyType="next"
-              value={name}
-              onChangeText={x => setName(x)}
-              onSubmitEditing={() => emailRef.current.focus()}
-              invalid={!!nameError}
-              errorMessage={nameError}
-              disabled={loading}
-            />
+          <Text
+            style={{
+              color: '#fff',
+            }}>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            Consequatur, molestiae. Quod quaerat, iure eaque optio, nisi
+            consequatur rem non, quisquam deleniti aut error reiciendis totam!
+            Ratione maxime numquam eos modi.
+          </Text>
 
-            <Input
-              title="E-mail"
-              placeholder="Seu melhor e-mail"
-              keyboardType="email-address"
-              returnKeyType="next"
-              value={email}
-              onChangeText={x => setEmail(x)}
-              ref={emailRef}
-              onSubmitEditing={() => passwordRef.current.focus()}
-              invalid={!!emailError}
-              errorMessage={emailError}
-              disabled={loading}
-            />
+          <Input
+            title="Nome"
+            placeholder="Seu nome completo"
+            returnKeyType="next"
+            value={name}
+            onChangeText={x => setName(x)}
+            onSubmitEditing={() => emailRef.current.focus()}
+            invalid={!!nameError}
+            errorMessage={nameError}
+            disabled={loading}
+          />
 
-            <Input
-              title="Senha"
-              placeholder="Sua senha"
-              secureTextEntry
-              returnKeyType="next"
-              value={password}
-              onChangeText={x => setPassword(x)}
-              ref={passwordRef}
-              onSubmitEditing={() => confirmPasswordRef.current.focus()}
-              invalid={!!passwordError}
-              errorMessage={passwordError}
-              disabled={loading}
-            />
+          <Input
+            title="Nickname"
+            placeholder="Um nome de usuário"
+            returnKeyType="next"
+            // value={name}
+            // onChangeText={x => setName(x)}
+            // onSubmitEditing={() => emailRef.current.focus()}
+            // invalid={!!nameError}
+            // errorMessage={nameError}
+            // disabled={loading}
+          />
 
-            <Input
-              title="Confirmação de senha"
-              placeholder="Confirme sua senha"
-              secureTextEntry
-              returnKeyType="send"
-              value={confirmPassword}
-              onChangeText={x => setConfirmPassword(x)}
-              ref={confirmPasswordRef}
-              onSubmitEditing={handleSubmit}
-              invalid={!!confirmPasswordError}
-              errorMessage={confirmPasswordError}
-              disabled={loading}
-            />
+          <Input
+            title="E-mail"
+            placeholder="Seu melhor e-mail"
+            keyboardType="email-address"
+            returnKeyType="next"
+            value={email}
+            onChangeText={x => setEmail(x)}
+            ref={emailRef}
+            onSubmitEditing={() => passwordRef.current.focus()}
+            invalid={!!emailError}
+            errorMessage={emailError}
+            disabled={loading}
+          />
 
-            <Button style={{ marginTop: 10 }} onPress={() => handleSubmit()}>
-              Let&rsquo;s Rock
-            </Button>
-          </Form>
-        </Container>
+          <Input
+            title="Senha"
+            placeholder="Sua senha"
+            secureTextEntry
+            returnKeyType="next"
+            value={password}
+            onChangeText={x => setPassword(x)}
+            ref={passwordRef}
+            onSubmitEditing={() => confirmPasswordRef.current.focus()}
+            invalid={!!passwordError}
+            errorMessage={passwordError}
+            disabled={loading}
+          />
+
+          <Input
+            title="Confirmação de senha"
+            placeholder="Confirme sua senha"
+            secureTextEntry
+            returnKeyType="send"
+            value={confirmPassword}
+            onChangeText={x => setConfirmPassword(x)}
+            ref={confirmPasswordRef}
+            onSubmitEditing={handleSubmit}
+            invalid={!!confirmPasswordError}
+            errorMessage={confirmPasswordError}
+            disabled={loading}
+          />
+
+          <Button style={{ marginTop: 10 }} onPress={() => handleSubmit()}>
+            Let&rsquo;s Rock
+          </Button>
+        </Form>
+        {/* </Container> */}
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

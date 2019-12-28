@@ -8,6 +8,8 @@ export default {
 
   clearButtonTextColor: 'rgba(255,255,255,0.3)',
 
+  rippleColor: 'rgba(255,255,255,.05)',
+
   danger: '#A62C2C',
 
   dark: '#0d0d0d',
