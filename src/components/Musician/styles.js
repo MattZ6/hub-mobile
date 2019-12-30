@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
-// import { RectButton } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled.View`
+export const Container = styled(RectButton)`
   flex-direction: row;
   align-items: center;
   padding: 8px 20px;

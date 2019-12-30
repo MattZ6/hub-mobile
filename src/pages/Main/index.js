@@ -89,7 +89,7 @@ export default function Main() {
   return (
     <Container
       data={musicians}
-      keyExtractor={x => x.id}
+      keyExtractor={x => String(x.id)}
       renderItem={({ item }) => <Musician musician={item} />}
     />
   );

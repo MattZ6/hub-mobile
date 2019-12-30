@@ -1,28 +1,26 @@
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
 
-import { Container, Title, TInput, ErrorMessage } from './styles';
+import { Wrapper, Container, TInput, Counter, ErrorMessage } from './styles';
 
-function Input({ style, ...rest }, ref) {
+function Input({ style, invalid, disabled, maxLength, length, ...rest }, ref) {
   return (
-    <Container style={style} disabled={rest.disabled}>
-      {/* <Title>{rest.title}</Title> */}
+    <Wrapper style={style} disabled={disabled}>
+      <Container invalid={invalid}>
+        <TInput
+          {...rest}
+          ref={ref}
+          editable={!disabled}
+          maxLength={maxLength}
+        />
 
-      <TInput {...rest} ref={ref} editable={!rest.disabled} />
+        {length && <Counter>{length}</Counter>}
+      </Container>
 
-      {rest.invalid && !rest.disabled && (
-        <ErrorMessage>{rest.errorMessage}</ErrorMessage>
+      {invalid && !disabled && (
+        <ErrorMessage numberOfLines={1}>{rest.errorMessage}</ErrorMessage>
       )}
-    </Container>
+    </Wrapper>
   );
 }
-
-Input.propTypes = {
-  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-};
-
-Input.defaultProps = {
-  style: {},
-};
 
 export default forwardRef(Input);

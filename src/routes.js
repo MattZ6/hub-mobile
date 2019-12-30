@@ -14,8 +14,8 @@ import { fonts, colors } from '~/styles';
 const Routes = createAppContainer(
   createStackNavigator(
     {
-      Login,
       Main,
+      Login,
       CreateAccount,
       WelcomeBack,
     },

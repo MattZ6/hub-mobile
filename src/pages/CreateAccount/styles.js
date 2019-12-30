@@ -1,29 +1,34 @@
 import styled from 'styled-components/native';
 
-import { colors } from '~/styles';
+import Button from '~/components/Button';
 
-export const Container = styled.KeyboardAvoidingView`
-  flex: 1;
-  justify-content: center;
+import { colors, fonts } from '~/styles';
+
+export const Label = styled.Text`
+  font-family: ${fonts.semiBold};
+  color: ${colors.white};
+  font-size: 16px;
+`;
+
+export const Description = styled.Text`
+  font-family: ${fonts.medium};
+  color: ${colors.inputPlaceholderColor};
+  font-size: 14px;
+  margin-bottom: 16px;
 `;
 
 export const Form = styled.ScrollView.attrs({
   keyboardShouldPersistTaps: 'handled',
   showsVerticalScrollIndicator: false,
-  // marginBottom: 80,
   contentContainerStyle: {
-    paddingBottom: 120,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 100,
   },
 })`
   flex: 1;
-  padding: 20px 20px 0;
 `;
 
-export const Image = styled.Image`
-  align-self: center;
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  margin-bottom: 20px;
-  background: ${colors.inputBackground};
+export const SubmitButton = styled(Button)`
+  margin-top: 16px;
 `;

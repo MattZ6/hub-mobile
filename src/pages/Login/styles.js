@@ -1,9 +1,15 @@
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 
 import Button from '~/components/Button';
-import ButtonClear from '~/components/ButtonClear';
 
 import { colors, fonts } from '~/styles';
+
+export const Container = styled.KeyboardAvoidingView.attrs({
+  behavior: Platform.OS === 'ios' ? 'padding' : 'height',
+})`
+  flex: 1;
+`;
 
 export const Title = styled.Text`
   color: ${colors.white};
@@ -17,9 +23,9 @@ export const Form = styled.ScrollView.attrs({
   keyboardShouldPersistTaps: 'handled',
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingHorizontal: 20,
     paddingTop: 80,
-    paddingBottom: 40,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
 })`
   flex: 1;

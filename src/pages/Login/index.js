@@ -1,15 +1,12 @@
-import React, { useRef, useState, useEffect } from 'react';
-import {
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  Keyboard,
-  Platform,
-} from 'react-native';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import PropTypes from 'prop-types';
 
-import { Title, Form, SubmitButton } from './styles';
+import { validateEmail } from '~/utils/validations';
+
+import { Container, Title, Form, SubmitButton } from './styles';
 
 import Input from '~/components/Input';
-// import Button from '~/components/Button';
 import ButtonClear from '~/components/ButtonClear';
 
 export default function Login({ navigation }) {
@@ -22,28 +19,22 @@ export default function Login({ navigation }) {
   const [touched, setTouched] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const valid = useMemo(() => {
+    const firstTime = emailError === undefined && passwordError === undefined;
+
+    if (firstTime || !touched) {
+      return false;
+    }
+
+    return !emailError && !passwordError;
+  }, [emailError, passwordError, touched]);
+
   const passwordRef = useRef();
 
   useEffect(() => {
-    function validateEmail() {
-      let error = null;
-
-      if (email.length === 0) {
-        error = 'O e-mail é obrigatório';
-      } else if (email.includes(' ')) {
-        error = 'O e-mail não pode conter espaços';
-      } else if (email.trim().length < 6) {
-        error = 'O e-mail precisa ser válido';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setEmailError(error);
-      }
+    if (touched) {
+      setEmailError(validateEmail(email));
     }
-
-    validateEmail();
   }, [email, touched]);
 
   useEffect(() => {
@@ -77,12 +68,7 @@ export default function Login({ navigation }) {
 
     setTouched(true);
 
-    if (
-      emailError === undefined ||
-      passwordError === undefined ||
-      emailError ||
-      passwordError
-    ) {
+    if (!valid) {
       return;
     }
 
@@ -90,16 +76,14 @@ export default function Login({ navigation }) {
 
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }
 
   return (
     <TouchableWithoutFeedback
       onPress={Keyboard.dismiss}
       enabled={Platform.OS === 'ios'}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
+      <Container>
         <Form>
           <Title>Pronto pro Rock?</Title>
 
@@ -139,11 +123,17 @@ export default function Login({ navigation }) {
             Ainda não tenho uma conta :(
           </ButtonClear>
         </Form>
-      </KeyboardAvoidingView>
+      </Container>
     </TouchableWithoutFeedback>
   );
 }
 
 Login.navigationOptions = {
   headerShown: false,
+};
+
+Login.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
 };
