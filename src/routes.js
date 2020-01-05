@@ -8,6 +8,7 @@ import Login from '~/pages/Login';
 import CreateAccount from '~/pages/CreateAccount';
 // import WelcomeBack from '~/pages/WelcomeBack';
 
+import Profile from '~/pages/Profile';
 import Main from '~/pages/Main';
 
 import { fonts, colors } from '~/styles';
@@ -47,6 +48,7 @@ export default (signedIn = false) =>
         ),
         App: createStackNavigator(
           {
+            Profile,
             Main,
           },
           routesStyleConfig

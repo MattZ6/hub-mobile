@@ -4,7 +4,7 @@ import { RectButton } from 'react-native-gesture-handler';
 import { colors, fonts } from '~/styles';
 
 export const Container = styled(RectButton).attrs({
-  // rippleColor: colors.rippleColor,
+  borderRadius: 8,
 })`
   height: 40px;
   align-items: center;

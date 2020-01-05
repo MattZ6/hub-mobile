@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Container,
+  Button,
   Avatar,
   Info,
   Title,
@@ -12,7 +12,7 @@ import {
 
 export default function Musician({ musician }) {
   return (
-    <Container>
+    <Button>
       <Avatar source={{ uri: musician.image }} />
 
       <Info>
@@ -27,7 +27,7 @@ export default function Musician({ musician }) {
           )}
         </Description>
       </Info>
-    </Container>
+    </Button>
   );
 }
 

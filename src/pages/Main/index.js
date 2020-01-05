@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 import Musician from '~/components/Musician';
 
@@ -89,6 +89,10 @@ export default function Main() {
 
   return (
     <Container>
+      <TouchableOpacity onPress={() => {}}>
+        <Text style={{ padding: 20, color: '#fff', fontSize: 40 }}>Perfil</Text>
+      </TouchableOpacity>
+
       <List
         ListHeaderComponent={
           <Text

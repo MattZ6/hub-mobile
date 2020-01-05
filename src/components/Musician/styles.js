@@ -3,17 +3,13 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled(RectButton)`
+export const Button = styled(RectButton)`
   flex-direction: row;
   align-items: center;
   padding: 8px 20px;
-`;
-
-export const Content = styled.View`
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  padding: 8px 20px;
+  height: 74px;
+  width: 100%;
+  border-radius: 0;
 `;
 
 export const Avatar = styled.Image.attrs({
