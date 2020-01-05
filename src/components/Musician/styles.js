@@ -9,6 +9,13 @@ export const Container = styled(RectButton)`
   padding: 8px 20px;
 `;
 
+export const Content = styled.View`
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 20px;
+`;
+
 export const Avatar = styled.Image.attrs({
   fadeDuration: 500,
   resizeMode: 'cover',

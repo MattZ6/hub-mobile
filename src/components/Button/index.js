@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Title, Loader } from './styles';
+import { Container, Title, Loader } from '~/components/Button/styles';
 
 export default function Button({ children, loading, ...rest }) {
   return (

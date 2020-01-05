@@ -1,15 +1,26 @@
 import React, { useRef, useState, useEffect, useMemo } from 'react';
-import { TouchableWithoutFeedback, Keyboard, Platform } from 'react-native';
+import {
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+} from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { signInRequest } from '~/store/modules/auth/actions';
 
 import { validateEmail } from '~/utils/validations';
 
-import { Container, Title, Form, SubmitButton } from './styles';
+import { Title, Form, SubmitButton } from '~/pages/Login/styles';
 
 import Input from '~/components/Input';
 import ButtonClear from '~/components/ButtonClear';
 
 export default function Login({ navigation }) {
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.auth.loading);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,7 +28,6 @@ export default function Login({ navigation }) {
   const [passwordError, setPasswordError] = useState(undefined);
 
   const [touched, setTouched] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const valid = useMemo(() => {
     const firstTime = emailError === undefined && passwordError === undefined;
@@ -60,7 +70,11 @@ export default function Login({ navigation }) {
   }, [password, touched]);
 
   function handleNavigate() {
-    navigation.navigate('CreateAccount');
+    Keyboard.dismiss();
+
+    setTimeout(() => {
+      navigation.navigate('CreateAccount');
+    }, 0);
   }
 
   function handleLogin() {
@@ -72,18 +86,16 @@ export default function Login({ navigation }) {
       return;
     }
 
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    dispatch(signInRequest(email, password));
   }
 
   return (
     <TouchableWithoutFeedback
       onPress={Keyboard.dismiss}
       enabled={Platform.OS === 'ios'}>
-      <Container>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}>
         <Form>
           <Title>Pronto pro Rock?</Title>
 
@@ -92,7 +104,7 @@ export default function Login({ navigation }) {
             keyboardType="email-address"
             returnKeyType="next"
             value={email}
-            onChangeText={x => setEmail(x)}
+            onChangeText={setEmail}
             errorMessage={emailError}
             invalid={emailError}
             disabled={loading}
@@ -105,7 +117,7 @@ export default function Login({ navigation }) {
             returnKeyType="send"
             ref={passwordRef}
             value={password}
-            onChangeText={x => setPassword(x)}
+            onChangeText={setPassword}
             errorMessage={passwordError}
             invalid={passwordError}
             disabled={loading}
@@ -123,7 +135,7 @@ export default function Login({ navigation }) {
             Ainda não tenho uma conta :(
           </ButtonClear>
         </Form>
-      </Container>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

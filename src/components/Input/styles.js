@@ -25,7 +25,7 @@ export const Container = styled.View`
 export const Counter = styled.Text`
   padding-left: 16px;
   color: ${colors.inputPlaceholderColor};
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: 1.1px;
   font-family: ${fonts.bold};
 `;

@@ -5,14 +5,25 @@ import {
   Platform,
   Keyboard,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { signUpRequest } from '~/store/modules/auth/actions';
 
 import { validateEmail } from '~/utils/validations';
 
-import { Form, Label, Description, SubmitButton } from './styles';
+import {
+  Form,
+  Label,
+  Description,
+  SubmitButton,
+} from '~/pages/CreateAccount/styles';
 
 import Input from '~/components/Input';
 
 export default function CreateAccount() {
+  const dispatch = useDispatch();
+  const loading = useSelector(state => state.auth.loading);
+
   const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -28,14 +39,20 @@ export default function CreateAccount() {
   );
 
   const [touched, setTouched] = useState(false);
-  const [loading, setLoading] = useState(false);
 
+  const nameRef = useRef();
   const nicknameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
 
-  const MAX_LENGTH_NICKNAME = 16;
+  const MAX_LENGTH_NICKNAME = 12;
+
+  useEffect(() => {
+    setTimeout(() => {
+      nameRef.current.focus();
+    }, 250);
+  }, []);
 
   const qtdNickname = useMemo(() => {
     if (!nickname) {
@@ -54,7 +71,7 @@ export default function CreateAccount() {
   const valid = useMemo(() => {
     const firstTime =
       nameError === undefined ||
-      nickname === undefined ||
+      nicknameError === undefined ||
       emailError === undefined ||
       passwordError === undefined ||
       passwordConfirmationError === undefined;
@@ -63,11 +80,17 @@ export default function CreateAccount() {
       return false;
     }
 
-    return !emailError && !passwordError;
+    return (
+      !nameError &&
+      !nicknameError &&
+      !emailError &&
+      !passwordError &&
+      !passwordConfirmationError
+    );
   }, [
     emailError,
     nameError,
-    nickname,
+    nicknameError,
     passwordConfirmationError,
     passwordError,
     touched,
@@ -77,10 +100,14 @@ export default function CreateAccount() {
     function validateName() {
       let error = null;
 
+      const regex = new RegExp(
+        "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$"
+      );
+
       if (name.length === 0) {
         error = 'O nome é obrigatório';
-      } else if (!new RegExp('^[a-zA-Z ]*$').test(name)) {
-        error = 'O nome deve conter somente letras';
+      } else if (!regex.test(name)) {
+        error = 'O nome não deve conter caracteres especiais';
       } else if (name.trim().length < 6) {
         error = 'O nome precisa ter pelo menos 6 caracteres';
       } else {
@@ -103,8 +130,8 @@ export default function CreateAccount() {
         error = 'O nickname é obrigatório';
       } else if (!new RegExp('^[a-zA-Z0-9_]*$').test(nickname)) {
         error = 'Não são permitidos caracteres especiais';
-      } else if (nickname.trim().length < 5) {
-        error = 'O nickname precisa ter pelo menos 5 caracteres';
+      } else if (nickname.trim().length < 3) {
+        error = 'O nickname precisa ter pelo menos 3 caracteres';
       } else {
         error = null;
       }
@@ -174,11 +201,15 @@ export default function CreateAccount() {
       return;
     }
 
-    setLoading(true);
+    const data = {
+      name: name.trim(),
+      nickname: nickname.trim(),
+      email: email.trim(),
+      password: password.trim(),
+      passwordConfirmation: passwordConfirmation.trim(),
+    };
 
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    dispatch(signUpRequest(data));
   }
 
   return (
@@ -197,6 +228,7 @@ export default function CreateAccount() {
             returnKeyType="next"
             value={name}
             onChangeText={setName}
+            ref={nameRef}
             onSubmitEditing={() => nicknameRef.current.focus()}
             invalid={!!nameError}
             errorMessage={nameError}
@@ -218,7 +250,7 @@ export default function CreateAccount() {
           />
 
           <Label>Credenciais</Label>
-          <Description>Para futuros login no aplicativo</Description>
+          <Description>Para futuros logins no aplicativo</Description>
 
           <Input
             placeholder="Seu melhor e-mail"

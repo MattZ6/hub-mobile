@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Text } from 'react-native';
 
 import Musician from '~/components/Musician';
 
-import { Container } from './styles';
+import { Container, List } from '~/pages/Main/styles';
 
 export default function Main() {
   const [musicians, setMusicians] = useState([
@@ -87,11 +88,25 @@ export default function Main() {
   ]);
 
   return (
-    <Container
-      data={musicians}
-      keyExtractor={x => String(x.id)}
-      renderItem={({ item }) => <Musician musician={item} />}
-    />
+    <Container>
+      <List
+        ListHeaderComponent={
+          <Text
+            style={{
+              fontSize: 48,
+              color: '#fff',
+              paddingHorizontal: 20,
+              paddingBottom: 20,
+            }}>
+            Buscar
+          </Text>
+        }
+        data={musicians}
+        keyExtractor={x => String(x.id)}
+        renderItem={({ item }) => <Musician musician={item} />}
+        showsVerticalScrollIndicator={false}
+      />
+    </Container>
   );
 }
 

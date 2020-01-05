@@ -20,7 +20,7 @@ export const Title = styled.Text`
   color: ${colors.white};
   margin-bottom: 40px;
   font-family: ${fonts.semiBold};
-  font-size: 48px;
+  font-size: 46px;
   text-shadow: 2px 2px 3px ${colors.black};
 `;
 

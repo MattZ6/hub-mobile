@@ -1,7 +1,14 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import PropTypes from 'prop-types';
 
-import { Container, Avatar, Info, Title, Description, Bold } from './styles';
+import {
+  Container,
+  Avatar,
+  Info,
+  Title,
+  Description,
+  Bold,
+} from '~/components/Musician/styles';
 
 export default function Musician({ musician }) {
   return (
@@ -23,3 +30,12 @@ export default function Musician({ musician }) {
     </Container>
   );
 }
+
+Musician.propTypes = {
+  musician: PropTypes.shape({
+    name: PropTypes.string,
+    image: PropTypes.string,
+    instrument: PropTypes.string,
+    band: PropTypes.string,
+  }).isRequired,
+};

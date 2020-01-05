@@ -1,6 +1,6 @@
 /**
  * Validates if the email you entered is in the correct format. Returns an error
- * message if the email is in an invalid or null format otherwise
+ * message if the email is in an invalid or `null` format otherwise
  * @param {string} email
  * @returns {string}
  */

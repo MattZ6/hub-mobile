@@ -1,6 +1,12 @@
 import React, { forwardRef } from 'react';
 
-import { Wrapper, Container, TInput, Counter, ErrorMessage } from './styles';
+import {
+  Wrapper,
+  Container,
+  TInput,
+  Counter,
+  ErrorMessage,
+} from '~/components/Input/styles';
 
 function Input({ style, invalid, disabled, maxLength, length, ...rest }, ref) {
   return (

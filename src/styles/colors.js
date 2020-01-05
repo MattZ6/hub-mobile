@@ -12,9 +12,9 @@ export default {
 
   danger: '#A62C2C',
 
-  dark: '#0d0d0d',
+  // dark: '#0d0d0d',
   // dark: '#181818',
-  // dark: '#100f12',
+  dark: '#100f12',
 
   white: '#ffffff',
   black: '#000000',
