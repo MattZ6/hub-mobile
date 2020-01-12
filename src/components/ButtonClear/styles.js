@@ -6,10 +6,10 @@ import { colors, fonts } from '~/styles';
 export const Container = styled(RectButton).attrs({
   borderRadius: 8,
 })`
-  height: 40px;
+  height: 44px;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: ${props => (props.round ? 8 : 0)}px;
 `;
 
 export const Title = styled.Text`

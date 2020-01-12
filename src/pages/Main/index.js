@@ -25,7 +25,7 @@ export default function Main({ navigation }) {
       </SerchButton>
       <SerchButton onPress={handleNavigateProfile}>
         <Text>
-          <Icon name="face" size={30} color="#fff" />
+          <Icon name="person" size={30} color="#fff" />
         </Text>
       </SerchButton>
     </Container>

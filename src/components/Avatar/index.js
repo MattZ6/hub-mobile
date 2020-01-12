@@ -13,7 +13,7 @@ export default function Avatar() {
       resizeMode="contain"
       source={{ uri: `https:i.pravatar.cc/200?u=${Math.random()}` }}
       imageStyle={{ borderRadius: 60 }}>
-      <Button onPress={handleChangePicture} />
+      <Button onPress={handleChangePicture} style={{ borderRadius: 20 }} />
     </Picture>
   );
 }
