@@ -8,16 +8,21 @@ const INITIAL_STATE = {
   updating: false,
 };
 
-export default function auth(state = INITIAL_STATE, action) {
+export default function auth(state = INITIAL_STATE, { type, payload }) {
   return produce(state, draft => {
-    switch (action.type) {
+    switch (type) {
       case ActionTypes.LOAD_REQUEST: {
         draft.loading = true;
         break;
       }
 
       case ActionTypes.LOAD_SUCCESS: {
-        draft.profile = action.payload.profile;
+        draft.profile = {
+          ...payload.profile,
+          firstName: payload.profile.name.includes(' ')
+            ? payload.profile.name.split(' ')[0]
+            : payload.profile.name,
+        };
         draft.loading = false;
         break;
       }
@@ -42,7 +47,7 @@ export default function auth(state = INITIAL_STATE, action) {
         break;
       }
 
-      case ActionTypes.SIGN_OUT: {
+      case ActionTypes.REMOVE: {
         draft.profile = null;
         break;
       }

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
+import { darken } from 'polished';
 
 import { colors, fonts } from '~/styles';
 
@@ -12,11 +13,12 @@ export const Container = styled(RectButton).attrs(() => ({
   },
   shadowOpacity: 0.8,
 }))`
-  height: 60px;
+  height: 56px;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  background: ${colors.primary};
+  border-radius: ${props => (props.round ? 8 : 0)}px;
+  background: ${props =>
+    props.darken ? darken(0.15, colors.primary) : colors.primary};
 `;
 
 export const Title = styled.Text`

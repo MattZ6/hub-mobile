@@ -1,17 +1,17 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled.ScrollView`
+export const Container = styled.SafeAreaView`
   flex: 1;
 `;
 
-export const SerchButton = styled(RectButton)`
-  padding: 20px;
+export const List = styled(FlatList)`
+  flex: 1;
 `;
 
-export const Title = styled.Text`
+export const ListHeader = styled.Text`
   font-family: ${fonts.semiBold};
   font-size: 48px;
   color: ${colors.white};

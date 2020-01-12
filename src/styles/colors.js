@@ -11,6 +11,7 @@ export default {
   rippleColor: 'rgba(255,255,255,.05)',
 
   danger: '#A62C2C',
+  success: '#21D954',
 
   // dark: '#0d0d0d',
   // dark: '#181818',

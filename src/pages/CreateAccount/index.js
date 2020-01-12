@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { signUpRequest } from '~/store/modules/auth/actions';
 
-import { validateEmail } from '~/utils/validations';
+import * as validators from '~/utils/validators';
 
 import {
   Form,
@@ -68,148 +68,64 @@ export default function CreateAccount() {
     return result;
   }, [nickname]);
 
-  const valid = useMemo(() => {
-    const firstTime =
-      nameError === undefined ||
-      nicknameError === undefined ||
-      emailError === undefined ||
-      passwordError === undefined ||
-      passwordConfirmationError === undefined;
-
-    if (firstTime || !touched) {
-      return false;
-    }
-
-    return (
-      !nameError &&
-      !nicknameError &&
-      !emailError &&
-      !passwordError &&
-      !passwordConfirmationError
-    );
-  }, [
-    emailError,
-    nameError,
-    nicknameError,
-    passwordConfirmationError,
-    passwordError,
-    touched,
-  ]);
-
   useEffect(() => {
-    function validateName() {
-      let error = null;
-
-      const regex = new RegExp(
-        "^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]*$"
-      );
-
-      if (name.length === 0) {
-        error = 'O nome é obrigatório';
-      } else if (!regex.test(name)) {
-        error = 'O nome não deve conter caracteres especiais';
-      } else if (name.trim().length < 6) {
-        error = 'O nome precisa ter pelo menos 6 caracteres';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setNameError(error);
-      }
+    if (touched) {
+      setNameError(validators.validateName(name));
     }
-
-    validateName();
   }, [name, touched]);
 
   useEffect(() => {
-    function validateNick() {
-      let error = null;
-
-      if (nickname.length === 0) {
-        error = 'O nickname é obrigatório';
-      } else if (!new RegExp('^[a-zA-Z0-9_]*$').test(nickname)) {
-        error = 'Não são permitidos caracteres especiais';
-      } else if (nickname.trim().length < 3) {
-        error = 'O nickname precisa ter pelo menos 3 caracteres';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setNicknameError(error);
-      }
+    if (touched) {
+      setNicknameError(validators.validateNickname(nickname));
     }
-
-    validateNick();
   }, [nickname, touched]);
 
   useEffect(() => {
     if (touched) {
-      setEmailError(validateEmail(email));
+      setEmailError(validators.validateEmail(email));
     }
   }, [email, touched]);
 
   useEffect(() => {
-    function validatePassword() {
-      let error = null;
-
-      if (password.length === 0) {
-        error = 'A senha é obrigatória';
-      } else if (password.includes(' ')) {
-        error = 'A senha não pode conter espaços';
-      } else if (password.trim().length < 6) {
-        error = 'A senha precisa ter pelo menos 6 caracteres';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setPasswordError(error);
-      }
+    if (touched) {
+      setPasswordError(validators.validatePassword(password));
     }
-
-    validatePassword();
   }, [password, touched]);
 
   useEffect(() => {
-    function validatePassword() {
-      let error = null;
-
-      if (passwordConfirmation.length === 0) {
-        error = 'A confirmação de senha é obrigatória';
-      } else if (passwordConfirmation !== password) {
-        error = 'As senhas não condizem';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setPasswordConfirmationError(error);
-      }
+    if (touched) {
+      setPasswordConfirmationError(
+        validators.validatePasswordConfirmation(passwordConfirmation, password)
+      );
     }
-
-    validatePassword();
   }, [password, passwordConfirmation, touched]);
+
+  function _checkIsValidForm() {
+    return (
+      !validators.validateName(name) &&
+      !validators.validateNickname(nickname) &&
+      !validators.validateEmail(email) &&
+      !validators.validatePassword(password) &&
+      !validators.validatePasswordConfirmation(passwordConfirmation, password)
+    );
+  }
 
   function handleSubmit() {
     Keyboard.dismiss();
 
-    setTouched(true);
+    if (_checkIsValidForm()) {
+      const data = {
+        name: name.trim(),
+        nickname: nickname.trim(),
+        email: email.trim(),
+        password: password.trim(),
+        passwordConfirmation: passwordConfirmation.trim(),
+      };
 
-    if (!valid) {
-      return;
+      dispatch(signUpRequest(data));
+    } else {
+      setTouched(true);
     }
-
-    const data = {
-      name: name.trim(),
-      nickname: nickname.trim(),
-      email: email.trim(),
-      password: password.trim(),
-      passwordConfirmation: passwordConfirmation.trim(),
-    };
-
-    dispatch(signUpRequest(data));
   }
 
   return (

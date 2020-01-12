@@ -6,10 +6,13 @@ import {
 
 import Login from '~/pages/Login';
 import CreateAccount from '~/pages/CreateAccount';
-// import WelcomeBack from '~/pages/WelcomeBack';
 
-import Profile from '~/pages/Profile';
+import WelcomeBack from '~/pages/WelcomeBack';
+
 import Main from '~/pages/Main';
+import Profile from '~/pages/Profile';
+import SearchMusicians from '~/pages/SearchMusicians';
+import SkillsConfiguration from '~/pages/SkillsConfiguration';
 
 import { fonts, colors } from '~/styles';
 
@@ -35,10 +38,24 @@ const routesStyleConfig = {
   transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
 };
 
-export default (signedIn = false) =>
+function returnNavigationStack(signed = false, hasProfile = false) {
+  if (!signed && hasProfile) return 'Auth';
+
+  if (!signed && !hasProfile) return 'Sign';
+
+  return 'App';
+}
+
+export default (signed = false, hasProfile = false) =>
   createAppContainer(
     createSwitchNavigator(
       {
+        Auth: createStackNavigator(
+          {
+            WelcomeBack,
+          },
+          routesStyleConfig
+        ),
         Sign: createStackNavigator(
           {
             Login,
@@ -48,14 +65,16 @@ export default (signedIn = false) =>
         ),
         App: createStackNavigator(
           {
-            Profile,
             Main,
+            SkillsConfiguration,
+            SearchMusicians,
+            Profile,
           },
           routesStyleConfig
         ),
       },
       {
-        initialRouteName: signedIn ? 'App' : 'Sign',
+        initialRouteName: returnNavigationStack(signed, hasProfile),
       }
     )
   );

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 import { signInRequest } from '~/store/modules/auth/actions';
 
-import { validateEmail } from '~/utils/validations';
+import { validateEmail, validatePassword } from '~/utils/validators';
 
 import { Title, Form, SubmitButton } from '~/pages/Login/styles';
 
@@ -29,16 +29,6 @@ export default function Login({ navigation }) {
 
   const [touched, setTouched] = useState(false);
 
-  const valid = useMemo(() => {
-    const firstTime = emailError === undefined && passwordError === undefined;
-
-    if (firstTime || !touched) {
-      return false;
-    }
-
-    return !emailError && !passwordError;
-  }, [emailError, passwordError, touched]);
-
   const passwordRef = useRef();
 
   useEffect(() => {
@@ -48,26 +38,14 @@ export default function Login({ navigation }) {
   }, [email, touched]);
 
   useEffect(() => {
-    function validatePassword() {
-      let error = null;
-
-      if (password.length === 0) {
-        error = 'A senha é obrigatória';
-      } else if (password.includes(' ')) {
-        error = 'A senha não pode conter espaços';
-      } else if (password.trim().length < 6) {
-        error = 'A senha precisa ter pelo menos 6 caracteres';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setPasswordError(error);
-      }
+    if (touched) {
+      setPasswordError(validatePassword(password));
     }
-
-    validatePassword();
   }, [password, touched]);
+
+  function _checkIsValidForm() {
+    return !validateEmail(email) && !validatePassword(password);
+  }
 
   function handleNavigate() {
     Keyboard.dismiss();
@@ -80,13 +58,11 @@ export default function Login({ navigation }) {
   function handleLogin() {
     Keyboard.dismiss();
 
-    setTouched(true);
-
-    if (!valid) {
-      return;
+    if (_checkIsValidForm()) {
+      dispatch(signInRequest(email.trim(), password));
+    } else {
+      setTouched(true);
     }
-
-    dispatch(signInRequest(email, password));
   }
 
   return (

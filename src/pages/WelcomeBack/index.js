@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -6,70 +7,48 @@ import {
   Platform,
 } from 'react-native';
 
+import { removeProfile } from '~/store/modules/user/actions';
+import { signInRequest } from '~/store/modules/auth/actions';
+
+import { validatePassword } from '~/utils/validators';
+
 import { Title, Form, SubmitButton } from '~/pages/WelcomeBack/styles';
 
 import Input from '~/components/Input';
 import ButtonClear from '~/components/ButtonClear';
 
-export default function WelcomeBack({ navigation }) {
+export default function WelcomeBack() {
+  const dispatch = useDispatch();
+
+  const loading = useSelector(state => state.auth.loading);
+  const profile = useSelector(state => state.user.profile);
+
   const [password, setPassword] = useState('');
 
   const [passwordError, setPasswordError] = useState(undefined);
 
   const [touched, setTouched] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const valid = useMemo(() => {
-    const firstTime = passwordError === undefined;
-
-    if (firstTime || !touched) {
-      return false;
-    }
-
-    return !passwordError;
-  }, [passwordError, touched]);
 
   const passwordRef = useRef();
 
   useEffect(() => {
-    function validatePassword() {
-      let error = null;
-
-      if (password.length === 0) {
-        error = 'A senha é obrigatória';
-      } else if (password.includes(' ')) {
-        error = 'A senha não pode conter espaços';
-      } else if (password.trim().length < 6) {
-        error = 'A senha precisa ter pelo menos 6 caracteres';
-      } else {
-        error = null;
-      }
-
-      if (touched) {
-        setPasswordError(error);
-      }
+    if (touched) {
+      setPasswordError(validatePassword(password));
     }
-
-    validatePassword();
   }, [password, touched]);
 
-  function handleLogout() {}
+  function handleLogout() {
+    dispatch(removeProfile());
+  }
 
   function handleLogin() {
     Keyboard.dismiss();
 
-    setTouched(true);
-
-    if (!valid) {
-      return;
+    if (!validatePassword(password)) {
+      dispatch(signInRequest(profile.email, password));
+    } else {
+      setTouched(true);
     }
-
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate('Main');
-    }, 2000);
   }
 
   return (

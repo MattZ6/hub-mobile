@@ -6,4 +6,6 @@ export default {
   UPDATE_REQUEST: '@user/UPDATE_REQUEST',
   UPDATE_SUCCESS: '@user/UPDATE_SUCCESS',
   UPDATE_FAILURE: '@user/UPDATE_FAILURE',
+
+  REMOVE: '@user/REMOVE',
 };

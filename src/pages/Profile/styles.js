@@ -7,14 +7,34 @@ export const Container = styled.ScrollView`
   flex: 1;
 `;
 
+export const LoadingContainer = styled.View.attrs({
+  elevantion: 5,
+})`
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  align-items: center;
+  justify-content: center;
+  background: ${colors.white};
+  align-self: center;
+`;
+
+export const Loading = styled.ActivityIndicator.attrs({
+  color: colors.primary,
+  size: 'large',
+  shouldRasterizeIOS: true,
+  renderToHardwareTextureAndroid: true,
+})``;
+
 export const Nickname = styled.Text.attrs({
-  numberOfLines: 2,
+  numberOfLines: 1,
 })`
   text-align: center;
   font-family: ${fonts.bold};
   color: ${colors.white};
   font-size: 24px;
   padding: 0 16px;
+  margin-top: 8px;
 `;
 
 export const Name = styled.Text.attrs({
@@ -24,7 +44,7 @@ export const Name = styled.Text.attrs({
   font-family: ${fonts.medium};
   color: ${colors.white};
   font-size: 16px;
-  padding: 0 16px;
+  padding: 8px 16px;
   margin-top: 8px;
 `;
 

@@ -18,6 +18,14 @@ export function throwRequestErrorMessage(err) {
     return;
   }
 
+  if (err.response.status === 429) {
+    showToast(
+      'Você efetuou muitas tentativas. Tente novamente em alguns minutos'
+    );
+
+    return;
+  }
+
   if (err.response.status === 401) {
     showToast('Sua sessão expirou');
 

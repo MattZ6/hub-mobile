@@ -45,3 +45,13 @@ export function updateProfileFailure() {
     type: ActionTypes.UPDATE_FAILURE,
   };
 }
+
+/**
+ * Remove user data
+ */
+
+export function removeProfile() {
+  return {
+    type: ActionTypes.REMOVE,
+  };
+}
