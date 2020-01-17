@@ -29,6 +29,7 @@ const routesStyleConfig = {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: colors.dark,
+      marginTop: 20,
       elevation: 0,
     },
     headerTitleStyle: {

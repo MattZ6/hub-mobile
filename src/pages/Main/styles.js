@@ -20,6 +20,7 @@ export const HeaderContainer = styled.View`
   justify-content: flex-end;
   height: 56px;
   padding: 0 16px;
+  margin-top: 22px;
 `;
 
 export const HeaderButton = styled(BorderlessButton)`

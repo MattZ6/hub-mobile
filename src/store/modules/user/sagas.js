@@ -1,6 +1,7 @@
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 
 import api from '~/services/api';
+import { showSuccessSnack } from '~/services/toast';
 import { throwRequestErrorMessage } from '~/utils/error';
 
 import ActionTypes from '~/store/modules/user/types';
@@ -22,6 +23,8 @@ export function* updateUser({ payload }) {
     yield call(api.put, 'v1/users', profile);
 
     yield put(updateProfileSuccess(payload.data));
+
+    showSuccessSnack('Perfil atualizado com sucesso!');
   } catch (err) {
     throwRequestErrorMessage(err);
 

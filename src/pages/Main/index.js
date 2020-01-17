@@ -41,16 +41,20 @@ export default function Main({ navigation }) {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ paddingLeft: 16 }}
           style={{
-            paddingVertical: 8,
+            paddingVertical: 4,
           }}
           data={data}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <RectButton style={{ padding: 0, width: 140, marginRight: 8 }}>
+            <RectButton
+              style={{
+                width: 140,
+                marginRight: 8,
+              }}>
               <View
                 style={{
-                  width: 132,
-                  height: 132,
+                  width: 128,
+                  height: 128,
                   borderRadius: 8,
                   backgroundColor: 'rgba(255,255,255,.05)',
                 }}

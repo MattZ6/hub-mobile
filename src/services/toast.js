@@ -14,3 +14,14 @@ const config = {
 export function showToast(message) {
   WSnackBar.show({ data: message, ...config });
 }
+
+export function showSuccessSnack(message) {
+  WSnackBar.show({
+    data: message,
+    backgroundColor: colors.success,
+    textColor: colors.white,
+    duration: WToast.duration.SHORT,
+    position: WSnackBar.position.TOP,
+    statusBarHeight: 20,
+  });
+}
