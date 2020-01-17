@@ -5,23 +5,9 @@ import { throwRequestErrorMessage } from '~/utils/error';
 
 import ActionTypes from '~/store/modules/user/types';
 import {
-  loadUserSuccess,
-  loadUserFailure,
   updateProfileSuccess,
   updateProfileFailure,
 } from '~/store/modules/user/actions';
-
-export function* loadUser() {
-  try {
-    const { data } = yield call(api.get, 'v1/users');
-
-    yield put(loadUserSuccess(data));
-  } catch (err) {
-    throwRequestErrorMessage(err);
-
-    yield put(loadUserFailure());
-  }
-}
 
 export function* updateUser({ payload }) {
   try {
@@ -33,11 +19,9 @@ export function* updateUser({ payload }) {
       ...(rest.oldPassword ? rest : {}),
     };
 
-    yield call(api.put, 'users', profile);
+    yield call(api.put, 'v1/users', profile);
 
-    // yield put(loadUserRequest());
-
-    yield put(updateProfileSuccess());
+    yield put(updateProfileSuccess(payload.data));
   } catch (err) {
     throwRequestErrorMessage(err);
 
@@ -45,7 +29,4 @@ export function* updateUser({ payload }) {
   }
 }
 
-export default all([
-  takeLatest(ActionTypes.LOAD_REQUEST, loadUser),
-  takeLatest(ActionTypes.UPDATE_REQUEST, updateUser),
-]);
+export default all([takeLatest(ActionTypes.UPDATE_REQUEST, updateUser)]);

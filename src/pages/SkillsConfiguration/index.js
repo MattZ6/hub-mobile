@@ -1,82 +1,42 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+
+import api from '~/services/api';
+import { throwRequestErrorMessage } from '~/utils/error';
+
+import { updateUserFirsSkillConfiguration } from '~/store/modules/user/actions';
 
 import SkillSelect from '~/components/SkillSelect';
 import Button from '~/components/Button';
 
 import { Container, List, Header } from './styles';
 
-const data = [
-  {
-    id: 1,
-    name: 'Guitarra',
-    label: 'guitarrista',
-    checked: false,
-  },
-  {
-    id: 2,
-    name: 'Contrabaixo',
-    label: 'baixista',
-    checked: false,
-  },
-  {
-    id: 3,
-    name: 'Bateria',
-    label: 'baterista',
-    checked: false,
-  },
-  {
-    id: 4,
-    name: 'Vocal',
-    label: 'vocalista',
-    checked: false,
-  },
-  {
-    id: 5,
-    name: 'Teclado',
-    label: 'tecladista',
-    checked: false,
-  },
-  {
-    id: 6,
-    name: 'Piano',
-    label: 'pianista',
-    checked: false,
-  },
-  {
-    id: 7,
-    name: 'Trompete',
-    label: 'trompetista',
-    checked: false,
-  },
-  {
-    id: 8,
-    name: 'Percussão',
-    label: 'percussionista',
-    checked: false,
-  },
-  {
-    id: 9,
-    name: 'Tuba',
-    label: 'tubista',
-    checked: false,
-  },
-  {
-    id: 10,
-    name: 'Trombone',
-    label: 'trombonista',
-    checked: false,
-  },
-];
-
 export default function SkillsConfiguration() {
-  const [skills, setSkills] = useState(data);
+  const dispatch = useDispatch();
+
+  const [skills, setSkills] = useState([]);
   const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
 
   const valid = useMemo(() => {
     return skills.some(x => x.checked);
   }, [skills]);
 
-  function toggleCheckSkill(id) {
+  useEffect(() => {
+    async function getInstruments() {
+      try {
+        const { data } = await api.get('/v1/instruments');
+
+        setSkills(data.map(x => ({ ...x, checked: false })));
+      } catch (err) {
+        // setError(true);
+      }
+    }
+
+    getInstruments();
+  }, []);
+
+  function handleToggleSkill(id) {
     const newSkills = skills.map(x => {
       if (x.id === id) {
         x.checked = !x.checked;
@@ -88,18 +48,24 @@ export default function SkillsConfiguration() {
     setSkills([...newSkills]);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     setLoading(true);
 
-    const instruments = skills
-      .filter(x => x.checked)
-      .map(x => ({ skillLevel: 2, instrumentId: x.id }));
+    try {
+      const instruments = skills
+        .filter(x => x.checked)
+        .map(x => ({ skillLevel: 2, instrumentId: x.id }));
 
-    const data = { instruments };
+      const data = { instruments };
 
-    setTimeout(() => {
+      await api.post('/v1/skills', data);
+
+      dispatch(updateUserFirsSkillConfiguration(true));
+    } catch (error) {
+      throwRequestErrorMessage(error);
+
       setLoading(false);
-    }, 2000);
+    }
   }
 
   return (
@@ -110,13 +76,13 @@ export default function SkillsConfiguration() {
             Informe quais são suas habilidades para prosseguir com o cadastro
           </Header>
         }
-        data={data}
+        data={skills}
         keyExtractor={item => String(item.id)}
         renderItem={({ item }) => (
           <SkillSelect
             enabled={!loading}
             key={String(item.id)}
-            check={() => toggleCheckSkill(item.id)}
+            check={() => handleToggleSkill(item.id)}
             skill={item}
           />
         )}

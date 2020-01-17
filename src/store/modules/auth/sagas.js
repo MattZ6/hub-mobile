@@ -21,7 +21,7 @@ export function* signIn({ payload }) {
 
     setAuthHeader(access_token);
 
-    yield put(signInSuccess(access_token));
+    yield put(signInSuccess(data));
   } catch (err) {
     throwRequestErrorMessage(err);
 
@@ -37,7 +37,7 @@ export function* signUp({ payload }) {
 
     setAuthHeader(access_token);
 
-    yield put(signUpSuccess(access_token));
+    yield put(signUpSuccess(data));
   } catch (err) {
     throwRequestErrorMessage(err);
 

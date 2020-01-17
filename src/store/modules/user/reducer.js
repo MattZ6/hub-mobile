@@ -1,9 +1,14 @@
 import produce from 'immer';
 
-import ActionTypes from '~/store/modules/user/types';
+import UserActionTypes from '~/store/modules/user/types';
+import AuthActionTypes from '~/store/modules/auth/types';
 
 const INITIAL_STATE = {
   profile: null,
+
+  hasProfile: false,
+  instrumentsConfigured: false,
+
   loading: false,
   updating: false,
 };
@@ -11,44 +16,49 @@ const INITIAL_STATE = {
 export default function auth(state = INITIAL_STATE, { type, payload }) {
   return produce(state, draft => {
     switch (type) {
-      case ActionTypes.LOAD_REQUEST: {
-        draft.loading = true;
-        break;
-      }
-
-      case ActionTypes.LOAD_SUCCESS: {
+      case AuthActionTypes.SIGN_IN_SUCCESS: {
+        draft.hasProfile = true;
+        draft.instrumentsConfigured = payload.user.first_skill_configuration;
         draft.profile = {
-          ...payload.profile,
-          firstName: payload.profile.name.includes(' ')
-            ? payload.profile.name.split(' ')[0]
-            : payload.profile.name,
+          ...payload.user,
+          firstName: payload.user.name.includes(' ')
+            ? payload.user.name.split(' ')[0]
+            : payload.user.name,
         };
-        draft.loading = false;
         break;
       }
 
-      case ActionTypes.LOAD_FAILURE: {
-        draft.loading = false;
+      case UserActionTypes.UPDATE_CONFIGURATION: {
+        draft.instrumentsConfigured = payload;
         break;
       }
 
-      case ActionTypes.UPDATE_REQUEST: {
+      case UserActionTypes.UPDATE_REQUEST: {
         draft.updating = true;
         break;
       }
 
-      case ActionTypes.UPDATE_SUCCESS: {
+      case UserActionTypes.UPDATE_SUCCESS: {
+        draft.updating = false;
+
+        if (payload.name) {
+          draft.profile.name = payload.name;
+          draft.profile.firstName = payload.name.includes(' ')
+            ? payload.name.split(' ')[0]
+            : payload.name;
+        }
+        break;
+      }
+
+      case UserActionTypes.UPDATE_FAILURE: {
         draft.updating = false;
         break;
       }
 
-      case ActionTypes.UPDATE_FAILURE: {
-        draft.updating = false;
-        break;
-      }
-
-      case ActionTypes.REMOVE: {
+      case UserActionTypes.REMOVE: {
         draft.profile = null;
+        draft.instrumentsConfigured = false;
+        draft.hasProfile = false;
         break;
       }
 

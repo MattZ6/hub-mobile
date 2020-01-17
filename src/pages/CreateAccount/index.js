@@ -51,7 +51,7 @@ export default function CreateAccount() {
   useEffect(() => {
     setTimeout(() => {
       nameRef.current.focus();
-    }, 250);
+    }, 300);
   }, []);
 
   const qtdNickname = useMemo(() => {

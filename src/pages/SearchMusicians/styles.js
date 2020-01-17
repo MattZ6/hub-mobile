@@ -15,6 +15,5 @@ export const ListHeader = styled.Text`
   font-family: ${fonts.semiBold};
   font-size: 48px;
   color: ${colors.white};
-  padding: 20px;
-  padding-top: 80px;
+  padding: 0 20px 20px;
 `;

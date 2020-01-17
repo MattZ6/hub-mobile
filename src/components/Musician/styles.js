@@ -31,7 +31,7 @@ export const Info = styled.View`
 export const Title = styled.Text`
   color: ${colors.white};
   font-size: 16px;
-  font-family: ${fonts.semiBold};
+  font-family: ${fonts.bold};
 `;
 
 export const Description = styled.Text`

@@ -13,6 +13,8 @@ import Main from '~/pages/Main';
 import Profile from '~/pages/Profile';
 import SearchMusicians from '~/pages/SearchMusicians';
 import SkillsConfiguration from '~/pages/SkillsConfiguration';
+import ChangePassword from '~/pages/ChangePassword';
+import UpdateName from '~/pages/UpdateName';
 
 import { fonts, colors } from '~/styles';
 
@@ -38,25 +40,33 @@ const routesStyleConfig = {
   transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
 };
 
-function returnNavigationStack(signed = false, hasProfile = false) {
-  if (!signed && hasProfile) return 'Auth';
+function returnNavigationStack(signed, hasProfile, configured) {
+  if (signed && hasProfile && !configured) return 'Config';
 
-  if (!signed && !hasProfile) return 'Sign';
+  if (!signed && hasProfile) return 'Sign';
+
+  if (!signed && !hasProfile) return 'Auth';
 
   return 'App';
 }
 
-export default (signed = false, hasProfile = false) =>
+export default (signed = false, hasProfile = false, configured = false) =>
   createAppContainer(
     createSwitchNavigator(
       {
-        Auth: createStackNavigator(
+        Config: createStackNavigator(
+          {
+            SkillsConfiguration,
+          },
+          routesStyleConfig
+        ),
+        Sign: createStackNavigator(
           {
             WelcomeBack,
           },
           routesStyleConfig
         ),
-        Sign: createStackNavigator(
+        Auth: createStackNavigator(
           {
             Login,
             CreateAccount,
@@ -69,46 +79,14 @@ export default (signed = false, hasProfile = false) =>
             SkillsConfiguration,
             SearchMusicians,
             Profile,
+            ChangePassword,
+            UpdateName,
           },
           routesStyleConfig
         ),
       },
       {
-        initialRouteName: returnNavigationStack(signed, hasProfile),
+        initialRouteName: returnNavigationStack(signed, hasProfile, configured),
       }
     )
   );
-
-// const Routes = createAppContainer(
-//   createStackNavigator(
-//     {
-//       Login,
-//       WelcomeBack,
-//       Main,
-//       CreateAccount,
-//     },
-//     {
-//       headerLayoutPreset: 'center',
-//       headerBackTitleVisible: false,
-//       mode: 'card',
-//       transparentCard: true,
-//       cardStyle: {
-//         backgroundColor: colors.dark,
-//       },
-//       defaultNavigationOptions: {
-//         headerStyle: {
-//           backgroundColor: colors.dark,
-//           elevation: 0,
-//         },
-//         headerTitleStyle: {
-//           fontFamily: fonts.semiBold,
-//         },
-//         headerTintColor: colors.white,
-//         headerPressColorAndroid: colors.inputPlaceholderColor,
-//       },
-//       transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
-//     }
-//   )
-// );
-
-// export default Routes;

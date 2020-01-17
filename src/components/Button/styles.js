@@ -16,7 +16,7 @@ export const Container = styled(RectButton).attrs(() => ({
   height: 56px;
   align-items: center;
   justify-content: center;
-  border-radius: ${props => (props.round ? 8 : 0)}px;
+  border-radius: ${props => (props.round ? 6 : 0)}px;
   background: ${props =>
     props.darken ? darken(0.15, colors.primary) : colors.primary};
 `;

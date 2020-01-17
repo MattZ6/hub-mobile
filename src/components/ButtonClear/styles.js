@@ -9,7 +9,7 @@ export const Container = styled(RectButton).attrs({
   height: 44px;
   align-items: center;
   justify-content: center;
-  border-radius: ${props => (props.round ? 8 : 0)}px;
+  border-radius: ${props => (props.round ? 6 : 0)}px;
 `;
 
 export const Title = styled.Text`

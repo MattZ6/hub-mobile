@@ -36,13 +36,13 @@ export const TInput = styled.TextInput.attrs({
   autoCorrect: false,
   autoCompleteType: 'off',
   contextMenuHidden: true,
-  selectionColor: '#55CEF2',
+  selectionColor: colors.black,
 })`
   flex: 1;
   font-family: ${fonts.medium};
   padding: 0;
-  color: ${colors.inputTextColor};
   font-size: 16px;
+  color: ${colors.white};
 `;
 
 export const ErrorMessage = styled.Text`

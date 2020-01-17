@@ -1,5 +1,7 @@
 import React, { forwardRef } from 'react';
 
+import PropTypes from 'prop-types';
+
 import {
   Wrapper,
   Container,
@@ -30,3 +32,17 @@ function Input({ style, invalid, disabled, maxLength, length, ...rest }, ref) {
 }
 
 export default forwardRef(Input);
+
+Input.propTypes = {
+  invalid: PropTypes.bool,
+  disabled: PropTypes.bool,
+  maxLength: PropTypes.number,
+  length: PropTypes.number,
+};
+
+Input.defaultProps = {
+  invalid: false,
+  disabled: false,
+  maxLength: null,
+  length: null,
+};

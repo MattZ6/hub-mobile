@@ -7,10 +7,10 @@ export function signInRequest(email, password) {
   };
 }
 
-export function signInSuccess(access_token) {
+export function signInSuccess(payload) {
   return {
     type: ActionTypes.SIGN_IN_SUCCESS,
-    payload: { access_token },
+    payload,
   };
 }
 

@@ -12,6 +12,8 @@ import { signInRequest } from '~/store/modules/auth/actions';
 
 import { validatePassword } from '~/utils/validators';
 
+import Avatar from '~/components/Avatar';
+
 import { Title, Form, SubmitButton } from '~/pages/WelcomeBack/styles';
 
 import Input from '~/components/Input';
@@ -59,9 +61,12 @@ export default function WelcomeBack() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}>
         <Form>
-          <Title>Olá novamente, Matheus</Title>
+          <Title>Olá novamente, {profile.firstName}</Title>
+
+          <Avatar />
 
           <Input
+            style={{ marginTop: 16 }}
             placeholder="Sua senha"
             secureTextEntry
             returnKeyType="send"

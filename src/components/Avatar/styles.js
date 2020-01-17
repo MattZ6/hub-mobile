@@ -3,7 +3,10 @@ import { RectButton } from 'react-native-gesture-handler';
 
 import { colors } from '~/styles';
 
-export const Picture = styled.ImageBackground`
+export const Picture = styled.ImageBackground.attrs({
+  resizeMode: 'contain',
+  imageStyle: { borderRadius: 60 },
+})`
   width: 120px;
   height: 120px;
   border-radius: 60px;
@@ -12,7 +15,9 @@ export const Picture = styled.ImageBackground`
   align-self: center;
 `;
 
-export const Button = styled(RectButton)`
+export const Button = styled(RectButton).attrs({
+  borderRadius: 60,
+})`
   width: 120px;
   height: 120px;
   border-radius: 60px;

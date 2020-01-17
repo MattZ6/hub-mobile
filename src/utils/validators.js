@@ -106,17 +106,19 @@ export function validateNickname(nick) {
  * @param {string} name
  * @returns {string}
  */
-export function validatePassword(pass) {
+export function validatePassword(pass, name = null) {
+  const fieldName = name || 'senha';
+
   if (pass.length === 0) {
-    return 'A senha é obrigatória';
+    return `A ${fieldName} é obrigatória`;
   }
 
   if (pass.includes(' ')) {
-    return 'A senha não pode conter espaços';
+    return `A ${fieldName} não pode conter espaços`;
   }
 
   if (pass.trim().length < 6) {
-    return 'A senha precisa ter pelo menos 6 caracteres';
+    return `A ${fieldName} precisa ter pelo menos 6 caracteres`;
   }
 
   return null;

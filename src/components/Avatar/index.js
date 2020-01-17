@@ -9,11 +9,8 @@ export default function Avatar() {
   }
 
   return (
-    <Picture
-      resizeMode="contain"
-      source={{ uri: `https:i.pravatar.cc/200?u=${Math.random()}` }}
-      imageStyle={{ borderRadius: 60 }}>
-      <Button onPress={handleChangePicture} style={{ borderRadius: 20 }} />
+    <Picture source={{ uri: `https:i.pravatar.cc/200?u=${Math.random()}` }}>
+      {/* <Button onPress={handleChangePicture} /> */}
     </Picture>
   );
 }

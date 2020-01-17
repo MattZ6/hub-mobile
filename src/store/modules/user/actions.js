@@ -1,29 +1,6 @@
 import ActionTypes from '~/store/modules/user/types';
 
 /**
- * Load user data
- */
-
-export function loadUserRequest() {
-  return {
-    type: ActionTypes.LOAD_REQUEST,
-  };
-}
-
-export function loadUserSuccess(profile) {
-  return {
-    type: ActionTypes.LOAD_SUCCESS,
-    payload: { profile },
-  };
-}
-
-export function loadUserFailure() {
-  return {
-    type: ActionTypes.LOAD_FAILURE,
-  };
-}
-
-/**
  * Update user data
  */
 
@@ -34,9 +11,10 @@ export function updateProfileRequest(data) {
   };
 }
 
-export function updateProfileSuccess() {
+export function updateProfileSuccess(payload) {
   return {
     type: ActionTypes.UPDATE_SUCCESS,
+    payload,
   };
 }
 
@@ -53,5 +31,16 @@ export function updateProfileFailure() {
 export function removeProfile() {
   return {
     type: ActionTypes.REMOVE,
+  };
+}
+
+/**
+ * Update first skill configuration
+ */
+
+export function updateUserFirsSkillConfiguration(payload) {
+  return {
+    type: ActionTypes.UPDATE_CONFIGURATION,
+    payload,
   };
 }

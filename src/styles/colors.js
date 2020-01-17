@@ -3,7 +3,7 @@ export default {
   primaryDisabled: '#A8343B',
 
   inputBackground: 'rgba(196,196,196,0.05)',
-  inputTextColor: 'rgba(255,255,255,0.9)',
+  inputTextColor: 'rgba(0,255,255,0.9)',
   inputPlaceholderColor: 'rgba(255,255,255,0.4)',
 
   clearButtonTextColor: 'rgba(255,255,255,0.3)',
@@ -13,9 +13,7 @@ export default {
   danger: '#A62C2C',
   success: '#21D954',
 
-  // dark: '#0d0d0d',
-  // dark: '#181818',
-  dark: '#100f12',
+  dark: '#000000', // #181818 ou #100f12 ou #0d0d0d
 
   white: '#ffffff',
   black: '#000000',

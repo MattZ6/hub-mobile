@@ -13,18 +13,19 @@ import {
 export default function Musician({ musician }) {
   return (
     <Button>
-      <Avatar source={{ uri: musician.image }} />
+      <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} />
 
       <Info>
-        <Title>{musician.name}</Title>
+        <Title>#{musician.nickname}</Title>
         <Description numberOfLines={1}>
-          {musician.instrument}
+          {musician.description}
+          {/* {musician.instrument}
           {musician.band && (
             <Description>
               {' '}
               em <Bold>{musician.band}</Bold>
             </Description>
-          )}
+          )} */}
         </Description>
       </Info>
     </Button>
@@ -33,9 +34,13 @@ export default function Musician({ musician }) {
 
 Musician.propTypes = {
   musician: PropTypes.shape({
-    name: PropTypes.string,
-    image: PropTypes.string,
-    instrument: PropTypes.string,
-    band: PropTypes.string,
+    id: PropTypes.number,
+    nickname: PropTypes.string,
+    description: PropTypes.string,
+    skills: PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.string,
+      })
+    ),
   }).isRequired,
 };
