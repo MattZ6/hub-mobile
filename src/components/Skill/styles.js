@@ -17,18 +17,18 @@ export const Title = styled.Text`
   font-family: ${fonts.semiBold};
 `;
 
-export const Level = styled.Text.attrs({
+export const Level = styled.Text.attrs(() => ({
   elevation: 5,
   shadowOffset: {
     width: 2,
     height: 3,
   },
   shadowOpacity: 0.8,
-})`
+}))`
   color: ${colors.white};
   font-size: 11px;
   font-family: ${fonts.bold};
   padding: 4px 8px;
-  background: ${colors.black};
+  background: ${colors.inputPlaceholderColor};
   border-radius: 4px;
 `;

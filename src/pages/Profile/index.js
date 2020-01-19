@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { signOut } from '~/store/modules/auth/actions';
 
 import Avatar from '~/components/Avatar';
-import ItemTitleButton from '~/components/ItemTitleButton';
 import Band from '~/components/Band';
 import Skill from '~/components/Skill';
 
@@ -13,6 +13,8 @@ import {
   Nickname,
   Name,
   SectionTitle,
+  Item,
+  PinItem,
   SignOuButton,
 } from './styles';
 
@@ -45,18 +47,20 @@ export default function Profile({ navigation }) {
 
   const profile = useSelector(state => state.user.profile);
 
-  function handleSignOut() {
-    dispatch(signOut());
-  }
-
   function navigateToChangeName() {
     navigation.navigate('UpdateName');
   }
 
-  function navigateToChangeEmail() {}
+  function navigateToChangeEmail() {
+    navigation.navigate('ChangeEmail');
+  }
 
   function navigateToChangePassword() {
     navigation.navigate('ChangePassword');
+  }
+
+  function handleSignOut() {
+    dispatch(signOut());
   }
 
   return (
@@ -64,31 +68,37 @@ export default function Profile({ navigation }) {
       <Avatar />
 
       <Nickname>#{profile.nickname}</Nickname>
-      <Name>{profile.name}</Name>
+      {/* <Name>{profile.name}</Name> */}
 
       <SectionTitle>Informações básicas</SectionTitle>
 
-      <ItemTitleButton
+      <Item
         title={profile.name}
         description="Editar meu nome"
-        icon="person-outline"
+        rightIcon="person-outline"
         onPress={navigateToChangeName}
       />
 
-      <ItemTitleButton
-        style={{ marginTop: 8 }}
+      <Item
         title={profile.email}
         description="Alterar meu e-mail"
-        icon="mail-outline"
+        rightIcon="mail-outline"
         onPress={navigateToChangeEmail}
       />
 
-      <ItemTitleButton
-        style={{ marginTop: 8 }}
+      <Item
         title="Senha"
         description="Alterar minha senha"
-        icon="lock-outline"
+        rightIcon="lock-outline"
         onPress={navigateToChangePassword}
+      />
+
+      <SectionTitle>Cidade atual</SectionTitle>
+
+      <PinItem
+        title="Guarapuava, PR"
+        description="Alterar minha cidade atual"
+        leftIcon="room"
       />
 
       <SectionTitle>Minhas habilidades</SectionTitle>
@@ -113,4 +123,10 @@ export default function Profile({ navigation }) {
 
 Profile.navigationOptions = {
   title: 'Perfil',
+};
+
+Profile.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
 };

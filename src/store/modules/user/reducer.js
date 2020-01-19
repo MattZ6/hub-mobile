@@ -3,6 +3,8 @@ import produce from 'immer';
 import UserActionTypes from '~/store/modules/user/types';
 import AuthActionTypes from '~/store/modules/auth/types';
 
+import { returnFirstName } from '~/utils/validators';
+
 const INITIAL_STATE = {
   profile: null,
 
@@ -21,9 +23,7 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         draft.instrumentsConfigured = payload.user.first_skill_configuration;
         draft.profile = {
           ...payload.user,
-          firstName: payload.user.name.includes(' ')
-            ? payload.user.name.split(' ')[0]
-            : payload.user.name,
+          firstName: returnFirstName(payload.user.name),
         };
         break;
       }
@@ -43,9 +43,11 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
 
         if (payload.name) {
           draft.profile.name = payload.name;
-          draft.profile.firstName = payload.name.includes(' ')
-            ? payload.name.split(' ')[0]
-            : payload.name;
+          draft.profile.firstName = returnFirstName(payload.name);
+        }
+
+        if (payload.email) {
+          draft.profile.email = payload.email;
         }
         break;
       }

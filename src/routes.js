@@ -13,8 +13,10 @@ import Main from '~/pages/Main';
 import Profile from '~/pages/Profile';
 import SearchMusicians from '~/pages/SearchMusicians';
 import SkillsConfiguration from '~/pages/SkillsConfiguration';
-import ChangePassword from '~/pages/ChangePassword';
 import UpdateName from '~/pages/UpdateName';
+import ChangeEmail from '~/pages/ChangeEmail';
+import ChangePassword from '~/pages/ChangePassword';
+import PublicProfile from '~/pages/PublicProfile';
 
 import { fonts, colors } from '~/styles';
 
@@ -80,8 +82,10 @@ export default (signed = false, hasProfile = false, configured = false) =>
             SkillsConfiguration,
             SearchMusicians,
             Profile,
-            ChangePassword,
             UpdateName,
+            ChangeEmail,
+            ChangePassword,
+            PublicProfile,
           },
           routesStyleConfig
         ),

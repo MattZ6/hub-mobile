@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { withNavigation } from 'react-navigation';
 import {
   Button,
   Avatar,
@@ -10,9 +11,13 @@ import {
   Bold,
 } from '~/components/Musician/styles';
 
-export default function Musician({ musician }) {
+function Musician({ musician, navigation }) {
+  function handleNavigate() {
+    navigation.navigate('PublicProfile', { id: musician.id });
+  }
+
   return (
-    <Button>
+    <Button onPress={handleNavigate}>
       <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} />
 
       <Info>
@@ -44,3 +49,5 @@ Musician.propTypes = {
     ),
   }).isRequired,
 };
+
+export default withNavigation(Musician);

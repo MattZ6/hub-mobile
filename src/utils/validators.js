@@ -141,3 +141,8 @@ export function validatePasswordConfirmation(passConfirm, pass) {
 
   return null;
 }
+
+export function returnFirstName(name) {
+  const [firstName] = String(name).split(' ');
+  return firstName;
+}

@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 
+import ItemButton from '~/components/ItemButton';
 import ButtonClear from '~/components/ButtonClear';
+
 import { colors, fonts } from '~/styles';
 
 export const Container = styled.ScrollView.attrs({
@@ -44,6 +46,14 @@ export const SectionTitle = styled.Text.attrs({
   padding: 8px 16px;
   margin: 16px 0;
 `;
+
+export const Item = styled(ItemButton)`
+  margin-bottom: 8px;
+`;
+
+export const PinItem = styled(ItemButton).attrs(() => ({
+  leftIconColor: colors.pin,
+}))``;
 
 export const SignOuButton = styled(ButtonClear)`
   margin-top: 8px;

@@ -15,6 +15,8 @@ export default {
 
   dark: '#000000', // #181818 ou #100f12 ou #0d0d0d
 
+  pin: '#C30303',
+
   white: '#ffffff',
   black: '#000000',
 };
