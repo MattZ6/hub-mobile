@@ -28,14 +28,18 @@ export const Info = styled.View`
   padding-right: 20px;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text.attrs(() => ({
+  numberOfLines: 1,
+}))`
   color: ${colors.white};
   font-size: 16px;
   font-family: ${fonts.bold};
 `;
 
-export const Description = styled.Text`
-  font-family: ${fonts.medium};
+export const Description = styled.Text.attrs(() => ({
+  numberOfLines: 1,
+}))`
+  font-family: ${fonts.semiBold};
   color: ${colors.clearButtonTextColor};
   font-size: 15px;
   margin-top: 4px;

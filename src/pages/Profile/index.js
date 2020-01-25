@@ -4,43 +4,43 @@ import PropTypes from 'prop-types';
 
 import { signOut } from '~/store/modules/auth/actions';
 
-import Avatar from '~/components/Avatar';
-import Band from '~/components/Band';
-import Skill from '~/components/Skill';
+// import Avatar from '~/components/Avatar';
+// import Band from '~/components/Band';
+import SectionTitle from '~/components/SectionTitle';
+import SkillList from '~/components/SkillList';
 
 import {
   Container,
+  Avatar,
   Nickname,
-  Name,
-  SectionTitle,
   Item,
   PinItem,
   SignOuButton,
 } from './styles';
 
-const bands = [
-  {
-    id: 1,
-    title: 'Machine Head',
-    image: null,
-    skills: [
-      { id: 1, label: 'Guitarrista' },
-      { id: 2, label: 'Vocalista' },
-    ],
-  },
-  {
-    id: 2,
-    title: "Time Won't Wait",
-    image: null,
-    skills: [{ id: 1, label: 'Guitarrista' }],
-  },
-  {
-    id: 3,
-    title: 'Queens of the Stone Age',
-    image: null,
-    skills: [{ id: 3, label: 'Baterista' }],
-  },
-];
+// const bands = [
+//   {
+//     id: 1,
+//     title: 'Machine Head',
+//     image: null,
+//     skills: [
+//       { id: 1, label: 'Guitarrista' },
+//       { id: 2, label: 'Vocalista' },
+//     ],
+//   },
+//   {
+//     id: 2,
+//     title: "Time Won't Wait",
+//     image: null,
+//     skills: [{ id: 1, label: 'Guitarrista' }],
+//   },
+//   {
+//     id: 3,
+//     title: 'Queens of the Stone Age',
+//     image: null,
+//     skills: [{ id: 3, label: 'Baterista' }],
+//   },
+// ];
 
 export default function Profile({ navigation }) {
   const dispatch = useDispatch();
@@ -65,12 +65,21 @@ export default function Profile({ navigation }) {
 
   return (
     <Container>
-      <Avatar />
+      <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${profile.id}` }} />
 
-      <Nickname>#{profile.nickname}</Nickname>
-      {/* <Name>{profile.name}</Name> */}
+      {/* <Nickname>#{profile.nickname}</Nickname> */}
 
-      <SectionTitle>Informações básicas</SectionTitle>
+      {/* <SectionTitle
+        style={{ marginHorizontal: 16, marginBottom: 16, marginTop: 32 }}>
+        Minhas infos
+      </SectionTitle> */}
+
+      {/* <Item
+        title={`#${profile.nickname}`}
+        description="Editar nickname"
+        rightIcon="edit"
+        // onPress={navigateToChangeName}
+      /> */}
 
       <Item
         title={profile.name}
@@ -93,7 +102,10 @@ export default function Profile({ navigation }) {
         onPress={navigateToChangePassword}
       />
 
-      <SectionTitle>Cidade atual</SectionTitle>
+      <SectionTitle
+        style={{ marginHorizontal: 16, marginBottom: 16, marginTop: 32 }}>
+        Cidade atual
+      </SectionTitle>
 
       <PinItem
         title="Guarapuava, PR"
@@ -101,18 +113,20 @@ export default function Profile({ navigation }) {
         leftIcon="room"
       />
 
-      <SectionTitle>Minhas habilidades</SectionTitle>
+      <SkillList
+        title="Minhas habilidade"
+        editable
+        titleStyle={{ marginHorizontal: 16, marginBottom: 16, marginTop: 32 }}
+      />
 
-      <Skill title="Guitarrista" />
-      <Skill title="Baterista" />
-      <Skill title="Batersta" />
-      <Skill title="Trompetista" />
-
-      <SectionTitle>Minhas bandas</SectionTitle>
+      {/* <SectionTitle
+        style={{ marginHorizontal: 16, marginBottom: 16, marginTop: 32 }}>
+        Minhas bandas
+      </SectionTitle>
 
       <Band band={bands[0]} />
       <Band band={bands[1]} />
-      <Band band={bands[2]} />
+      <Band band={bands[2]} /> */}
 
       <SignOuButton round={false} onPress={handleSignOut}>
         Sair da minha conta

@@ -21,10 +21,10 @@ export function signUpRequest(data) {
   };
 }
 
-export function signUpSuccess(access_token) {
+export function signUpSuccess(payload) {
   return {
     type: ActionTypes.SIGN_UP_SUCCESS,
-    payload: { access_token },
+    payload,
   };
 }
 

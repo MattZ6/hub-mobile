@@ -1,16 +1,24 @@
 import React from 'react';
-import { WToast } from 'react-native-smart-tip';
+import PropTypes from 'prop-types';
 
-import { Picture, Button } from './styles';
+import { Picture } from './styles';
 
-export default function Avatar() {
-  function handleChangePicture() {
-    WToast.show({ data: 'Mudar de foto' });
-  }
-
+export default function Avatar({ id, size, style }) {
   return (
-    <Picture source={{ uri: `https:i.pravatar.cc/200?u=${Math.random()}` }}>
-      {/* <Button onPress={handleChangePicture} /> */}
-    </Picture>
+    <Picture
+      source={{ uri: `https:i.pravatar.cc/200?u=${id}` }}
+      size={size}
+      style={style}
+    />
   );
 }
+
+Avatar.propTypes = {
+  id: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+};
+
+Avatar.defaultProps = {
+  style: null,
+};

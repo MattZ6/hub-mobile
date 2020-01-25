@@ -8,7 +8,6 @@ import {
   Info,
   Title,
   Description,
-  Bold,
 } from '~/components/Musician/styles';
 
 function Musician({ musician, navigation }) {
@@ -21,17 +20,8 @@ function Musician({ musician, navigation }) {
       <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} />
 
       <Info>
-        <Title>#{musician.nickname}</Title>
-        <Description numberOfLines={1}>
-          {musician.description}
-          {/* {musician.instrument}
-          {musician.band && (
-            <Description>
-              {' '}
-              em <Bold>{musician.band}</Bold>
-            </Description>
-          )} */}
-        </Description>
+        <Title>{musician.name}</Title>
+        {/* <Description>{musician.skillDescription}</Description> */}
       </Info>
     </Button>
   );
@@ -40,13 +30,11 @@ function Musician({ musician, navigation }) {
 Musician.propTypes = {
   musician: PropTypes.shape({
     id: PropTypes.number,
-    nickname: PropTypes.string,
-    description: PropTypes.string,
-    skills: PropTypes.arrayOf(
-      PropTypes.shape({
-        label: PropTypes.string,
-      })
-    ),
+    name: PropTypes.string,
+    skillDescription: PropTypes.string,
+  }).isRequired,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
   }).isRequired,
 };
 

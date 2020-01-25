@@ -8,6 +8,8 @@ export default {
 
   clearButtonTextColor: 'rgba(255,255,255,0.3)',
 
+  skillLevelBackground: 'rgba(255,255,255,.1)',
+
   rippleColor: 'rgba(255,255,255,.05)',
 
   danger: '#A62C2C',
@@ -19,4 +21,13 @@ export default {
 
   white: '#ffffff',
   black: '#000000',
+
+  shimmer: {
+    autoRun: true,
+    colorShimmer: [
+      'rgba(255,255,255,.05)',
+      'rgba(255,255,255,.1)',
+      'rgba(255,255,255,.05)',
+    ],
+  },
 };

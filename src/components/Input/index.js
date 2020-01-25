@@ -38,6 +38,7 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   maxLength: PropTypes.number,
   length: PropTypes.number,
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Input.defaultProps = {
@@ -45,4 +46,5 @@ Input.defaultProps = {
   disabled: false,
   maxLength: null,
   length: null,
+  style: null,
 };

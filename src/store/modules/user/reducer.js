@@ -28,6 +28,16 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
+      case AuthActionTypes.SIGN_UP_SUCCESS: {
+        draft.hasProfile = true;
+        draft.instrumentsConfigured = payload.user.first_skill_configuration;
+        draft.profile = {
+          ...payload.user,
+          firstName: returnFirstName(payload.user.name),
+        };
+        break;
+      }
+
       case UserActionTypes.UPDATE_CONFIGURATION: {
         draft.instrumentsConfigured = payload;
         break;

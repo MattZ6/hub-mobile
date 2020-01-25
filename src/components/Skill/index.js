@@ -1,12 +1,18 @@
 import React from 'react';
 
-import { Container, Title, Level } from './styles';
+import { Container, Title, Level, StyledIcon, IconButton } from './styles';
 
-export default function Skill({ title }) {
+export default function Skill({ skill, editable = false }) {
   return (
     <Container>
-      <Title>{title}</Title>
-      <Level>Iniciante</Level>
+      <Title>{skill.instrument_label}</Title>
+      <Level>{skill.skill_level_label}</Level>
+
+      {editable && (
+        <IconButton>
+          <StyledIcon />
+        </IconButton>
+      )}
     </Container>
   );
 }

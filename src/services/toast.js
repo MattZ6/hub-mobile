@@ -22,6 +22,7 @@ export function showSuccessSnack(message) {
     textColor: colors.white,
     duration: WToast.duration.SHORT,
     position: WSnackBar.position.TOP,
+    height: 55.5,
     statusBarHeight: 20,
   });
 }

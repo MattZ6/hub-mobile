@@ -63,7 +63,11 @@ export default function WelcomeBack() {
         <Form>
           <Title>Olá novamente, {profile.firstName}</Title>
 
-          <Avatar />
+          <Avatar
+            id={profile.id}
+            size={120}
+            style={{ alignSelf: 'center', marginVertical: 8 }}
+          />
 
           <Input
             style={{ marginTop: 16 }}
