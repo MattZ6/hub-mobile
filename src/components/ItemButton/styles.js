@@ -5,10 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors, fonts } from '~/styles';
 
 export const Container = styled(RectButton)`
+  width: 100%;
   padding: 8px 16px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0);
   border-radius: 0;
   height: 48px;
 `;

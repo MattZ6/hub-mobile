@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, Animated } from 'react-native';
 import PropTypes from 'prop-types';
 
 import api from '~/services/api';
 
+import Header from '~/components/Header';
 import Error from '~/components/Error';
 import Avatar from '~/components/Avatar';
 // import SectionTitle from '~/components/SectionTitle';
@@ -10,9 +12,9 @@ import SkillList from '~/components/SkillList';
 
 import {
   InfoContainer,
-  Header,
-  NickContent,
-  Nick,
+  // Header,
+  // NickContent,
+  // Nick,
   NameContent,
   Name,
   AddressContent,
@@ -21,48 +23,14 @@ import {
   Content,
 } from './styles';
 
-import Loading from './components/Loading';
-
-// const bands = [
-//   {
-//     id: 1,
-//     title: 'Machine Head',
-//     image: null,
-//     skills: [
-//       { id: 1, label: 'Guitarrista' },
-//       { id: 2, label: 'Vocalista' },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     title: "Time Won't Wait",
-//     image: null,
-//     skills: [{ id: 1, label: 'Guitarrista' }],
-//   },
-//   {
-//     id: 3,
-//     title: 'Queens of the Stone Age',
-//     image: null,
-//     skills: [{ id: 3, label: 'Baterista' }],
-//   },
-//   {
-//     id: 4,
-//     title: 'Queens of the Stone Age',
-//     image: null,
-//     skills: [{ id: 3, label: 'Baterista' }],
-//   },
-//   {
-//     id: 5,
-//     title: 'Queens of the Stone Age',
-//     image: null,
-//     skills: [{ id: 3, label: 'Baterista' }],
-//   },
-// ];
+// import Loading from './components/Loading';
 
 export default function PublicProfile({ navigation }) {
   const [id] = useState(navigation.getParam('id'));
   const [user, setUser] = useState(null);
   const [error, setError] = useState(false);
+
+  // const opacity = new Animated.Value(0);
 
   async function loadMusician() {
     setError(false);
@@ -75,6 +43,14 @@ export default function PublicProfile({ navigation }) {
       setError(true);
     }
   }
+
+  // function animate() {
+  //   Animated.timing(opacity, {
+  //     toValue: 1,
+  //     duration: 400,
+  //     useNativeDriver: true,
+  //   }).start();
+  // }
 
   useEffect(() => {
     async function getMusician() {
@@ -97,45 +73,52 @@ export default function PublicProfile({ navigation }) {
       <Error
         title="Não foi possível carregar as informações do músico"
         tip="Clique para tentar novamente"
-        style={{ paddingVertical: 32 }}
+        style={{ paddingVertical: 32, marginTop: 64 }}
         onPress={loadMusician}
       />
     );
   }
 
   if (!user) {
-    return <Loading />;
+    return <ActivityIndicator />;
   }
 
   return (
-    <Content>
-      <InfoContainer>
-        <Header>
-          <Avatar id={id} size={120} style={{ marginVertical: 16 }} />
-        </Header>
+    <>
+      <Header showBackButton />
 
-        {/* <NickContent>
+      <Content>
+        <InfoContainer>
+          <Avatar
+            id={id}
+            size={120}
+            style={{ marginVertical: 16, alignSelf: 'center' }}
+          />
+
+          {/* <NickContent>
           <Nick>#{user?.nickname}</Nick>
         </NickContent> */}
+          {/* <Animated.View style={{ opacity }}> */}
+          <NameContent>
+            <Name>{user?.name}</Name>
+          </NameContent>
 
-        <NameContent>
-          <Name>{user?.name}</Name>
-        </NameContent>
+          <AddressContent>
+            <AddressIcon />
+            <AddressText>Guarapuava, PR, Brasil</AddressText>
+          </AddressContent>
+          {/* </Animated.View> */}
+        </InfoContainer>
 
-        <AddressContent>
-          <AddressIcon />
-          <AddressText>Guarapuava, PR, Brasil</AddressText>
-        </AddressContent>
-      </InfoContainer>
+        <SkillList titleStyle={{ margin: 16 }} userId={id} />
 
-      <SkillList titleStyle={{ margin: 16 }} userId={id} />
-
-      {/*  <SectionTitle>Bandas</SectionTitle>
+        {/*  <SectionTitle>Bandas</SectionTitle>
 
         {bands.map(x => (
           <Band band={x} key={String(x.id)} />
         ))} */}
-    </Content>
+      </Content>
+    </>
   );
 }
 

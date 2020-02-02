@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { withNavigation } from 'react-navigation';
+
 import {
   Button,
   Avatar,
@@ -21,7 +21,7 @@ function Musician({ musician, navigation }) {
 
       <Info>
         <Title>{musician.name}</Title>
-        {/* <Description>{musician.skillDescription}</Description> */}
+        <Description>{musician.skills}</Description>
       </Info>
     </Button>
   );
@@ -31,7 +31,7 @@ Musician.propTypes = {
   musician: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    skillDescription: PropTypes.string,
+    skills: PropTypes.string,
   }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,

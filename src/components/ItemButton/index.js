@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { RectButton } from 'react-native-gesture-handler';
 
 import { Container, Content, Title, Description, Left, Right } from './styles';
 
@@ -13,7 +14,19 @@ export default function ItemButton({
   ...rest
 }) {
   return (
-    <Container {...rest}>
+    <Container
+      {...rest}
+      // style={{
+      //   paddingVertical: 16,
+      //   paddingHorizontal: 8,
+      //   flexDirection: 'row',
+      //   alignItems: 'center',
+      //   justifyContent: 'space-between',
+      //   borderRadius: 0,
+      //   backgroundColor: 'transparent',
+      //   height: 48,
+      // }}
+    >
       {leftIcon && <Left name={leftIcon} color={leftIconColor} />}
 
       <Content>

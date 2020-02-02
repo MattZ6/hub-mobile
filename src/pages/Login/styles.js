@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import Button from '~/components/Button';
 
@@ -9,11 +10,17 @@ export const Form = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     paddingTop: 100,
-    paddingHorizontal: 20,
     paddingBottom: 40,
   },
 })`
   flex: 1;
+`;
+
+export const FormBackground = styled(LinearGradient).attrs(() => ({
+  colors: ['rgba(0,0,0,.0)', 'rgba(0,0,0,.9)', '#000', 'rgba(0,0,0,1)'],
+}))`
+  flex: 1;
+  padding: 0 16px;
 `;
 
 export const Title = styled.Text`

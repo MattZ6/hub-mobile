@@ -9,6 +9,7 @@ import CreateAccount from '~/pages/CreateAccount';
 
 import WelcomeBack from '~/pages/WelcomeBack';
 
+import StylePreferences from '~/pages/StylePreferences';
 import Main from '~/pages/Main';
 import Profile from '~/pages/Profile';
 import SearchMusicians from '~/pages/SearchMusicians';
@@ -18,7 +19,7 @@ import ChangeEmail from '~/pages/ChangeEmail';
 import ChangePassword from '~/pages/ChangePassword';
 import PublicProfile from '~/pages/PublicProfile';
 
-import { fonts, colors } from '~/styles';
+import { colors } from '~/styles';
 
 const routesStyleConfig = {
   headerLayoutPreset: 'center',
@@ -29,22 +30,31 @@ const routesStyleConfig = {
     backgroundColor: colors.dark,
   },
   defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: colors.dark,
-      marginTop: 20,
-      elevation: 0,
-    },
-    headerTitleStyle: {
-      fontFamily: fonts.semiBold,
-    },
-    headerTintColor: colors.white,
-    headerPressColorAndroid: colors.inputPlaceholderColor,
+    headerShown: false,
+    // headerStyle: {
+    //   backgroundColor: colors.dark,
+    //   marginTop: 20,
+    //   elevation: 0,
+    // },
+    // headerTitleStyle: {
+    //   fontFamily: fonts.semiBold,
+    // },
+    // headerTintColor: colors.white,
+    // headerPressColorAndroid: colors.inputPlaceholderColor,
   },
   transitionConfig: () => StackViewTransitionConfigs.SlideFromRightIOS,
 };
 
-function returnNavigationStack(signed, hasProfile, configured) {
-  if (signed && hasProfile && !configured) return 'Config';
+function returnNavigationStack(
+  signed,
+  hasProfile,
+  skillsConfigured,
+  stylesConfigured
+) {
+  if (signed && hasProfile && !skillsConfigured) return 'SkillsConfig';
+
+  if (signed && hasProfile && skillsConfigured && !stylesConfigured)
+    return 'StylesConfig';
 
   if (!signed && hasProfile) return 'Sign';
 
@@ -53,13 +63,24 @@ function returnNavigationStack(signed, hasProfile, configured) {
   return 'App';
 }
 
-export default (signed = false, hasProfile = false, configured = false) =>
+export default (
+  signed = false,
+  hasProfile = false,
+  skillsConfigured = false,
+  stylesConfigured = false
+) =>
   createAppContainer(
     createSwitchNavigator(
       {
-        Config: createStackNavigator(
+        SkillsConfig: createStackNavigator(
           {
             SkillsConfiguration,
+          },
+          routesStyleConfig
+        ),
+        StylesConfig: createStackNavigator(
+          {
+            StylePreferences,
           },
           routesStyleConfig
         ),
@@ -79,6 +100,7 @@ export default (signed = false, hasProfile = false, configured = false) =>
         App: createStackNavigator(
           {
             Main,
+            StylePreferences,
             SkillsConfiguration,
             SearchMusicians,
             Profile,
@@ -91,7 +113,12 @@ export default (signed = false, hasProfile = false, configured = false) =>
         ),
       },
       {
-        initialRouteName: returnNavigationStack(signed, hasProfile, configured),
+        initialRouteName: returnNavigationStack(
+          signed,
+          hasProfile,
+          skillsConfigured,
+          stylesConfigured
+        ),
       }
     )
   );

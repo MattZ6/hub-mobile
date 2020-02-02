@@ -1,11 +1,12 @@
 import React from 'react';
+import { withNavigation } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors } from '~/styles';
 
 import { HeaderContainer, HeaderButton } from '../styles';
 
-export default function Header({ navigation }) {
+function Header({ navigation }) {
   function handleNavigateToSearch() {
     navigation.navigate('SearchMusicians');
   }
@@ -26,3 +27,5 @@ export default function Header({ navigation }) {
     </HeaderContainer>
   );
 }
+
+export default withNavigation(Header);

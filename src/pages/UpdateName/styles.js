@@ -6,7 +6,7 @@ export const Form = styled.ScrollView.attrs({
   keyboardShouldPersistTaps: 'handled',
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingTop: 20,
+    paddingTop: 100,
     paddingHorizontal: 20,
     paddingBottom: 100,
   },

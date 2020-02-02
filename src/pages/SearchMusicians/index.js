@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Keyboard } from 'react-native';
+import { Keyboard, View, Animated, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 import api from '~/services/api';
@@ -23,6 +23,7 @@ import {
   ShimmerContainer,
   ShimmerContainerContent,
 } from '~/pages/SearchMusicians/styles';
+import OutlineButton from '~/components/OutlineButton';
 
 export default function SearchMusicians({ navigation }) {
   const [search, setSearch] = useState('');
@@ -168,30 +169,46 @@ export default function SearchMusicians({ navigation }) {
           onSubmitEditing={handleSearch}
         />
 
-        {search.length > 0 && (
-          <HeaderButton onPress={handleClearSearch}>
-            <HeaderIcon name="clear" />
-          </HeaderButton>
-        )}
-        {/* {search.length > 0 ? (
+        {search.length > 0 ? (
           <HeaderButton onPress={handleClearSearch}>
             <HeaderIcon name="clear" />
           </HeaderButton>
         ) : (
-          <HeaderButton onPress={handleClearSearch}>
-            <HeaderIcon name="filter-list" />
+          <HeaderButton onPress={() => {}}>
+            <HeaderIcon name="tune" />
           </HeaderButton>
-        )} */}
+        )}
       </Header>
 
       <List
-        ListHeaderComponent={<ListHeader>Buscar</ListHeader>}
+        ListHeaderComponent={() => (
+          <>
+            <ListHeader>Buscar</ListHeader>
+            <Text style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>
+              Guitarristas da região
+            </Text>
+          </>
+        )}
         data={musicians}
         keyExtractor={x => String(x.id)}
         onEndReachedThreshold={0.1}
         onEndReached={() => loadMusicians(true)}
         showsVerticalScrollIndicator={false}
-        ListFooterComponent={loading && <Loader />}
+        ListFooterComponent={() => (
+          <View
+            style={{
+              height: 56,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            {error && !loading && (
+              <Animated.View>
+                <OutlineButton onPress={loadMusicians} />
+              </Animated.View>
+            )}
+            {!error && loading && <Loader />}
+          </View>
+        )}
         renderItem={({ item }) => <Musician musician={item} />}
       />
     </Container>

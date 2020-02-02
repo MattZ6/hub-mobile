@@ -9,11 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { updateProfileRequest } from '~/store/modules/user/actions';
 
+import Header from '~/components/Header';
+import Input from '~/components/Input';
+
 import { validateEmail } from '~/utils/validators';
 
 import { Form, SubmitButton } from '~/pages/ChangeEmail/styles';
-
-import Input from '~/components/Input';
 
 export default function ChangeEmail() {
   const dispatch = useDispatch();
@@ -30,9 +31,7 @@ export default function ChangeEmail() {
   const ref = useRef();
 
   useEffect(() => {
-    setTimeout(() => {
-      ref.current.focus();
-    }, 300);
+    ref.current.focus();
   }, []);
 
   useEffect(() => {
@@ -56,35 +55,35 @@ export default function ChangeEmail() {
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={Keyboard.dismiss}
-      enabled={Platform.OS === 'ios'}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
-        <Form>
-          <Input
-            placeholder="Seu e-mail"
-            keyboardType="email-address"
-            returnKeyType="send"
-            value={email}
-            onChangeText={setEmail}
-            ref={ref}
-            onSubmitEditing={handleSubmit}
-            invalid={!!error}
-            errorMessage={error}
-            disabled={loading}
-          />
+    <>
+      <Header showBackButton title="Alterar meu e-mail" />
 
-          <SubmitButton onPress={handleSubmit} loading={loading}>
-            Salvar
-          </SubmitButton>
-        </Form>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={Keyboard.dismiss}
+        enabled={Platform.OS === 'ios'}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}>
+          <Form>
+            <Input
+              placeholder="Seu e-mail"
+              keyboardType="email-address"
+              returnKeyType="send"
+              value={email}
+              onChangeText={setEmail}
+              ref={ref}
+              onSubmitEditing={handleSubmit}
+              invalid={!!error}
+              errorMessage={error}
+              disabled={loading}
+            />
+
+            <SubmitButton onPress={handleSubmit} loading={loading}>
+              Salvar
+            </SubmitButton>
+          </Form>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 }
-
-ChangeEmail.navigationOptions = {
-  title: 'Alterar e-mail',
-};

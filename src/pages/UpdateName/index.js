@@ -9,11 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { updateProfileRequest } from '~/store/modules/user/actions';
 
+import Header from '~/components/Header';
+import Input from '~/components/Input';
+
 import { validateName } from '~/utils/validators';
 
 import { Form, SubmitButton } from '~/pages/UpdateName/styles';
-
-import Input from '~/components/Input';
 
 export default function UpdateName() {
   const dispatch = useDispatch();
@@ -56,34 +57,34 @@ export default function UpdateName() {
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={Keyboard.dismiss}
-      enabled={Platform.OS === 'ios'}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
-        <Form>
-          <Input
-            placeholder="Seu nome completo"
-            returnKeyType="next"
-            value={name}
-            onChangeText={setName}
-            ref={nameRef}
-            onSubmitEditing={handleSubmit}
-            invalid={!!nameError}
-            errorMessage={nameError}
-            disabled={loading}
-          />
+    <>
+      <Header showBackButton title="Editar nome" />
 
-          <SubmitButton onPress={handleSubmit} loading={loading}>
-            Salvar
-          </SubmitButton>
-        </Form>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={Keyboard.dismiss}
+        enabled={Platform.OS === 'ios'}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}>
+          <Form>
+            <Input
+              placeholder="Seu nome completo"
+              returnKeyType="next"
+              value={name}
+              onChangeText={setName}
+              ref={nameRef}
+              onSubmitEditing={handleSubmit}
+              invalid={!!nameError}
+              errorMessage={nameError}
+              disabled={loading}
+            />
+
+            <SubmitButton onPress={handleSubmit} loading={loading}>
+              Salvar
+            </SubmitButton>
+          </Form>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 }
-
-UpdateName.navigationOptions = {
-  title: 'Editar nome',
-};

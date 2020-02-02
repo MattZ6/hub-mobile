@@ -7,14 +7,15 @@ import {
   Platform,
 } from 'react-native';
 
+import { updateProfileRequest } from '~/store/modules/user/actions';
+
+import Header from '~/components/Header';
+import Input from '~/components/Input';
+
 import {
   validatePassword,
   validatePasswordConfirmation,
 } from '~/utils/validators';
-
-import { updateProfileRequest } from '~/store/modules/user/actions';
-
-import Input from '~/components/Input';
 
 import { Form, SubmitButton } from './styles';
 
@@ -84,61 +85,61 @@ export default function ChangePassword() {
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={Keyboard.dismiss}
-      enabled={Platform.OS === 'ios'}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={{ flex: 1 }}>
-        <Form>
-          <Input
-            placeholder="Sua antiga senha"
-            secureTextEntry
-            returnKeyType="next"
-            ref={oldPasswordRef}
-            value={oldPassword}
-            onChangeText={setOldPassword}
-            errorMessage={oldPasswordError}
-            invalid={oldPasswordError}
-            disabled={loading}
-            onSubmitEditing={() => passwordRef.current.focus()}
-          />
+    <>
+      <Header showBackButton title="Alterar senha" />
 
-          <Input
-            placeholder="Sua nova senha"
-            secureTextEntry
-            returnKeyType="next"
-            ref={passwordRef}
-            value={password}
-            onChangeText={setPassword}
-            errorMessage={passwordError}
-            invalid={passwordError}
-            disabled={loading}
-            onSubmitEditing={() => passwordConfirmationRef.current.focus()}
-          />
+      <TouchableWithoutFeedback
+        onPress={Keyboard.dismiss}
+        enabled={Platform.OS === 'ios'}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}>
+          <Form>
+            <Input
+              placeholder="Sua antiga senha"
+              secureTextEntry
+              returnKeyType="next"
+              ref={oldPasswordRef}
+              value={oldPassword}
+              onChangeText={setOldPassword}
+              errorMessage={oldPasswordError}
+              invalid={oldPasswordError}
+              disabled={loading}
+              onSubmitEditing={() => passwordRef.current.focus()}
+            />
 
-          <Input
-            placeholder="Confirme sua nova senha"
-            secureTextEntry
-            returnKeyType="next"
-            ref={passwordConfirmationRef}
-            value={passwordConfirmation}
-            onChangeText={setPasswordConfirmation}
-            errorMessage={passwordConfirmationError}
-            invalid={passwordConfirmationError}
-            disabled={loading}
-            onSubmitEditing={handleLogin}
-          />
+            <Input
+              placeholder="Sua nova senha"
+              secureTextEntry
+              returnKeyType="next"
+              ref={passwordRef}
+              value={password}
+              onChangeText={setPassword}
+              errorMessage={passwordError}
+              invalid={passwordError}
+              disabled={loading}
+              onSubmitEditing={() => passwordConfirmationRef.current.focus()}
+            />
 
-          <SubmitButton onPress={handleLogin} loading={loading}>
-            Salvar
-          </SubmitButton>
-        </Form>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <Input
+              placeholder="Confirme sua nova senha"
+              secureTextEntry
+              returnKeyType="next"
+              ref={passwordConfirmationRef}
+              value={passwordConfirmation}
+              onChangeText={setPasswordConfirmation}
+              errorMessage={passwordConfirmationError}
+              invalid={passwordConfirmationError}
+              disabled={loading}
+              onSubmitEditing={handleLogin}
+            />
+
+            <SubmitButton onPress={handleLogin} loading={loading}>
+              Salvar
+            </SubmitButton>
+          </Form>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 }
-
-ChangePassword.navigationOptions = {
-  title: 'Alterar senha',
-};

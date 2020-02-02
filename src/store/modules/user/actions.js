@@ -40,7 +40,18 @@ export function removeProfile() {
 
 export function updateUserFirsSkillConfiguration(payload) {
   return {
-    type: ActionTypes.UPDATE_CONFIGURATION,
+    type: ActionTypes.UPDATE_SKILLS_CONFIGURATION,
+    payload,
+  };
+}
+
+/**
+ * Update user's styles preferences configuration
+ */
+
+export function updateUserStylePreferencesConfiguration(payload) {
+  return {
+    type: ActionTypes.UPDATE_STYLES_CONFIGURATION,
     payload,
   };
 }

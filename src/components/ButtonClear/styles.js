@@ -1,15 +1,15 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
+import { BaseButton } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled(RectButton).attrs({
-  borderRadius: 8,
-})`
+export const Container = styled(BaseButton).attrs(props => ({
+  borderRadius: props.round ? 6 : 0,
+}))`
   height: 44px;
   align-items: center;
   justify-content: center;
-  border-radius: ${props => (props.round ? 6 : 0)}px;
+  background: rgba(0, 0, 0, 0.01);
 `;
 
 export const Title = styled.Text`

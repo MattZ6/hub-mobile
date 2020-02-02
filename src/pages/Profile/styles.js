@@ -8,6 +8,7 @@ import { colors, fonts } from '~/styles';
 export const Container = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
+    paddingTop: 64,
     paddingBottom: 16,
   },
 })`

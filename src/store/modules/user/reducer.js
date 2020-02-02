@@ -21,6 +21,7 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
       case AuthActionTypes.SIGN_IN_SUCCESS: {
         draft.hasProfile = true;
         draft.instrumentsConfigured = payload.user.first_skill_configuration;
+        draft.stylesConfigured = payload.user.first_style_configuration;
         draft.profile = {
           ...payload.user,
           firstName: returnFirstName(payload.user.name),
@@ -31,6 +32,7 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
       case AuthActionTypes.SIGN_UP_SUCCESS: {
         draft.hasProfile = true;
         draft.instrumentsConfigured = payload.user.first_skill_configuration;
+        draft.stylesConfigured = payload.user.first_style_configuration;
         draft.profile = {
           ...payload.user,
           firstName: returnFirstName(payload.user.name),
@@ -38,7 +40,7 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
-      case UserActionTypes.UPDATE_CONFIGURATION: {
+      case UserActionTypes.UPDATE_SKILLS_CONFIGURATION: {
         draft.instrumentsConfigured = payload;
         break;
       }
