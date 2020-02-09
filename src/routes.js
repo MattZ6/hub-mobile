@@ -18,6 +18,7 @@ import UpdateName from '~/pages/UpdateName';
 import ChangeEmail from '~/pages/ChangeEmail';
 import ChangePassword from '~/pages/ChangePassword';
 import PublicProfile from '~/pages/PublicProfile';
+import SelectLocation from '~/pages/SelectLocation';
 
 import { colors } from '~/styles';
 
@@ -80,6 +81,7 @@ export default (
         ),
         StylesConfig: createStackNavigator(
           {
+            // SelectLocation,
             StylePreferences,
           },
           routesStyleConfig
@@ -94,6 +96,7 @@ export default (
           {
             Login,
             CreateAccount,
+            SelectLocation,
           },
           routesStyleConfig
         ),

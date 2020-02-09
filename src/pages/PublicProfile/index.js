@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import api from '~/services/api';
 
 import Header from '~/components/Header';
-import Error from '~/components/Error';
+import ErrorContainer from '~/components/ErrorContainer';
 import Avatar from '~/components/Avatar';
 // import SectionTitle from '~/components/SectionTitle';
 import SkillList from '~/components/SkillList';
@@ -70,7 +70,7 @@ export default function PublicProfile({ navigation }) {
 
   if (error) {
     return (
-      <Error
+      <ErrorContainer
         title="Não foi possível carregar as informações do músico"
         tip="Clique para tentar novamente"
         style={{ paddingVertical: 32, marginTop: 64 }}

@@ -1,13 +1,21 @@
+import { Platform } from 'react-native';
 import styled from 'styled-components/native';
 
 import Button from '~/components/Button';
 
 import { colors, fonts } from '~/styles';
 
+export const Container = styled.KeyboardAvoidingView.attrs(() => ({
+  behavior: Platform.OS === 'ios' ? 'padding' : 'height',
+}))`
+  flex: 1;
+`;
+
 export const Label = styled.Text`
   font-family: ${fonts.semiBold};
   color: ${colors.white};
   font-size: 16px;
+  margin-top: 16px;
 `;
 
 export const Description = styled.Text`
@@ -23,7 +31,7 @@ export const Form = styled.ScrollView.attrs({
   contentContainerStyle: {
     paddingTop: 100,
     paddingHorizontal: 16,
-    paddingBottom: 8,
+    paddingBottom: 16,
   },
 })`
   flex: 1;

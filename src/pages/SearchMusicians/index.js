@@ -6,7 +6,7 @@ import api from '~/services/api';
 import { showToast } from '~/services/toast';
 
 import Shimmer from '~/components/Shimmer';
-import Error from '~/components/Error';
+import ErrorContainer from '~/components/ErrorContainer';
 import Musician from '~/components/Musician';
 import Loader from '~/components/Loader';
 

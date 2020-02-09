@@ -5,7 +5,7 @@ import { Container, Title } from '~/components/ButtonClear/styles';
 
 export default function ButtonClear({ children, disabled, round, ...rest }) {
   return (
-    <Container {...rest} enabled={!disabled} round={round}>
+    <Container activeOpacity={0.6} {...rest} disabled={disabled} round={round}>
       <Title disabled={disabled}>{children}</Title>
     </Container>
   );

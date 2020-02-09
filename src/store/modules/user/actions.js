@@ -55,3 +55,21 @@ export function updateUserStylePreferencesConfiguration(payload) {
     payload,
   };
 }
+
+/**
+ * Store user's location
+ */
+
+export function selectLocation(payload) {
+  return {
+    type: ActionTypes.LOCATION_SELECT,
+    payload,
+  };
+}
+
+export function removeLocation(payload) {
+  return {
+    type: ActionTypes.LOCATION_REMOVE,
+    payload,
+  };
+}

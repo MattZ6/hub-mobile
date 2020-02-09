@@ -6,8 +6,9 @@ import { Container, Title, Loader } from '~/components/Button/styles';
 export default function Button({ children, enabled, loading, round, ...rest }) {
   return (
     <Container
+      activeOpacity={0.6}
       {...rest}
-      enabled={!loading && enabled}
+      disabled={loading || !enabled}
       darken={!enabled}
       round={round}>
       {loading ? <Loader size="large" /> : <Title>{children}</Title>}

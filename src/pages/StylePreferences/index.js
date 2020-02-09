@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Animated } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import Header from '~/components/Header';
 import Loading from '~/components/Loading';
-import Error from '~/components/Error';
+import ErrorContainer from '~/components/ErrorContainer';
 import Button from '~/components/Button';
-import ButtonClear from '~/components/ButtonClear';
 
 import api from '~/services/api';
+import { throwRequestErrorMessage } from '~/utils/error';
+
+import { updateUserStylePreferencesConfiguration } from '~/store/modules/user/actions';
 
 import {
   Container,
@@ -20,30 +22,12 @@ import {
   FooterContainer,
 } from './styles';
 
-const DURATION = 500;
-
 export default function StylePreferences() {
+  const dispatch = useDispatch();
+
   const [musicStyles, setMusicStyles] = useState(null);
-  const [error, setError] = useState();
-
-  const opacity = new Animated.Value(0);
-  const translateY = new Animated.Value(0);
-
-  function animateFooter() {
-    Animated.parallel([
-      Animated.timing(opacity, {
-        toValue: 1,
-        duration: DURATION,
-        useNativeDriver: true,
-      }),
-
-      Animated.timing(translateY, {
-        toValue: 0,
-        duration: DURATION,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }
+  const [error, setError] = useState(false);
+  const [submiting, setSubmiting] = useState(false);
 
   async function getStyles() {
     setError(false);
@@ -53,26 +37,31 @@ export default function StylePreferences() {
 
       setMusicStyles(data);
     } catch (err) {
-      console.tron.error(err);
       setError(true);
-    } finally {
-      animateFooter();
     }
   }
 
   async function handleSubmit() {
     const styles = musicStyles.filter(x => x.selected).map(x => x.id);
 
+    if (styles.length === 0) {
+      return;
+    }
+
+    setSubmiting(true);
+
+    const data = { styles };
+
     try {
-      await api.post('/v1/preferences', { styles });
+      await api.post('/v1/preferences', data);
+
+      dispatch(updateUserStylePreferencesConfiguration(true));
     } catch (err) {
-      console.tron.error(err);
+      throwRequestErrorMessage(err);
+
+      setSubmiting(false);
     }
   }
-
-  useEffect(() => {
-    getStyles();
-  }, []);
 
   function handleToggleSelect(id) {
     const newData = musicStyles.map(x => ({
@@ -83,12 +72,16 @@ export default function StylePreferences() {
     setMusicStyles(newData);
   }
 
+  useEffect(() => {
+    getStyles();
+  }, []);
+
   return (
     <Container>
       <Header title="Preferências" />
 
       {error && (
-        <Error
+        <ErrorContainer
           icon="cloud-off"
           title="Verifique sua conexão com a internet"
           tip="Toque para tentar novamente"
@@ -102,8 +95,8 @@ export default function StylePreferences() {
         <>
           <Scroll>
             <Description>
-              Informar suas influências e estilos musicais preferidos pode te
-              ajudar a encontrar pessoas com gostos parecidos
+              Informar suas influências e estilos preferidos pode te ajudar a
+              encontrar pessoas com gostos parecidos
             </Description>
 
             <StylesContainer>
@@ -119,20 +112,15 @@ export default function StylePreferences() {
             </StylesContainer>
           </Scroll>
 
-          {/* <Animated.View
-            style={{
-              opacity,
-              transform: [{ translateY }],
-            }}> */}
           <FooterContainer>
-            <Button style={{ marginTop: 8 }} onPress={handleSubmit}>
-              Batata
+            <Button
+              style={{ marginTop: 8 }}
+              enabled={!submiting}
+              loading={submiting}
+              onPress={handleSubmit}>
+              Salvar
             </Button>
-            {/* <ButtonClear style={{ marginTop: 8, height: 38 }}>
-              Deixar para depois...
-            </ButtonClear> */}
           </FooterContainer>
-          {/* </Animated.View> */}
         </>
       )}
     </Container>

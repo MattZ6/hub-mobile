@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-import { BorderlessButton } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors, fonts } from '~/styles';
 
@@ -38,8 +38,8 @@ export const ButtonContainer = styled.View`
   height: 32px;
 `;
 
-export const HeaderButton = styled(BorderlessButton).attrs(() => ({
-  borderless: true,
+export const HeaderButton = styled.TouchableOpacity.attrs(() => ({
+  activeOpacity: 0.7,
 }))`
   width: 32px;
   height: 32px;
@@ -47,8 +47,13 @@ export const HeaderButton = styled(BorderlessButton).attrs(() => ({
   justify-content: center;
 `;
 
+export const HeaderIcon = styled(Icon).attrs(() => ({
+  size: 24,
+  color: colors.inputPlaceholderColor,
+}))``;
+
 export const Shadow = styled(LinearGradient).attrs(() => ({
   colors: ['rgba(0,0,0,.9)', 'transparent'],
 }))`
-  height: 32px;
+  height: 16px;
 `;

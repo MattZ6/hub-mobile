@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import api from '~/services/api';
 
-import Error from '~/components/Error';
+import ErrorContainer from '~/components/ErrorContainer';
 import Shimmer from '~/components/Shimmer';
 import Skill from '~/components/Skill';
 import SectionTitle from '~/components/SectionTitle';
@@ -41,7 +41,7 @@ export default function SkillList({ title, titleStyle, userId, editable }) {
 
   if (error) {
     return (
-      <Error
+      <ErrorContainer
         title="Não foi possível suas habilidades"
         tip="Verifique sua conexão e tente novamente"
         style={{ marginVertical: 16 }}

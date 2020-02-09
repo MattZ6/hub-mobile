@@ -7,9 +7,11 @@ import { returnFirstName } from '~/utils/validators';
 
 const INITIAL_STATE = {
   profile: null,
+  selectedLocation: null,
 
   hasProfile: false,
   instrumentsConfigured: false,
+  stylesConfigured: false,
 
   loading: false,
   updating: false,
@@ -45,6 +47,11 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
+      case UserActionTypes.UPDATE_STYLES_CONFIGURATION: {
+        draft.stylesConfigured = payload;
+        break;
+      }
+
       case UserActionTypes.UPDATE_REQUEST: {
         draft.updating = true;
         break;
@@ -72,7 +79,18 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
       case UserActionTypes.REMOVE: {
         draft.profile = null;
         draft.instrumentsConfigured = false;
+        draft.stylesConfigured = false;
         draft.hasProfile = false;
+        break;
+      }
+
+      case UserActionTypes.LOCATION_SELECT: {
+        draft.selectedLocation = payload;
+        break;
+      }
+
+      case UserActionTypes.LOCATION_REMOVE: {
+        draft.selectedLocation = null;
         break;
       }
 

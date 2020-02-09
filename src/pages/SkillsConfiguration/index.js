@@ -11,39 +11,20 @@ import Header from '~/components/Header';
 import SkillSelect from '~/components/SkillSelect';
 import Button from '~/components/Button';
 import Loading from '~/components/Loading';
-import Error from '~/components/Error';
+import ErrorContainer from '~/components/ErrorContainer';
 
 import { Container, Description, FooterContainer } from './styles';
 
 export default function SkillsConfiguration() {
   const dispatch = useDispatch();
 
-  // const opacity = new Animated.Value(0);
-  // const translateY = new Animated.Value(104);
-
   const [skills, setSkills] = useState(null);
   const [submiting, setSubmiting] = useState(false);
-  // const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const valid = useMemo(() => {
     return skills && skills.some(x => x.checked);
   }, [skills]);
-
-  // function animateFooter() {
-  //   Animated.parallel([
-  //     Animated.timing(opacity, {
-  //       toValue: 1,
-  //       duration: 800,
-  //       useNativeDriver: true,
-  //     }),
-  //     Animated.timing(translateY, {
-  //       toValue: 0,
-  //       duration: 800,
-  //       useNativeDriver: true,
-  //     }),
-  //   ]).start();
-  // }
 
   async function getInstruments() {
     setError(false);
@@ -98,7 +79,7 @@ export default function SkillsConfiguration() {
       <Header title="Habilidades" />
 
       {error && (
-        <Error
+        <ErrorContainer
           icon="cloud-off"
           title="Verifique sua conexão com a internet"
           tip="Toque para tentar novamente"
@@ -137,7 +118,6 @@ export default function SkillsConfiguration() {
             )}
           />
 
-          {/* <Animated.View style={{ opacity, transform: [{ translateY }] }}> */}
           <FooterContainer>
             <Button
               enabled={valid}
@@ -147,7 +127,6 @@ export default function SkillsConfiguration() {
               Prosseguir
             </Button>
           </FooterContainer>
-          {/* </Animated.View> */}
         </>
       )}
     </Container>

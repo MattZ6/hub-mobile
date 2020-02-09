@@ -10,7 +10,7 @@ export default function Loading({ size, style, ...rest }) {
   function handleAnimate() {
     Animated.timing(opacity, {
       toValue: 1,
-      duration: 800,
+      duration: 0,
       useNativeDriver: true,
     }).start();
   }

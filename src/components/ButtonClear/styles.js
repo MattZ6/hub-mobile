@@ -1,15 +1,13 @@
 import styled from 'styled-components/native';
-import { BaseButton } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled(BaseButton).attrs(props => ({
+export const Container = styled.TouchableOpacity.attrs(props => ({
   borderRadius: props.round ? 6 : 0,
 }))`
   height: 44px;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.01);
 `;
 
 export const Title = styled.Text`

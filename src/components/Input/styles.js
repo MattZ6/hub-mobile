@@ -13,7 +13,6 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   height: 48px;
-  padding: 0 16px;
   background: ${colors.inputBackground};
   border-radius: 8px;
   border-width: ${StyleSheet.hairlineWidth};
@@ -24,6 +23,7 @@ export const Container = styled.View`
 
 export const Counter = styled.Text`
   padding-left: 16px;
+  margin-right: 16px;
   color: ${colors.inputPlaceholderColor};
   font-size: 15px;
   letter-spacing: 1.1px;
@@ -40,7 +40,7 @@ export const TInput = styled.TextInput.attrs({
 })`
   flex: 1;
   font-family: ${fonts.medium};
-  padding: 0;
+  padding: 10px 16px;
   font-size: 16px;
   color: ${colors.white};
 `;
