@@ -7,48 +7,49 @@ import { returnFirstName } from '~/utils/validators';
 
 const INITIAL_STATE = {
   profile: null,
-  selectedLocation: null,
+  // selectedLocation: null,
 
   hasProfile: false,
-  instrumentsConfigured: false,
-  stylesConfigured: false,
+  firstSkillConfig: false,
+  firstPreferenceConfig: false,
 
   loading: false,
   updating: false,
 };
+
+function updateProfileInfo(data) {
+  return {
+    ...data,
+    firstName: returnFirstName(data.name),
+  };
+}
 
 export default function auth(state = INITIAL_STATE, { type, payload }) {
   return produce(state, draft => {
     switch (type) {
       case AuthActionTypes.SIGN_IN_SUCCESS: {
         draft.hasProfile = true;
-        draft.instrumentsConfigured = payload.user.first_skill_configuration;
-        draft.stylesConfigured = payload.user.first_style_configuration;
-        draft.profile = {
-          ...payload.user,
-          firstName: returnFirstName(payload.user.name),
-        };
+        draft.firstSkillConfig = payload.user.first_skill_configuration;
+        draft.firstPreferenceConfig = payload.user.first_styles_configuration;
+        draft.profile = updateProfileInfo(payload.user);
         break;
       }
 
       case AuthActionTypes.SIGN_UP_SUCCESS: {
         draft.hasProfile = true;
-        draft.instrumentsConfigured = payload.user.first_skill_configuration;
-        draft.stylesConfigured = payload.user.first_style_configuration;
-        draft.profile = {
-          ...payload.user,
-          firstName: returnFirstName(payload.user.name),
-        };
+        draft.firstSkillConfig = payload.user.first_skill_configuration;
+        draft.firstPreferenceConfig = payload.user.first_styles_configuration;
+        draft.profile = updateProfileInfo(payload.user);
         break;
       }
 
       case UserActionTypes.UPDATE_SKILLS_CONFIGURATION: {
-        draft.instrumentsConfigured = payload;
+        draft.firstSkillConfig = payload;
         break;
       }
 
       case UserActionTypes.UPDATE_STYLES_CONFIGURATION: {
-        draft.stylesConfigured = payload;
+        draft.firstPreferenceConfig = payload;
         break;
       }
 
@@ -59,15 +60,16 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
 
       case UserActionTypes.UPDATE_SUCCESS: {
         draft.updating = false;
+        draft.profile = updateProfileInfo(payload);
 
-        if (payload.name) {
-          draft.profile.name = payload.name;
-          draft.profile.firstName = returnFirstName(payload.name);
+        if (!draft.firstSkillConfig) {
+          draft.firstSkillConfig = payload.first_skill_configuration;
         }
 
-        if (payload.email) {
-          draft.profile.email = payload.email;
+        if (!draft.firstPreferenceConfig) {
+          draft.firstPreferenceConfig = payload.first_styles_configuration;
         }
+
         break;
       }
 
@@ -78,21 +80,21 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
 
       case UserActionTypes.REMOVE: {
         draft.profile = null;
-        draft.instrumentsConfigured = false;
-        draft.stylesConfigured = false;
+        draft.firstSkillConfig = false;
+        draft.firstPreferenceConfig = false;
         draft.hasProfile = false;
         break;
       }
 
-      case UserActionTypes.LOCATION_SELECT: {
-        draft.selectedLocation = payload;
-        break;
-      }
+      // case UserActionTypes.LOCATION_SELECT: {
+      //   draft.selectedLocation = payload;
+      //   break;
+      // }
 
-      case UserActionTypes.LOCATION_REMOVE: {
-        draft.selectedLocation = null;
-        break;
-      }
+      // case UserActionTypes.LOCATION_REMOVE: {
+      //   draft.selectedLocation = null;
+      //   break;
+      // }
 
       default:
     }

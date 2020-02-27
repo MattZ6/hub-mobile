@@ -13,8 +13,8 @@ import SkillList from '~/components/SkillList';
 import {
   InfoContainer,
   // Header,
-  // NickContent,
-  // Nick,
+  NickContent,
+  Nick,
   NameContent,
   Name,
   AddressContent,
@@ -95,10 +95,10 @@ export default function PublicProfile({ navigation }) {
             style={{ marginVertical: 16, alignSelf: 'center' }}
           />
 
-          {/* <NickContent>
-          <Nick>#{user?.nickname}</Nick>
-        </NickContent> */}
-          {/* <Animated.View style={{ opacity }}> */}
+          <NickContent>
+            <Nick>#{user?.nickname}</Nick>
+          </NickContent>
+
           <NameContent>
             <Name>{user?.name}</Name>
           </NameContent>
@@ -107,7 +107,6 @@ export default function PublicProfile({ navigation }) {
             <AddressIcon />
             <AddressText>Guarapuava, PR, Brasil</AddressText>
           </AddressContent>
-          {/* </Animated.View> */}
         </InfoContainer>
 
         <SkillList titleStyle={{ margin: 16 }} userId={id} />

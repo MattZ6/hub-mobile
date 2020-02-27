@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Keyboard,
   Platform,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
-import { updateProfileRequest } from '~/store/modules/user/actions';
+import api from '~/services/api';
+import { showSuccessSnack } from '~/services/toast';
 
 import Header from '~/components/Header';
 import Input from '~/components/Input';
@@ -16,14 +17,11 @@ import {
   validatePassword,
   validatePasswordConfirmation,
 } from '~/utils/validators';
+import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from './styles';
 
-export default function ChangePassword() {
-  const dispatch = useDispatch();
-
-  const loading = useSelector(state => state.user.updating);
-
+export default function ChangePassword({ navigation }) {
   const [oldPassword, setOldPassword] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -33,6 +31,7 @@ export default function ChangePassword() {
   const [passwordConfirmationError, setPasswordConfirmationError] = useState();
 
   const [touched, setTouched] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const oldPasswordRef = useRef();
   const passwordRef = useRef();
@@ -72,13 +71,29 @@ export default function ChangePassword() {
     );
   }
 
+  async function _submit() {
+    setLoading(true);
+
+    const data = { oldPassword, password, passwordConfirmation };
+
+    try {
+      await api.put('/v1/users', data);
+
+      showSuccessSnack('Senha alterada com sucesso');
+
+      navigation.pop();
+    } catch (err) {
+      throwRequestErrorMessage(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function handleLogin() {
     Keyboard.dismiss();
 
     if (_checkIsValidForm()) {
-      const data = { oldPassword, password, passwordConfirmation };
-
-      dispatch(updateProfileRequest(data));
+      _submit();
     } else {
       setTouched(true);
     }
@@ -143,3 +158,9 @@ export default function ChangePassword() {
     </>
   );
 }
+
+ChangePassword.propTypes = {
+  navigation: PropTypes.shape({
+    pop: PropTypes.func,
+  }).isRequired,
+};

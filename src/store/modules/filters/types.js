@@ -1,0 +1,15 @@
+export default {
+  SET_REGIONS: '@filters/SET_REGIONS',
+  REMOVE_REGIONS: '@filters/REMOVE_REGIONS',
+  SELECT_REGION: '@filters/SELECT_REGION',
+
+  SET_SKILLS: '@filters/SET_SKILLS',
+  REMOVE_SKILLS: '@filters/REMOVE_SKILLS',
+  SELECT_SKILL: '@filters/SELECT_SKILL',
+
+  SELECT_LEVEL: '@filters/SELECT_LEVEL',
+
+  SET_STYLES: '@filters/SET_STYLES',
+  REMOVE_STYLES: '@filters/REMOVE_STYLES',
+  SELECT_STYLE: '@filters/SELECT_STYLE',
+};

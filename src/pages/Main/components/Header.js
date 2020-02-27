@@ -17,12 +17,12 @@ function Header({ navigation }) {
 
   return (
     <HeaderContainer>
-      <HeaderButton onPress={handleNavigateToSearch} borderless>
-        <Icon name="search" size={28} color={colors.white} />
+      <HeaderButton onPress={handleNavigateToSearch}>
+        <Icon name="search" size={28} color={colors.inputPlaceholderColor} />
       </HeaderButton>
 
       <HeaderButton onPress={handleNavigateProfile}>
-        <Icon name="person" size={28} color={colors.white} />
+        <Icon name="person" size={28} color={colors.inputPlaceholderColor} />
       </HeaderButton>
     </HeaderContainer>
   );

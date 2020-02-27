@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-import { BorderlessButton } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
@@ -23,7 +22,9 @@ export const HeaderContainer = styled.View`
   margin-top: 22px;
 `;
 
-export const HeaderButton = styled(BorderlessButton)`
+export const HeaderButton = styled.TouchableOpacity.attrs(() => ({
+  activeOpacity: 0.6,
+}))`
   width: 34;
   height: 34;
   align-items: center;

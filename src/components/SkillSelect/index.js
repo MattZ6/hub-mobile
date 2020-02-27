@@ -17,7 +17,7 @@ export default function SkillSelect({ skill, check, enabled }) {
   }
 
   return (
-    <Container onPress={handleToggleCheck} enabled={enabled}>
+    <Container onPress={handleToggleCheck} disabled={!enabled}>
       <Content>
         <Title>{skill.name}</Title>
         <Label>{skill.label}</Label>

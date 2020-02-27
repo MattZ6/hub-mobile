@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import {
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -16,38 +16,55 @@ import { showSuccessSnack } from '~/services/toast';
 import Header from '~/components/Header';
 import Input from '~/components/Input';
 
-import { validateEmail } from '~/utils/validators';
+import { validateNickname } from '~/utils/validators';
 import { throwRequestErrorMessage } from '~/utils/error';
 
-import { Form, SubmitButton } from '~/pages/ChangeEmail/styles';
+import { Form, SubmitButton } from '~/pages/UpdateName/styles';
 
-export default function ChangeEmail({ navigation }) {
+export default function ChangeNickname({ navigation }) {
   const dispatch = useDispatch();
-
   const profile = useSelector(state => state.user.profile);
 
-  const [email, setEmail] = useState(profile.email);
-  const [error, setError] = useState();
+  const [nickname, setNickname] = useState(profile.nickname);
+  const [nicknameError, setNicknameError] = useState();
   const [touched, setTouched] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const ref = useRef();
 
+  const MAX_LENGTH_NICKNAME = 12;
+
+  const qtdNickname = useMemo(() => {
+    if (!nickname) {
+      return MAX_LENGTH_NICKNAME;
+    }
+
+    const result = MAX_LENGTH_NICKNAME - nickname.length;
+
+    if (!result || result === 0) {
+      return '0';
+    }
+
+    return result;
+  }, [nickname]);
+
   useEffect(() => {
-    ref.current.focus();
+    setTimeout(() => {
+      ref.current.focus();
+    }, 300);
   }, []);
 
   useEffect(() => {
     if (touched) {
-      setError(validateEmail(email));
+      setNicknameError(validateNickname(nickname));
     }
-  }, [email, touched]);
+  }, [nickname, touched]);
 
   async function _submit() {
     setLoading(true);
 
     const data = {
-      email: email.trim(),
+      nickname: nickname.trim(),
     };
 
     try {
@@ -55,11 +72,11 @@ export default function ChangeEmail({ navigation }) {
 
       dispatch(updateProfileSuccess(response.data));
 
-      showSuccessSnack('E-mail alterado com sucesso');
+      showSuccessSnack('Apelido alterado com sucesso');
 
       navigation.pop();
-    } catch (err) {
-      throwRequestErrorMessage(err);
+    } catch (error) {
+      throwRequestErrorMessage(error);
     } finally {
       setLoading(false);
     }
@@ -68,7 +85,7 @@ export default function ChangeEmail({ navigation }) {
   function handleSubmit() {
     Keyboard.dismiss();
 
-    if (!validateEmail(email)) {
+    if (!validateNickname(nickname)) {
       _submit();
     } else {
       setTouched(true);
@@ -77,7 +94,7 @@ export default function ChangeEmail({ navigation }) {
 
   return (
     <>
-      <Header showBackButton title="Alterar meu e-mail" />
+      <Header showBackButton title="Alterar apelido" />
 
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}
@@ -87,15 +104,16 @@ export default function ChangeEmail({ navigation }) {
           style={{ flex: 1 }}>
           <Form>
             <Input
-              placeholder="Seu e-mail"
-              keyboardType="email-address"
-              returnKeyType="send"
-              value={email}
-              onChangeText={setEmail}
+              placeholder="Nickname (apelido)"
+              returnKeyType="next"
+              maxLength={MAX_LENGTH_NICKNAME}
+              length={qtdNickname}
+              value={nickname}
+              onChangeText={setNickname}
               ref={ref}
               onSubmitEditing={handleSubmit}
-              invalid={!!error}
-              errorMessage={error}
+              invalid={!!nicknameError}
+              errorMessage={nicknameError}
               disabled={loading}
             />
 
@@ -109,7 +127,7 @@ export default function ChangeEmail({ navigation }) {
   );
 }
 
-ChangeEmail.propTypes = {
+ChangeNickname.propTypes = {
   navigation: PropTypes.shape({
     pop: PropTypes.func,
   }).isRequired,

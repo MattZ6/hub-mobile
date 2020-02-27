@@ -6,7 +6,7 @@ import Button from '~/components/Button';
 
 import { Container, FooterContainer } from './styles';
 
-export default function FooterButton({ onPress, text }) {
+export default function FooterButton({ onPress, text, buttonProps }) {
   const opacity = new Animated.Value(0);
   const translateY = new Animated.Value(56);
 
@@ -36,7 +36,9 @@ export default function FooterButton({ onPress, text }) {
           opacity,
           transform: [{ translateY }],
         }}>
-        <Button onPress={onPress}>{text}</Button>
+        <Button onPress={onPress} {...buttonProps}>
+          {text}
+        </Button>
       </Container>
     </FooterContainer>
   );

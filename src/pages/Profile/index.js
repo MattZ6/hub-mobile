@@ -8,12 +8,19 @@ import Header from '~/components/Header';
 import SectionTitle from '~/components/SectionTitle';
 import SkillList from '~/components/SkillList';
 
-import { Container, Avatar, Item, PinItem, SignOuButton } from './styles';
+import { Container, Avatar, Item, PinItem, Hint, SignOuButton } from './styles';
+
+import WhatsIcon from '~/assets/icons/whatsapp.png';
+import ButtonClear from '~/components/ButtonClear';
 
 export default function Profile({ navigation }) {
   const dispatch = useDispatch();
 
   const profile = useSelector(state => state.user.profile);
+
+  function navigateToChangeNick() {
+    navigation.navigate('ChangeNickname');
+  }
 
   function navigateToChangeName() {
     navigation.navigate('UpdateName');
@@ -27,6 +34,14 @@ export default function Profile({ navigation }) {
     navigation.navigate('ChangePassword');
   }
 
+  function navigateToRegionSelect() {
+    navigation.navigate('SelectLocation', { fromProfile: true });
+  }
+
+  function navigateToChangeWhatsApp() {
+    navigation.navigate('ChangeWhatsApp');
+  }
+
   function handleSignOut() {
     dispatch(signOut());
   }
@@ -38,7 +53,12 @@ export default function Profile({ navigation }) {
       <Container>
         <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${profile.id}` }} />
 
-        {/* <Nickname>#{profile.nickname}</Nickname> */}
+        <Item
+          title={profile.nickname}
+          description="Alterar meu apelido"
+          rightIcon="local-play"
+          onPress={navigateToChangeNick}
+        />
 
         <Item
           title={profile.name}
@@ -67,10 +87,48 @@ export default function Profile({ navigation }) {
         </SectionTitle>
 
         <PinItem
-          title="Guarapuava, PR"
+          title={profile.region.name}
           description="Alterar minha cidade atual"
           leftIcon="room"
+          onPress={navigateToRegionSelect}
         />
+
+        <SectionTitle
+          style={{ marginHorizontal: 16, marginBottom: 16, marginTop: 32 }}>
+          Contato
+        </SectionTitle>
+
+        {!profile.whatsapp && (
+          <Hint>
+            Adicionando seu número do WhatsApp fica fácil entrar em contato com
+            você
+          </Hint>
+        )}
+
+        <Item
+          title={profile.whatsapp || 'Adicionar meu WhatsApp'}
+          description={profile.whatsapp ? 'Alterar meu WhatsApp' : null}
+          rightSrc={WhatsIcon}
+          onPress={navigateToChangeWhatsApp}
+        />
+
+        <SectionTitle
+          style={{ marginHorizontal: 16, marginBottom: 8, marginTop: 32 }}>
+          Minhas habilidades
+        </SectionTitle>
+
+        <ButtonClear onPress={() => {}}>+ Adicionar habilidade</ButtonClear>
+
+        <SectionTitle
+          style={{
+            marginHorizontal: 16,
+            marginBottom: 8,
+            marginTop: 32,
+          }}>
+          Meus gostos musicais
+        </SectionTitle>
+
+        <ButtonClear onPress={() => {}}>Ver todos</ButtonClear>
 
         <SkillList
           title="Minhas habilidade"

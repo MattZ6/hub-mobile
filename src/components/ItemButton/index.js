@@ -1,4 +1,5 @@
 import React from 'react';
+import { Image } from 'react-native';
 import PropTypes from 'prop-types';
 
 import {
@@ -19,6 +20,7 @@ export default function ItemButton({
   leftIconColor,
   rightIcon,
   rightIconColor,
+  rightSrc,
   disabled,
   ...rest
 }) {
@@ -40,6 +42,14 @@ export default function ItemButton({
       </Content>
 
       {rightIcon && <Right name={rightIcon} color={rightIconColor} />}
+      {rightSrc && (
+        <Image
+          source={rightSrc}
+          width={30}
+          height={30}
+          style={{ width: 28, height: 28 }}
+        />
+      )}
     </Container>
   );
 }
@@ -51,6 +61,7 @@ ItemButton.propTypes = {
   leftIcon: PropTypes.string,
   leftIconColor: PropTypes.string,
   rightIcon: PropTypes.string,
+  rightSrc: PropTypes.number,
   rightIconColor: PropTypes.string,
   disabled: PropTypes.bool,
 };
@@ -60,6 +71,7 @@ ItemButton.defaultProps = {
   leftIconColor: null,
   rightIcon: null,
   rightIconColor: null,
+  rightSrc: null,
   title: null,
   description: null,
   descriptionColor: null,

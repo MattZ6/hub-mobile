@@ -17,8 +17,11 @@ import SkillsConfiguration from '~/pages/SkillsConfiguration';
 import UpdateName from '~/pages/UpdateName';
 import ChangeEmail from '~/pages/ChangeEmail';
 import ChangePassword from '~/pages/ChangePassword';
+import ChangeNickname from '~/pages/ChangeNickname';
+import ChangeWhatsApp from '~/pages/ChangeWhatsApp';
 import PublicProfile from '~/pages/PublicProfile';
 import SelectLocation from '~/pages/SelectLocation';
+import Filters from '~/pages/Filters';
 
 import { colors } from '~/styles';
 
@@ -81,7 +84,6 @@ export default (
         ),
         StylesConfig: createStackNavigator(
           {
-            // SelectLocation,
             StylePreferences,
           },
           routesStyleConfig
@@ -110,7 +112,11 @@ export default (
             UpdateName,
             ChangeEmail,
             ChangePassword,
+            ChangeNickname,
+            ChangeWhatsApp,
             PublicProfile,
+            SelectLocation,
+            Filters,
           },
           routesStyleConfig
         ),

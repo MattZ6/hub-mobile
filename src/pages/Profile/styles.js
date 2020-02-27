@@ -13,6 +13,7 @@ export const Container = styled.ScrollView.attrs({
   },
 })`
   flex: 1;
+  z-index: 1;
 `;
 
 export const Avatar = styled.Image.attrs(() => ({}))`
@@ -79,6 +80,13 @@ export const Item = styled(ItemButton)`
 export const PinItem = styled(ItemButton).attrs(() => ({
   leftIconColor: colors.pin,
 }))``;
+
+export const Hint = styled.Text`
+  font-family: ${fonts.medium};
+  font-size: 13px;
+  color: ${colors.inputPlaceholderColor};
+  padding: 0 16px 8px;
+`;
 
 export const SignOuButton = styled(ButtonClear)`
   margin-top: 8px;

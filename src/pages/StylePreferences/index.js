@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Header from '~/components/Header';
 import Loading from '~/components/Loading';
 import ErrorContainer from '~/components/ErrorContainer';
 import Button from '~/components/Button';
+import ButtonClear from '~/components/ButtonClear';
+// import FooterButton from '~/components/FooterButton';
 
 import api from '~/services/api';
 import { throwRequestErrorMessage } from '~/utils/error';
 
-import { updateUserStylePreferencesConfiguration } from '~/store/modules/user/actions';
+import {
+  updateProfileRequest,
+  updateUserStylePreferencesConfiguration,
+} from '~/store/modules/user/actions';
 
 import {
   Container,
@@ -24,6 +29,8 @@ import {
 
 export default function StylePreferences() {
   const dispatch = useDispatch();
+  // const updating = true;
+  const updating = useSelector(state => state.user.updating);
 
   const [musicStyles, setMusicStyles] = useState(null);
   const [error, setError] = useState(false);
@@ -72,6 +79,14 @@ export default function StylePreferences() {
     setMusicStyles(newData);
   }
 
+  function handleCompleteLater() {
+    const data = {
+      first_styles_configuration: true,
+    };
+
+    dispatch(updateProfileRequest(data));
+  }
+
   useEffect(() => {
     getStyles();
   }, []);
@@ -102,6 +117,7 @@ export default function StylePreferences() {
             <StylesContainer>
               {musicStyles.map(x => (
                 <Style
+                  disabled={submiting || updating}
                   onPress={() => handleToggleSelect(x.id)}
                   key={String(x.id)}>
                   {x.selected && <SelectedIcon />}
@@ -112,14 +128,23 @@ export default function StylePreferences() {
             </StylesContainer>
           </Scroll>
 
+          {/* {showButton && ( */}
+          {/* <FooterButton
+            text="Salvar"
+            buttonProps={{ loading: submiting }}
+            onPress={handleSubmit}
+          /> */}
+          {/* )} */}
+
           <FooterContainer>
-            <Button
-              style={{ marginTop: 8 }}
-              enabled={!submiting}
-              loading={submiting}
-              onPress={handleSubmit}>
+            <Button loading={submiting || updating} onPress={handleSubmit}>
               Salvar
             </Button>
+            <ButtonClear
+              disabled={submiting || updating}
+              onPress={handleCompleteLater}>
+              Deixar pra depois...
+            </ButtonClear>
           </FooterContainer>
         </>
       )}

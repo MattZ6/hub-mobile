@@ -15,18 +15,19 @@ import { showSuccessSnack } from '~/services/toast';
 
 import Header from '~/components/Header';
 import Input from '~/components/Input';
+import ButtonClear from '~/components/ButtonClear';
 
-import { validateEmail } from '~/utils/validators';
+import { validateName } from '~/utils/validators';
 import { throwRequestErrorMessage } from '~/utils/error';
 
-import { Form, SubmitButton } from '~/pages/ChangeEmail/styles';
+import { Form, SubmitButton } from '~/pages/UpdateName/styles';
 
-export default function ChangeEmail({ navigation }) {
+export default function ChangeWhatsApp({ navigation }) {
   const dispatch = useDispatch();
 
   const profile = useSelector(state => state.user.profile);
 
-  const [email, setEmail] = useState(profile.email);
+  const [whatsapp, setWhatsapp] = useState(profile.whatsapp);
   const [error, setError] = useState();
   const [touched, setTouched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,20 +35,22 @@ export default function ChangeEmail({ navigation }) {
   const ref = useRef();
 
   useEffect(() => {
-    ref.current.focus();
+    setTimeout(() => {
+      ref.current.focus();
+    }, 300);
   }, []);
 
   useEffect(() => {
     if (touched) {
-      setError(validateEmail(email));
+      setError(validateName(whatsapp));
     }
-  }, [email, touched]);
+  }, [whatsapp, touched]);
 
   async function _submit() {
     setLoading(true);
 
     const data = {
-      email: email.trim(),
+      whatsapp: whatsapp.trim(),
     };
 
     try {
@@ -55,7 +58,7 @@ export default function ChangeEmail({ navigation }) {
 
       dispatch(updateProfileSuccess(response.data));
 
-      showSuccessSnack('E-mail alterado com sucesso');
+      showSuccessSnack('Número adicionado com sucesso');
 
       navigation.pop();
     } catch (err) {
@@ -68,7 +71,7 @@ export default function ChangeEmail({ navigation }) {
   function handleSubmit() {
     Keyboard.dismiss();
 
-    if (!validateEmail(email)) {
+    if (!validateName(whatsapp)) {
       _submit();
     } else {
       setTouched(true);
@@ -77,7 +80,7 @@ export default function ChangeEmail({ navigation }) {
 
   return (
     <>
-      <Header showBackButton title="Alterar meu e-mail" />
+      <Header showBackButton title="WhastApp" />
 
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}
@@ -87,11 +90,11 @@ export default function ChangeEmail({ navigation }) {
           style={{ flex: 1 }}>
           <Form>
             <Input
-              placeholder="Seu e-mail"
-              keyboardType="email-address"
-              returnKeyType="send"
-              value={email}
-              onChangeText={setEmail}
+              placeholder="DDD + Número"
+              returnKeyType="done"
+              keyboardType="phone-pad"
+              value={whatsapp}
+              onChangeText={setWhatsapp}
               ref={ref}
               onSubmitEditing={handleSubmit}
               invalid={!!error}
@@ -102,6 +105,8 @@ export default function ChangeEmail({ navigation }) {
             <SubmitButton onPress={handleSubmit} loading={loading}>
               Salvar
             </SubmitButton>
+
+            <ButtonClear>Remover</ButtonClear>
           </Form>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
@@ -109,7 +114,7 @@ export default function ChangeEmail({ navigation }) {
   );
 }
 
-ChangeEmail.propTypes = {
+ChangeWhatsApp.propTypes = {
   navigation: PropTypes.shape({
     pop: PropTypes.func,
   }).isRequired,

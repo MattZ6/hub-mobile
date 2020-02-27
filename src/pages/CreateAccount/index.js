@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Keyboard } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { signUpRequest } from '~/store/modules/auth/actions';
-import { removeLocation } from '~/store/modules/user/actions';
+import { removeRegion } from '~/store/modules/region/actions';
 
 import Header from '~/components/Header';
 import Input from '~/components/Input';
@@ -22,7 +23,7 @@ import {
 export default function CreateAccount({ navigation }) {
   const dispatch = useDispatch();
   const loading = useSelector(state => state.auth.loading);
-  const location = useSelector(state => state.user.selectedLocation);
+  const region = useSelector(state => state.region.region);
 
   const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
@@ -30,14 +31,12 @@ export default function CreateAccount({ navigation }) {
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
-  const [nameError, setNameError] = useState(undefined);
-  const [nicknameError, setNicknameError] = useState(undefined);
-  const [locationError, setLocationError] = useState(undefined);
-  const [emailError, setEmailError] = useState(undefined);
-  const [passwordError, setPasswordError] = useState(undefined);
-  const [passwordConfirmationError, setPasswordConfirmationError] = useState(
-    undefined
-  );
+  const [nameError, setNameError] = useState();
+  const [nicknameError, setNicknameError] = useState();
+  const [locationError, setLocationError] = useState();
+  const [emailError, setEmailError] = useState();
+  const [passwordError, setPasswordError] = useState();
+  const [passwordConfirmationError, setPasswordConfirmationError] = useState();
 
   const [touched, setTouched] = useState(false);
 
@@ -53,7 +52,7 @@ export default function CreateAccount({ navigation }) {
     nameRef.current.focus();
 
     return () => {
-      dispatch(removeLocation());
+      dispatch(removeRegion());
     };
   }, []);
 
@@ -105,10 +104,10 @@ export default function CreateAccount({ navigation }) {
 
   useEffect(() => {
     const message =
-      touched && !location ? 'A seleção da cidade é obrigatória' : null;
+      touched && !region ? 'A seleção da cidade é obrigatória' : null;
 
     setLocationError(message);
-  }, [location, touched]);
+  }, [region, touched]);
 
   function handleNavigate() {
     navigation.navigate('SelectLocation');
@@ -124,7 +123,7 @@ export default function CreateAccount({ navigation }) {
         passwordConfirmation,
         password
       ) &&
-      location
+      region
     );
   }
 
@@ -138,7 +137,7 @@ export default function CreateAccount({ navigation }) {
         email: email.trim(),
         password: password.trim(),
         passwordConfirmation: passwordConfirmation.trim(),
-        location,
+        regionId: region.id,
       };
 
       dispatch(signUpRequest(data));
@@ -181,15 +180,15 @@ export default function CreateAccount({ navigation }) {
             disabled={loading}
           />
 
-          <Label>Cidade atual</Label>
-          <Description>Local de sua atual residência</Description>
+          <Label>Cidade</Label>
+          <Description>Local de sua residência atual</Description>
 
           <ItemButton
             style={{ marginBottom: 16 }}
-            title={location}
+            title={region?.name}
             disabled={loading}
             description={
-              location
+              region
                 ? 'Toque para alterar sua cidade'
                 : 'Toque para selecionar sua cidade'
             }
@@ -250,3 +249,9 @@ export default function CreateAccount({ navigation }) {
     </>
   );
 }
+
+CreateAccount.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }).isRequired,
+};

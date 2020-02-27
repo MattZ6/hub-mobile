@@ -6,27 +6,30 @@ import {
   Keyboard,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { updateProfileRequest } from '~/store/modules/user/actions';
+import { updateProfileSuccess } from '~/store/modules/user/actions';
+
+import api from '~/services/api';
+import { showSuccessSnack } from '~/services/toast';
 
 import Header from '~/components/Header';
 import Input from '~/components/Input';
 
 import { validateName } from '~/utils/validators';
+import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from '~/pages/UpdateName/styles';
 
-export default function UpdateName() {
+export default function UpdateName({ navigation }) {
   const dispatch = useDispatch();
-  const loading = useSelector(state => state.user.updating);
 
   const profile = useSelector(state => state.user.profile);
 
   const [name, setName] = useState(profile.name);
-
   const [nameError, setNameError] = useState();
-
   const [touched, setTouched] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const nameRef = useRef();
 
@@ -42,15 +45,33 @@ export default function UpdateName() {
     }
   }, [name, touched]);
 
+  async function _submit() {
+    setLoading(true);
+
+    const data = {
+      name: name.trim(),
+    };
+
+    try {
+      const response = await api.put('/v1/users', data);
+
+      dispatch(updateProfileSuccess(response.data));
+
+      showSuccessSnack('Nome alterado com sucesso');
+
+      navigation.pop();
+    } catch (err) {
+      throwRequestErrorMessage(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   function handleSubmit() {
     Keyboard.dismiss();
 
     if (!validateName(name)) {
-      const data = {
-        name: name.trim(),
-      };
-
-      dispatch(updateProfileRequest(data));
+      _submit();
     } else {
       setTouched(true);
     }
@@ -88,3 +109,9 @@ export default function UpdateName() {
     </>
   );
 }
+
+UpdateName.propTypes = {
+  navigation: PropTypes.shape({
+    pop: PropTypes.func,
+  }).isRequired,
+};

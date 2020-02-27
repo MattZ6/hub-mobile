@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { BaseButton } from 'react-native-gesture-handler';
+// import { BaseButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -33,7 +33,9 @@ export const StylesContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-export const Style = styled(BaseButton).attrs(() => ({}))`
+export const Style = styled.TouchableOpacity.attrs(() => ({
+  activeOpacity: 0.6,
+}))`
   flex-direction: row;
   align-items: center;
 
@@ -41,13 +43,14 @@ export const Style = styled(BaseButton).attrs(() => ({}))`
   border-radius: 32px;
   margin: 0 10px 10px 0;
   background: ${colors.skillLevelBackground};
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
 `;
 
 export const StyleName = styled.Text`
   color: ${props => (props.selected ? colors.success : colors.white)};
   font-size: 14px;
-  font-family: ${fonts.bold};
-  padding-left: 8px;
+  font-family: ${fonts.semiBold};
+  padding-left: 9px;
 `;
 
 export const SelectedIcon = styled(Icon).attrs(() => ({

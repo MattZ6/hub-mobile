@@ -1,16 +1,18 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled(RectButton)`
+export const Container = styled.TouchableOpacity.attrs(() => ({
+  activeOpacity: 0.6,
+}))`
   height: 56px;
   padding: 8px 16px;
   border-radius: 0;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
 `;
 
 export const Content = styled.View`

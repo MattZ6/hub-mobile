@@ -27,13 +27,9 @@ export const HeaderButton = styled.TouchableOpacity.attrs(() => ({
 export const HeaderIcon = styled(Icon).attrs(() => ({
   size: 24,
   color: colors.inputPlaceholderColor,
-}))``;
-
-export const ClearIcon = styled(Icon).attrs(() => ({
-  size: 24,
-  name: 'clear',
-  color: colors.white,
-}))``;
+}))`
+  opacity: ${props => (props.disabled ? 0.4 : 1)};
+`;
 
 export const Search = styled.TextInput.attrs(() => ({
   placeholderTextColor: colors.inputPlaceholderColor,
@@ -66,6 +62,7 @@ export const City = styled.TouchableOpacity.attrs(() => ({
   border-radius: 0;
   flex-direction: row;
   align-items: center;
+  opacity: ${props => (props.disabled ? 0.4 : 1)};
 `;
 
 export const Pin = styled(Icon).attrs(props => ({
