@@ -11,9 +11,9 @@ export function setRegions(data) {
   };
 }
 
-export function removeRegions() {
+export function removeRegionsSelection() {
   return {
-    type: ActionTypes.REMOVE_REGIONS,
+    type: ActionTypes.REMOVE_REGIONS_SELECTION,
   };
 }
 
@@ -35,9 +35,9 @@ export function setSkills(data) {
   };
 }
 
-export function removeSkills() {
+export function removeSkillsSelection() {
   return {
-    type: ActionTypes.REMOVE_SKILLS,
+    type: ActionTypes.REMOVE_SKILLS_SELECTION,
   };
 }
 
@@ -59,6 +59,12 @@ export function selectSkillLevel(value) {
   };
 }
 
+export function removeSkillLevelsSelection() {
+  return {
+    type: ActionTypes.REMOVE_SKILL_LEVELS_SELECTION,
+  };
+}
+
 /**
  * Music styles
  */
@@ -70,9 +76,9 @@ export function setMusicStyles(data) {
   };
 }
 
-export function removeMusicStyles() {
+export function removeStylesSelection() {
   return {
-    type: ActionTypes.REMOVE_STYLES,
+    type: ActionTypes.REMOVE_STYLES_SELECTION,
   };
 }
 

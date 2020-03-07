@@ -8,6 +8,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { useBackButton } from '~/lib/useBackButton';
+
 import { updateProfileSuccess } from '~/store/modules/user/actions';
 
 import api from '~/services/api';
@@ -21,6 +23,10 @@ import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from '~/pages/ChangeEmail/styles';
 
+function handleBack(loading) {
+  return loading;
+}
+
 export default function ChangeEmail({ navigation }) {
   const dispatch = useDispatch();
 
@@ -32,6 +38,8 @@ export default function ChangeEmail({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const ref = useRef();
+
+  useBackButton(() => handleBack(loading));
 
   useEffect(() => {
     ref.current.focus();
@@ -60,7 +68,6 @@ export default function ChangeEmail({ navigation }) {
       navigation.pop();
     } catch (err) {
       throwRequestErrorMessage(err);
-    } finally {
       setLoading(false);
     }
   }
@@ -77,7 +84,7 @@ export default function ChangeEmail({ navigation }) {
 
   return (
     <>
-      <Header showBackButton title="Alterar meu e-mail" />
+      <Header showBackButton disableBack={loading} title="Alterar meu e-mail" />
 
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}

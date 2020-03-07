@@ -1,37 +1,22 @@
 import styled from 'styled-components/native';
-import { ActivityIndicator, Animated } from 'react-native';
-import { FlatList, BorderlessButton } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors, fonts } from '~/styles';
 
-export const SearchContainer = styled.View`
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  right: 0;
-  position: absolute;
-  z-index: 10;
-`;
-
-export const Toolbar = styled.View`
+export const Header = styled.View`
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  padding: 34px 16px 16px;
-  background: ${colors.dark};
-`;
-
-export const ButtonContainer = styled.View`
-  width: 32px;
-  height: 32px;
+  background: ${colors.inputBackground};
+  padding: 32px 16px 8px;
 `;
 
 export const HeaderButton = styled.TouchableOpacity.attrs(() => ({
-  activeOpacity: 0.7,
+  activeOpacity: 0.6,
+  hitSlop: { top: 20, right: 20, bottom: 20, left: 20 },
 }))`
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   align-items: center;
   justify-content: center;
 `;
@@ -39,7 +24,67 @@ export const HeaderButton = styled.TouchableOpacity.attrs(() => ({
 export const HeaderIcon = styled(Icon).attrs(() => ({
   size: 24,
   color: colors.inputPlaceholderColor,
-}))``;
+}))`
+  opacity: ${props => (props.disabled ? 0.4 : 1)};
+`;
+
+export const Search = styled.TextInput.attrs(() => ({
+  placeholderTextColor: colors.inputPlaceholderColor,
+  autoCapitalize: 'none',
+  autoCorrect: false,
+  autoCompleteType: 'off',
+  contextMenuHidden: true,
+  selectionColor: colors.black,
+  color: colors.inputTextColor,
+  returnKeyType: 'search',
+}))`
+  flex: 1;
+  font-family: ${fonts.medium};
+  font-size: 16px;
+  color: ${colors.white};
+  padding: 8px;
+  margin: 0 8px;
+`;
+
+export const FilterTitle = styled.Text`
+  color: ${colors.white};
+  font-family: ${fonts.semiBold};
+  margin: 16px 20px 0;
+`;
+
+export const FilterListStyle = styled.ScrollView.attrs(() => ({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingLeft: 20,
+    paddingRight: 10,
+    paddingVertical: 10,
+  },
+}))`
+  margin-bottom: 8px;
+`;
+
+export const FilterButton = styled.TouchableOpacity.attrs(() => ({
+  activeOpacity: 0.6,
+}))`
+  margin-right: 8px;
+  background: ${colors.inputBackground};
+  padding: 6px 20px;
+  border-radius: 32px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${colors.skillLevelBackground};
+`;
+
+export const FilterButtonText = styled.Text`
+  color: ${props => (props.selected ? colors.success : colors.white)};
+  font-family: ${fonts.semiBold};
+  font-size: 15px;
+`;
+
+export const List = styled(FlatList)`
+  flex: 1;
+`;
 
 // export const TopContainer = styled.View`
 //   padding-top: 100px;
@@ -61,7 +106,7 @@ export const Title = styled.Text`
   color: ${colors.white};
   font-family: ${fonts.semiBold};
   font-size: 48px;
-  margin: 0 20px;
+  margin: 32px 20px;
 `;
 
 // export const SearchButton = styled.TouchableOpacity.attrs(() => ({

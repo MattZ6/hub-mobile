@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+import { useBackButton } from '~/lib/useBackButton';
+
 import api from '~/services/api';
 import { showSuccessSnack } from '~/services/toast';
 
@@ -20,6 +22,10 @@ import {
 import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from './styles';
+
+function handleBack(loading) {
+  return loading;
+}
 
 export default function ChangePassword({ navigation }) {
   const [oldPassword, setOldPassword] = useState('');
@@ -36,6 +42,8 @@ export default function ChangePassword({ navigation }) {
   const oldPasswordRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
+
+  useBackButton(() => handleBack(loading));
 
   useEffect(() => {
     setTimeout(() => {

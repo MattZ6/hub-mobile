@@ -13,7 +13,9 @@ function Skill({ skill, ...rest }) {
   return (
     <SkillButton {...rest}>
       <ButtonContent>
-        <ButtonTitle transform>{skill.label}</ButtonTitle>
+        <ButtonTitle transform selected={skill.selected}>
+          {skill.label}
+        </ButtonTitle>
         <ButtonDescription>{skill.name}</ButtonDescription>
       </ButtonContent>
 

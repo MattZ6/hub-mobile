@@ -1,276 +1,259 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Keyboard, View, Animated, Text } from 'react-native';
+import React from 'react';
+import { useSelector } from 'react-redux';
+// import { Keyboard, View, Animated, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import api from '~/services/api';
-import { showToast } from '~/services/toast';
 
-import Header from '~/components/Header';
-import Shimmer from '~/components/Shimmer';
+// import Header from '~/components/Header';
+// import Shimmer from '~/components/Shimmer';
 import ErrorContainer from '~/components/ErrorContainer';
 import Musician from '~/components/Musician';
-import Loader from '~/components/Loader';
-import OutlineButton from '~/components/OutlineButton';
+import Loading from '~/components/Loading';
+// import OutlineButton from '~/components/OutlineButton';
+import InformationContainer from '~/components/InformationContainer';
 
-// import {
-//   Container,
-//   // Header,
-//   HeaderButton,
-//   HeaderIcon,
-//   ClearIcon,
-//   Search,
-//   List,
-//   ListHeader,
-//   Loading,
-//   ShimmerContainer,
-//   ShimmerContainerContent,
-// } from '~/pages/SearchMusicians/styles';
+import FilterList from './components/FilterList';
 
 import {
-  SearchContainer,
-  Toolbar,
-  ButtonContainer,
+  Header,
   HeaderButton,
   HeaderIcon,
+  Search,
+  List,
+  // Title,
 } from './styles';
 
 export default function SearchMusicians({ navigation }) {
+  const filters = useSelector(state => state.filters);
+
+  const [search, setSearch] = React.useState('');
+  // const [lastSearch, setLastSearch] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [error, setError] = React.useState(false);
+
+  const [focus, setFocus] = React.useState(false);
+
+  const [musicians, setMusicians] = React.useState([]);
+  const [loadedAll, setLoadedAll] = React.useState(false);
+
+  const SEARCH_LIMIT = 10;
+
+  function mountParams(loadMoreMusicians = false) {
+    let params = `limit=${SEARCH_LIMIT}`;
+
+    if (loadMoreMusicians) {
+      params += `&offset=${musicians.length}`;
+    }
+
+    if (search.trim().length > 0) {
+      params += `&search=${search}`;
+    }
+
+    filters.skillLevels.forEach(x => {
+      if (x.selected) {
+        params += `&levels=${x.value}`;
+      }
+    });
+
+    filters.skills.forEach(x => {
+      if (x.selected) {
+        params += `&skills=${x.id}`;
+      }
+    });
+
+    filters.regions.forEach(x => {
+      if (x.selected) {
+        params += `&regions=${x.id}`;
+      }
+    });
+
+    filters.styles.forEach(x => {
+      if (x.selected) {
+        params += `&styles=${x.id}`;
+      }
+    });
+
+    return params;
+  }
+
+  function updateMusiciansList(data, more) {
+    if (more) {
+      const newData = data.map(item => {
+        const shouldReturn = !musicians.some(x => x.id === item.id);
+
+        // const musician = musicians.find(x => x.id === item.id);
+
+        // if (musician) {
+        //   return musician;
+        // }
+
+        if (shouldReturn) {
+          return item;
+        }
+      });
+
+      setMusicians([...musicians, ...newData]);
+    } else {
+      setMusicians(data);
+    }
+  }
+
+  async function searchMusicians(more = false) {
+    if (loading || refreshing) {
+      return;
+    }
+
+    const params = mountParams(more);
+
+    if (!params && search.trim().length === 0) {
+      return;
+    }
+
+    // if (!more && params === lastSearch) {
+    //   return;
+    // }
+
+    setRefreshing(more);
+    setLoading(!more);
+
+    setError(false);
+
+    if (!more) {
+      setMusicians([]);
+    }
+
+    try {
+      const { data } = await api.get(`/v1/musicians?${params}`);
+
+      updateMusiciansList(data, more);
+
+      const hasLoadedAll = more && data.length < SEARCH_LIMIT;
+      setLoadedAll(hasLoadedAll);
+
+      // if (!more) {
+      //   setLastSearch(params);
+      // }
+    } catch {
+      setError(true);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+        setRefreshing(false);
+      }, 500);
+    }
+  }
+
+  function loadMore() {
+    if (loadedAll || loading || musicians.length < 10) return;
+
+    searchMusicians(true);
+  }
+
+  function handleBack() {
+    navigation.pop();
+  }
+
+  function clearList() {
+    setMusicians([]);
+  }
+
+  function clearSearch() {
+    setSearch('');
+    clearList();
+  }
+
+  function changeSearch(text) {
+    setSearch(text);
+    clearList();
+  }
+
+  React.useEffect(() => {
+    clearList();
+  }, [filters]);
+
   return (
     <>
-      <SearchContainer>
-        <Toolbar>
-          <ButtonContainer>
-            <HeaderButton>
-              <HeaderIcon name="arrow-back" />
-            </HeaderButton>
-          </ButtonContainer>
+      <Header>
+        {search.length > 0 ? (
+          <HeaderButton onPress={clearSearch}>
+            <HeaderIcon name="clear" />
+          </HeaderButton>
+        ) : (
+          <HeaderButton onPress={handleBack}>
+            <HeaderIcon name="arrow-back" />
+          </HeaderButton>
+        )}
 
-          <ButtonContainer>
-            <HeaderButton>
-              <HeaderIcon name="search" />
-            </HeaderButton>
-          </ButtonContainer>
-          <ButtonContainer />
-        </Toolbar>
-      </SearchContainer>
-      {/* <TopContainer>
-        <Header showBackButton />
+        <Search
+          placeholder="Buscar músicos"
+          onChangeText={changeSearch}
+          value={search}
+          onSubmitEditing={() => searchMusicians()}
+          editable={!loading}
+          // onFocus={() => setFocus(true)}
+          // onBlur={() => setFocus(false)}
+        />
 
-        <Title>Buscar</Title>
+        <HeaderButton onPress={() => searchMusicians()}>
+          <HeaderIcon name="search" />
+        </HeaderButton>
+      </Header>
 
-        <SearchButton>
-          <SearchButtonText>Buscar músicos</SearchButtonText>
+      {/* {focus && (
+        <InformationContainer
+          title="Buscar músicos"
+          description="Você pode buscar por nome ou apelido"
+          icon="search"
+        />
+      )} */}
 
-          <Icon name="search" size={24} color="#666" />
-        </SearchButton>
-      </TopContainer>
+      {/* {!focus && musicians.length === 0 && (
+        <InformationContainer
+          title="Nenhum resultado encontrado"
+          description="Você pode buscar por nome ou apelido"
+          icon="search"
+        />
+      )} */}
 
-      {/* <Container>
+      {/* {!focus && error && <ErrorContainer onPress={() => searchMusicians()} />} */}
 
-      </Container> */}
+      {/* {loading && <Loading style={{ flex: 1 }} />} */}
+
+      {/* <InformationContainer
+        title="Buscar músicos"
+        description="Você pode buscar por nome ou apelido"
+        icon="search"
+      /> */}
+
+      <List
+        showsVerticalScrollIndicator={false}
+        data={musicians}
+        keyExtractor={x => String(x.id)}
+        renderItem={({ item }) => !loading && <Musician musician={item} />}
+        ListHeaderComponent={<FilterList />}
+        ListFooterComponent={
+          <>
+            {(loading || refreshing) && <Loading />}
+
+            {!loading && !refreshing && musicians.length === 0 && (
+              <InformationContainer
+                title="Buscar músicos"
+                description="Você pode buscar por nome, apelido ou usar os filtros"
+                icon="search"
+              />
+            )}
+          </>
+        }
+        ListFooterComponentStyle={{ padding: 16 }}
+        onEndReachedThreshold={0.1}
+        onEndReached={loadMore}
+        contentContainerStyle={{ paddingBottom: 64 }}
+      />
     </>
   );
-  // const [search, setSearch] = useState('');
-  // const [searchCopy, setSearchCopy] = useState('');
-
-  // const [loadAll, setLoadAll] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false);
-
-  // const [musicians, setMusicians] = useState([]);
-  // const [viewable, setViewable] = useState([]);
-
-  // const ref = useRef();
-
-  // function handleBack() {
-  //   navigation.pop();
-  // }
-
-  // function handleSetSearchText(text) {
-  //   setSearch(text);
-
-  //   if (musicians.length > 0) {
-  //     setMusicians([]);
-  //   }
-  // }
-
-  // function handleClearSearch() {
-  //   handleSetSearchText('');
-  //   Keyboard.dismiss();
-  // }
-
-  // function openFilters() {
-  //   navigation.navigate('Filters');
-  // }
-
-  // async function loadMusicians(loadMore = false) {
-  //   if (loading || (loadMore && loadAll)) return;
-
-  //   if (!loadMore) {
-  //     setMusicians([]);
-  //   }
-
-  //   setLoading(true);
-  //   setError(false);
-
-  //   const params = {
-  //     limit: 10,
-  //     offset: loadMore ? musicians.length : 0,
-  //   };
-
-  //   if (search.trim().length > 0) {
-  //     params.search = search.trim();
-  //   }
-
-  //   try {
-  //     const { data } = await api.get('/v1/musicians', { params });
-
-  //     if (data.length === 0) {
-  //       setLoadAll(true);
-  //       return;
-  //     }
-
-  //     const loadedMusicians = data.map(x => {
-  //       if (!musicians.some(musician => musician.id === x.id)) {
-  //         return { ...x };
-  //       }
-  //       // const exists =;
-
-  //       // if (exists) {
-  //       //   return null;
-  //       // }
-
-  //       // return { ...x };
-
-  //       // let skillDescription = null;
-
-  //       // if (x.skills.length > 0) {
-  //       //   x.skills.forEach((skill, i) => {
-  //       //     if (!skillDescription) {
-  //       //       skillDescription = skill;
-  //       //       return;
-  //       //     }
-
-  //       //     if (i < x.skills.length - 1) {
-  //       //       skillDescription += `, ${skill}`;
-  //       //     } else {
-  //       //       skillDescription += ` e ${skill}`;
-  //       //     }
-  //       //   });
-  //       // }
-
-  //       // return { ...x, skillDescription };
-  //     });
-
-  //     setMusicians(
-  //       !loadMore ? loadedMusicians : [...musicians, ...loadedMusicians]
-  //     );
-  //   } catch (err) {
-  //     setError(true);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-  // async function handleSearch() {
-  //   if (search.trim().length === 0) {
-  //     return;
-  //   }
-
-  //   // setSearchCopy(search.trim());
-
-  //   loadMusicians();
-  // }
-
-  // useEffect(() => {
-  //   ref.current.focus();
-  // }, []);
-
-  // return (
-  //   <Container>
-  //     <Header>
-  //       <HeaderButton onPress={handleBack}>
-  //         <HeaderIcon name="arrow-back" />
-  //       </HeaderButton>
-
-  //       <Search
-  //         placeholder="Buscar músicos"
-  //         onChangeText={handleSetSearchText}
-  //         value={search}
-  //         ref={ref}
-  //         onSubmitEditing={handleSearch}
-  //       />
-
-  //       {search.length > 0 ? (
-  //         <HeaderButton onPress={handleClearSearch}>
-  //           <HeaderIcon name="clear" />
-  //         </HeaderButton>
-  //       ) : (
-  //         <HeaderButton onPress={openFilters}>
-  //           <HeaderIcon name="tune" />
-  //         </HeaderButton>
-  //       )}
-  //     </Header>
-
-  //     <List
-  //       ListHeaderComponent={() => (
-  //         <>
-  //           <ListHeader>Buscar</ListHeader>
-  //           <Text style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>
-  //             Guitarristas da região
-  //           </Text>
-  //         </>
-  //       )}
-  //       data={musicians}
-  //       keyExtractor={x => String(x.id)}
-  //       onEndReachedThreshold={0.1}
-  //       onEndReached={() => loadMusicians(true)}
-  //       showsVerticalScrollIndicator={false}
-  //       ListFooterComponent={() => (
-  //         <View
-  //           style={{
-  //             height: 56,
-  //             alignItems: 'center',
-  //             justifyContent: 'center',
-  //           }}>
-  //           {error && !loading && (
-  //             <Animated.View>
-  //               <OutlineButton onPress={loadMusicians} />
-  //             </Animated.View>
-  //           )}
-  //           {!error && loading && <Loader />}
-  //         </View>
-  //       )}
-  //       renderItem={({ item }) => <Musician musician={item} />}
-  //     />
-  //   </Container>
-  // );
 }
-// <View style={{ backgroundColor: '#fff' }}>
-//   <Loading renderToHardwareTextureAndroid  style={{ elevation: 10 }} />
-// </View>
-
-// {/* <TouchableOpacity onPress={() => {}}>
-//   <Text style={{ padding: 20, color: '#fff', fontSize: 40 }}>Perfil</Text>
-// </TouchableOpacity> */}
-// {error ? (
-//   <View
-//     style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//     <Text style={{ fontSize: 30, color: '#fff' }}>Deu ruim</Text>
-//   </View>
-// ) : (
-//   <List
-//     ListHeaderComponent={<ListHeader>Buscar</ListHeader>}
-//     data={musicians}
-//     keyExtractor={x => String(x.id)}
-//     renderItem={({ item }) => <Musician musician={item} />}
-//     showsVerticalScrollIndicator={false}
-//   />
-// )}
-
-// {/* <Error title="Não foi possível carregar os músicos" style={{ flex: 1 }} /> */}
 
 SearchMusicians.propTypes = {
   navigation: PropTypes.shape({

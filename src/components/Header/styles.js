@@ -4,12 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors, fonts } from '~/styles';
 
+const TOOLBAR_HEIGHT = 82;
+
 export const Container = styled.View`
-  flex-direction: column;
-  top: 0;
-  left: 0;
-  right: 0;
-  position: absolute;
   z-index: 10;
 `;
 
@@ -18,6 +15,7 @@ export const Toolbar = styled.View`
   align-items: center;
   justify-content: space-between;
   padding: 34px 16px 16px;
+  height: ${TOOLBAR_HEIGHT}px;
   background: ${colors.dark};
 `;
 
@@ -40,11 +38,13 @@ export const ButtonContainer = styled.View`
 
 export const HeaderButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.7,
+  hitSlop: { top: 20, right: 20, bottom: 20, left: 20 },
 }))`
   width: 32px;
   height: 32px;
   align-items: center;
   justify-content: center;
+  opacity: ${props => (props.disabled ? 0.6 : 1)};
 `;
 
 export const HeaderIcon = styled(Icon).attrs(() => ({
@@ -53,7 +53,11 @@ export const HeaderIcon = styled(Icon).attrs(() => ({
 }))``;
 
 export const Shadow = styled(LinearGradient).attrs(() => ({
-  colors: ['rgba(0,0,0,.9)', 'transparent'],
+  colors: [colors.dark, 'transparent'],
 }))`
-  height: 16px;
+  position: absolute;
+  top: ${TOOLBAR_HEIGHT}px;
+  left: 0;
+  right: 0;
+  height: 32px;
 `;

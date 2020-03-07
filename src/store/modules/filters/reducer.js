@@ -25,8 +25,8 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
-      case ActionTypes.REMOVE_REGIONS: {
-        draft.regions = [];
+      case ActionTypes.REMOVE_REGIONS_SELECTION: {
+        draft.regions = draft.regions.map(x => ({ ...x, selected: false }));
         break;
       }
 
@@ -46,8 +46,8 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
-      case ActionTypes.REMOVE_SKILLS: {
-        draft.skills = [];
+      case ActionTypes.REMOVE_SKILLS_SELECTION: {
+        draft.skills = draft.skills.map(x => ({ ...x, selected: false }));
         break;
       }
 
@@ -69,6 +69,14 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
+      case ActionTypes.REMOVE_SKILL_LEVELS_SELECTION: {
+        draft.skillLevels = draft.skillLevels.map(x => ({
+          ...x,
+          selected: false,
+        }));
+        break;
+      }
+
       /**
        * Music style filter
        */
@@ -78,8 +86,8 @@ export default function auth(state = INITIAL_STATE, { type, payload }) {
         break;
       }
 
-      case ActionTypes.REMOVE_STYLES: {
-        draft.styles = [];
+      case ActionTypes.REMOVE_STYLES_SELECTION: {
+        draft.styles = draft.styles.map(x => ({ ...x, selected: false }));
         break;
       }
 

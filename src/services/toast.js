@@ -1,4 +1,5 @@
 import { WSnackBar, WToast } from 'react-native-smart-tip';
+import { darken } from 'polished';
 
 import { colors } from '~/styles';
 
@@ -18,7 +19,7 @@ export function showToast(message) {
 export function showSuccessSnack(message) {
   WSnackBar.show({
     data: message,
-    backgroundColor: colors.success,
+    backgroundColor: darken(0.05, colors.success),
     textColor: colors.white,
     duration: WToast.duration.SHORT,
     position: WSnackBar.position.TOP,

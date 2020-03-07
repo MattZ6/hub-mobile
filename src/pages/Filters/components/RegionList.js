@@ -5,7 +5,12 @@ import { setRegions, selectRegion } from '~/store/modules/filters/actions';
 
 import api from '~/services/api';
 
+import { throwRequestErrorMessage } from '~/utils/error';
+
 import Loading from '~/components/Loading';
+import Refresher from '~/components/Refresher';
+import ErrorContainer from '~/components/ErrorContainer';
+
 import Region from './Region';
 
 import { ContentContainer, Title } from '../styles';
@@ -15,48 +20,69 @@ export default function RegionList() {
   const regions = useSelector(state => state.filters.regions);
 
   const [loading, setLoading] = React.useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [error, setError] = React.useState(true);
 
   function handleSelect(id) {
     dispatch(selectRegion(id));
   }
 
-  React.useEffect(() => {
-    async function getRegions() {
-      if (regions.length === 0) {
-        setLoading(true);
+  async function getRegions(refresh = false) {
+    setError(false);
 
-        try {
-          const { data } = await api.get('/v1/regions');
-
-          dispatch(setRegions(data));
-        } catch (err) {
-          console.tron.error(err);
-        } finally {
-          setLoading(false);
-        }
-      }
+    if (regions.length > 0 && !refresh) {
+      return;
     }
 
+    setLoading(!refresh);
+    setRefreshing(refresh);
+
+    try {
+      const { data } = await api.get('/v1/regions');
+
+      dispatch(setRegions(data));
+    } catch (err) {
+      if (regions.length > 0) {
+        throwRequestErrorMessage(err);
+      } else {
+        setError(true);
+      }
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }
+
+  React.useEffect(() => {
     getRegions();
   }, []);
 
   return (
-    <ContentContainer>
-      <Title>Cidades</Title>
+    <ContentContainer
+      refreshControl={
+        <Refresher
+          onRefresh={() => getRegions(true)}
+          refreshing={refreshing}
+          enabled={!loading && !refreshing && !error}
+        />
+      }>
+      {!error && loading && <Loading style={{ margin: 16 }} />}
 
-      <>
-        {loading ? (
-          <Loading style={{ margin: 16 }} />
-        ) : (
-          regions.map(region => (
+      {!error && !loading && (
+        <>
+          <Title>Toque para selecionar uma cidade</Title>
+
+          {regions.map(region => (
             <Region
               key={String(region.id)}
               region={region}
               onPress={() => handleSelect(region.id)}
             />
-          ))
-        )}
-      </>
+          ))}
+        </>
+      )}
+
+      {error && !loading && <ErrorContainer onPress={() => getRegions()} />}
     </ContentContainer>
   );
 }

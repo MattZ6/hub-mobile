@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 
 import api from '~/services/api';
 import googleApi, { GOOGLE_API_KEY } from '~/services/googleApi';
+
+import { useBackButton } from '~/lib/useBackButton';
+
 import { showSuccessSnack } from '~/services/toast';
 
 import { createRegionSuccess } from '~/store/modules/region/actions';
@@ -30,6 +33,10 @@ import {
   CityText,
   Check,
 } from './styles';
+
+function handleBack(loading) {
+  return loading;
+}
 
 export default function SelectLocation({ navigation }) {
   const dispatch = useDispatch();
@@ -66,7 +73,9 @@ export default function SelectLocation({ navigation }) {
 
   const ref = useRef();
 
-  function handleBack() {
+  useBackButton(() => handleBack(submiting || loading));
+
+  function handleNavigateBack() {
     navigation.pop();
   }
 
@@ -195,7 +204,7 @@ export default function SelectLocation({ navigation }) {
   return (
     <Container>
       <Header>
-        <HeaderButton onPress={handleBack} disabled={submiting}>
+        <HeaderButton onPress={handleNavigateBack} disabled={submiting}>
           <HeaderIcon name="arrow-back" disabled={submiting} />
         </HeaderButton>
 

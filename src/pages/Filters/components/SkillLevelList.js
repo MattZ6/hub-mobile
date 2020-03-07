@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { selectSkillLevel } from '~/store/modules/filters/actions';
 
-import Style from './Style';
+import SkillLevel from './SkillLevel';
 
-import { ContentContainer, RoundButtonContainer, Title } from '../styles';
+import { ContentContainer, Title } from '../styles';
 
 export default function StyleList() {
   const dispatch = useDispatch();
@@ -17,17 +17,15 @@ export default function StyleList() {
 
   return (
     <ContentContainer>
-      <Title>Nível de habilidade</Title>
+      <Title>Toque para selecionar um nível de habilidade</Title>
 
-      <RoundButtonContainer>
-        {skillLevels.map(skillLevel => (
-          <Style
-            key={String(skillLevel.value)}
-            style={skillLevel}
-            onPress={() => handleSelect(skillLevel.value)}
-          />
-        ))}
-      </RoundButtonContainer>
+      {skillLevels.map(skillLevel => (
+        <SkillLevel
+          key={String(skillLevel.value)}
+          skillLevel={skillLevel}
+          onPress={() => handleSelect(skillLevel.value)}
+        />
+      ))}
     </ContentContainer>
   );
 }

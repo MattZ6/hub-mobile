@@ -18,6 +18,7 @@ export default function ItemButton({
   descriptionColor,
   leftIcon,
   leftIconColor,
+  leftSrc,
   rightIcon,
   rightIconColor,
   rightSrc,
@@ -28,6 +29,15 @@ export default function ItemButton({
     <Container {...rest} disabled={disabled}>
       {leftIcon && (
         <Left name={leftIcon} color={leftIconColor} invalid={rest.invalid} />
+      )}
+
+      {leftSrc && (
+        <Image
+          source={leftSrc}
+          width={30}
+          height={30}
+          style={{ width: 28, height: 28, marginRight: 16 }}
+        />
       )}
 
       <Content>
@@ -42,12 +52,13 @@ export default function ItemButton({
       </Content>
 
       {rightIcon && <Right name={rightIcon} color={rightIconColor} />}
+
       {rightSrc && (
         <Image
           source={rightSrc}
           width={30}
           height={30}
-          style={{ width: 28, height: 28 }}
+          style={{ width: 28, height: 28, marginLeft: 16 }}
         />
       )}
     </Container>
@@ -60,6 +71,7 @@ ItemButton.propTypes = {
   descriptionColor: PropTypes.string,
   leftIcon: PropTypes.string,
   leftIconColor: PropTypes.string,
+  leftSrc: PropTypes.number,
   rightIcon: PropTypes.string,
   rightSrc: PropTypes.number,
   rightIconColor: PropTypes.string,
@@ -69,6 +81,7 @@ ItemButton.propTypes = {
 ItemButton.defaultProps = {
   leftIcon: null,
   leftIconColor: null,
+  leftSrc: null,
   rightIcon: null,
   rightIconColor: null,
   rightSrc: null,

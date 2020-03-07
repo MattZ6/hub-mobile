@@ -8,6 +8,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { useBackButton } from '~/lib/useBackButton';
+
 import { updateProfileSuccess } from '~/store/modules/user/actions';
 
 import api from '~/services/api';
@@ -20,6 +22,10 @@ import { validateNickname } from '~/utils/validators';
 import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from '~/pages/UpdateName/styles';
+
+function handleBack(loading) {
+  return loading;
+}
 
 export default function ChangeNickname({ navigation }) {
   const dispatch = useDispatch();
@@ -47,6 +53,8 @@ export default function ChangeNickname({ navigation }) {
 
     return result;
   }, [nickname]);
+
+  useBackButton(() => handleBack(loading));
 
   useEffect(() => {
     setTimeout(() => {
@@ -77,7 +85,6 @@ export default function ChangeNickname({ navigation }) {
       navigation.pop();
     } catch (error) {
       throwRequestErrorMessage(error);
-    } finally {
       setLoading(false);
     }
   }
@@ -94,7 +101,7 @@ export default function ChangeNickname({ navigation }) {
 
   return (
     <>
-      <Header showBackButton title="Alterar apelido" />
+      <Header showBackButton disableBack={loading} title="Alterar apelido" />
 
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}

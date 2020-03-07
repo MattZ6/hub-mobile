@@ -8,6 +8,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { useBackButton } from '~/lib/useBackButton';
+
 import { updateProfileSuccess } from '~/store/modules/user/actions';
 
 import api from '~/services/api';
@@ -21,6 +23,10 @@ import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from '~/pages/UpdateName/styles';
 
+function handleBack(loading) {
+  return loading;
+}
+
 export default function UpdateName({ navigation }) {
   const dispatch = useDispatch();
 
@@ -32,6 +38,8 @@ export default function UpdateName({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const nameRef = useRef();
+
+  useBackButton(() => handleBack(loading));
 
   useEffect(() => {
     setTimeout(() => {
@@ -62,7 +70,6 @@ export default function UpdateName({ navigation }) {
       navigation.pop();
     } catch (err) {
       throwRequestErrorMessage(err);
-    } finally {
       setLoading(false);
     }
   }
@@ -79,7 +86,7 @@ export default function UpdateName({ navigation }) {
 
   return (
     <>
-      <Header showBackButton title="Editar nome" />
+      <Header showBackButton disableBack={loading} title="Editar nome" />
 
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}

@@ -31,7 +31,7 @@ function Input({ style, invalid, disabled, maxLength, length, ...rest }, ref) {
   );
 }
 
-export default forwardRef(Input);
+export default React.memo(forwardRef(Input));
 
 Input.propTypes = {
   invalid: PropTypes.bool,

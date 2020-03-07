@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
-import { RectButton } from 'react-native-gesture-handler';
 
 import { colors, fonts } from '~/styles';
 
-export const Button = styled(RectButton)`
+export const Button = styled.TouchableOpacity.attrs(() => ({
+  activeOpacity: 0.6,
+}))`
   flex-direction: row;
   align-items: center;
   padding: 8px 20px;
@@ -28,6 +29,14 @@ export const Info = styled.View`
   padding-right: 20px;
 `;
 
+export const Nick = styled.Text.attrs(() => ({
+  numberOfLines: 1,
+}))`
+  color: ${colors.white};
+  font-size: 12px;
+  font-family: ${fonts.semiBold};
+`;
+
 export const Title = styled.Text.attrs(() => ({
   numberOfLines: 1,
 }))`
@@ -39,10 +48,9 @@ export const Title = styled.Text.attrs(() => ({
 export const Description = styled.Text.attrs(() => ({
   numberOfLines: 1,
 }))`
-  font-family: ${fonts.semiBold};
   color: ${colors.clearButtonTextColor};
-  font-size: 15px;
-  margin-top: 4px;
+  font-size: 14px;
+  font-family: ${fonts.semiBold};
 `;
 
 export const Bold = styled.Text`

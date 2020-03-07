@@ -12,7 +12,7 @@ function Region({ region, ...rest }) {
   return (
     <RegionButton {...rest}>
       <ButtonContent>
-        <ButtonTitle>{region.name}</ButtonTitle>
+        <ButtonTitle selected={region.selected}>{region.name}</ButtonTitle>
       </ButtonContent>
 
       {region.selected && <SelectionIcon name="check" size={24} />}

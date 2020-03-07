@@ -10,12 +10,7 @@ import {
   Description,
 } from './styles';
 
-export default function InformationContainer({
-  icon,
-  title,
-  description,
-  ...rest
-}) {
+function InformationContainer({ icon, title, description, ...rest }) {
   const opacityValue = new Animated.Value(0);
   const translateValue = new Animated.Value(16);
 
@@ -67,3 +62,5 @@ InformationContainer.defaultProps = {
   title: 'Título',
   description: null,
 };
+
+export default React.memo(InformationContainer);

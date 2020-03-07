@@ -1,4 +1,5 @@
 import React from 'react';
+import { Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import { withNavigation } from 'react-navigation';
 
@@ -6,30 +7,57 @@ import {
   Button,
   Avatar,
   Info,
+  Nick,
   Title,
   Description,
 } from '~/components/Musician/styles';
 
 function Musician({ musician, navigation }) {
+  const opacity = new Animated.Value(0);
+  const translateY = new Animated.Value(8);
+
   function handleNavigate() {
     navigation.navigate('PublicProfile', { id: musician.id });
   }
 
-  return (
-    <Button onPress={handleNavigate}>
-      <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} />
+  React.useEffect(() => {
+    function animateMusician() {
+      Animated.parallel([
+        Animated.timing(opacity, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
 
-      <Info>
-        <Title>{musician.name}</Title>
-        <Description>{musician.skills}</Description>
-      </Info>
-    </Button>
+    animateMusician();
+  }, []);
+
+  return (
+    <Animated.View style={{ opacity, transform: [{ translateY }] }}>
+      <Button onPress={handleNavigate}>
+        <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} />
+
+        <Info>
+          <Nick>#{musician.nickname}</Nick>
+          <Title>{musician.name}</Title>
+          {musician.skills && <Description>{musician.skills}</Description>}
+        </Info>
+      </Button>
+    </Animated.View>
   );
 }
 
 Musician.propTypes = {
   musician: PropTypes.shape({
     id: PropTypes.number,
+    nickname: PropTypes.string,
     name: PropTypes.string,
     skills: PropTypes.string,
   }).isRequired,
@@ -38,4 +66,4 @@ Musician.propTypes = {
   }).isRequired,
 };
 
-export default withNavigation(Musician);
+export default withNavigation(React.memo(Musician));

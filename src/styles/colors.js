@@ -11,6 +11,7 @@ export default {
   skillLevelBackground: 'rgba(255,255,255,.1)',
 
   rippleColor: 'rgba(255,255,255,.05)',
+  gold: 'gold',
 
   danger: '#A62C2C',
   success: '#21D954',

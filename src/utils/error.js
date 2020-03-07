@@ -14,7 +14,7 @@ export function throwRequestErrorMessage(err) {
   }
 
   if (err.response.status <= 1) {
-    showToast('Verifique sua conexão com a internet');
+    showToast('Serviço temporariamente indisponível');
     return;
   }
 

@@ -56,7 +56,7 @@ export default function Profile({ navigation }) {
         <Item
           title={profile.nickname}
           description="Alterar meu apelido"
-          rightIcon="local-play"
+          rightIcon="assignment-ind"
           onPress={navigateToChangeNick}
         />
 

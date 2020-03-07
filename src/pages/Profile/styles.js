@@ -8,7 +8,7 @@ import { colors, fonts } from '~/styles';
 export const Container = styled.ScrollView.attrs({
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingTop: 64,
+    paddingTop: 32,
     paddingBottom: 16,
   },
 })`
@@ -21,7 +21,7 @@ export const Avatar = styled.Image.attrs(() => ({}))`
   height: 120px;
   border-radius: 60px;
   align-self: center;
-  margin: 32px 0;
+  margin-bottom: 32px;
 `;
 
 export const Nickname = styled.Text.attrs(() => ({

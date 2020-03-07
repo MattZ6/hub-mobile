@@ -12,7 +12,15 @@ import {
   HeaderIcon,
 } from './styles';
 
-function Header({ navigation, showBackButton, title }) {
+function Header({
+  navigation,
+  showBackButton,
+  disableBack,
+  title,
+  showsRightButton,
+  rightIcon,
+  rightButtonProps,
+}) {
   function handleBack() {
     navigation.pop();
   }
@@ -22,7 +30,7 @@ function Header({ navigation, showBackButton, title }) {
       <Toolbar>
         <ButtonContainer>
           {showBackButton && (
-            <HeaderButton onPress={handleBack}>
+            <HeaderButton onPress={handleBack} disabled={disableBack}>
               <HeaderIcon name="arrow-back" />
             </HeaderButton>
           )}
@@ -30,7 +38,13 @@ function Header({ navigation, showBackButton, title }) {
 
         {title && <Title>{title}</Title>}
 
-        <ButtonContainer />
+        <ButtonContainer>
+          {showsRightButton && (
+            <HeaderButton {...rightButtonProps}>
+              <HeaderIcon name={rightIcon} />
+            </HeaderButton>
+          )}
+        </ButtonContainer>
       </Toolbar>
 
       <Shadow />
@@ -47,9 +61,17 @@ Header.propTypes = {
   }).isRequired,
   title: PropTypes.string,
   showBackButton: PropTypes.bool,
+  disableBack: PropTypes.bool,
+  showsRightButton: PropTypes.bool,
+  rightButtonProps: PropTypes.shape({}),
+  rightIcon: PropTypes.string,
 };
 
 Header.defaultProps = {
   title: null,
   showBackButton: false,
+  disableBack: false,
+  showsRightButton: false,
+  rightButtonProps: null,
+  rightIcon: null,
 };

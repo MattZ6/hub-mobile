@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors, fonts } from '~/styles';
 
 export const Container = styled(Animated.View)`
-  flex: 1;
+  /* flex: 1; */
   align-items: center;
   justify-content: center;
   padding: 16px;

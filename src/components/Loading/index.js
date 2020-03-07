@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { Animated, ActivityIndicator } from 'react-native';
+import PropTypes from 'prop-types';
 
 import { colors } from '~/styles';
 
