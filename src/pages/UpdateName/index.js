@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { useBackButton } from '~/lib/useBackButton';
+import { useBackButton } from '~/hooks/useBackButton';
 
 import { updateProfileSuccess } from '~/store/modules/user/actions';
 

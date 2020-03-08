@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { useBackButton } from '~/lib/useBackButton';
+import { useBackButton } from '~/hooks/useBackButton';
 
 import api from '~/services/api';
 import { showSuccessSnack } from '~/services/toast';

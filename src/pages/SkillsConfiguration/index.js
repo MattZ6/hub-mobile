@@ -92,70 +92,69 @@ export default function SkillsConfiguration() {
   }, []);
 
   return (
-    <Container>
+    <>
       <Header title="Habilidades" />
-
-      {error && (
-        <ErrorContainer
-          icon="cloud-off"
-          title="Verifique sua conexão com a internet"
-          tip="Toque para tentar novamente"
-          onPress={getInstruments}
-        />
-      )}
-
-      {!error && !skills && <Loading size={56} />}
-
-      {skills?.length > 0 && (
-        <>
-          <FlatList
-            style={{ flex: 1 }}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              paddingTop: 96,
-              paddingBottom: 128,
-            }}
-            ListHeaderComponent={
-              <Description>
-                {/* Um guerreiro letal conhece o momento exato de mostrar suas
-                habilidades */}
-                Para prosseguir com o cadastro informe quais são suas
-                habilidades
-              </Description>
-            }
-            data={skills}
-            keyExtractor={item => String(item.id)}
-            renderToHardwareTextureAndroid
-            renderItem={({ item }) => (
-              <SkillSelect
-                enabled={!submiting && !updating}
-                key={String(item.id)}
-                check={() => handleToggleSkill(item.id)}
-                skill={item}
-              />
-            )}
+      <Container>
+        {error && (
+          <ErrorContainer
+            icon="cloud-off"
+            title="Verifique sua conexão com a internet"
+            tip="Toque para tentar novamente"
+            onPress={getInstruments}
           />
+        )}
 
-          {/* <RefreshControl refreshing onRefresh={() => {}} /> */}
+        {!error && !skills && <Loading size={56} />}
 
-          <FooterContainer>
-            <Button
-              // enabled={valid && !updating}
-              // valid={valid}
-              loading={submiting || updating}
-              onPress={handleSubmit}>
-              Prosseguir
-            </Button>
+        {skills?.length > 0 && (
+          <>
+            <FlatList
+              style={{ flex: 1 }}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{
+                paddingTop: 16,
+                paddingBottom: 128,
+              }}
+              ListHeaderComponent={
+                <Description>
+                  Para prosseguir com o cadastro informe quais são suas
+                  habilidades
+                </Description>
+              }
+              data={skills}
+              keyExtractor={item => String(item.id)}
+              renderToHardwareTextureAndroid
+              renderItem={({ item }) => (
+                <SkillSelect
+                  enabled={!submiting && !updating}
+                  key={String(item.id)}
+                  check={() => handleToggleSkill(item.id)}
+                  skill={item}
+                />
+              )}
+            />
 
-            <ButtonClear
-              onPress={handleCompleteLater}
-              disabled={submiting || updating}>
-              Deixar pra depois...
-            </ButtonClear>
-          </FooterContainer>
-        </>
-      )}
-    </Container>
+            {/* <RefreshControl refreshing onRefresh={() => {}} /> */}
+
+            <FooterContainer>
+              <Button
+                // enabled={valid && !updating}
+                // valid={valid}
+                loading={submiting || updating}
+                onPress={handleSubmit}>
+                Prosseguir
+              </Button>
+
+              <ButtonClear
+                onPress={handleCompleteLater}
+                disabled={submiting || updating}>
+                Deixar pra depois...
+              </ButtonClear>
+            </FooterContainer>
+          </>
+        )}
+      </Container>
+    </>
   );
 }
 

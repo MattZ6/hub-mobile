@@ -15,7 +15,6 @@ import { showSuccessSnack } from '~/services/toast';
 
 import Header from '~/components/Header';
 import Input from '~/components/Input';
-import ButtonClear from '~/components/ButtonClear';
 
 import { validateName } from '~/utils/validators';
 import { throwRequestErrorMessage } from '~/utils/error';
@@ -72,7 +71,7 @@ export default function ChangeWhatsApp({ navigation }) {
     Keyboard.dismiss();
 
     if (!validateName(whatsapp)) {
-      _submit();
+      // _submit();
     } else {
       setTouched(true);
     }
@@ -92,7 +91,8 @@ export default function ChangeWhatsApp({ navigation }) {
             <Input
               placeholder="DDD + Número"
               returnKeyType="done"
-              keyboardType="phone-pad"
+              keyboardType="decimal-pad"
+              textContentType="telephoneNumber"
               value={whatsapp}
               onChangeText={setWhatsapp}
               ref={ref}
@@ -105,8 +105,6 @@ export default function ChangeWhatsApp({ navigation }) {
             <SubmitButton onPress={handleSubmit} loading={loading}>
               Salvar
             </SubmitButton>
-
-            <ButtonClear>Remover</ButtonClear>
           </Form>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>

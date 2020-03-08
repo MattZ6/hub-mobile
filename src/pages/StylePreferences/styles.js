@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-// import { BaseButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -13,7 +12,7 @@ export const Container = styled.View`
 
 export const Scroll = styled.ScrollView.attrs(() => ({
   showsVerticalScrollIndicator: false,
-  contentContainerStyle: { paddingTop: 96, paddingBottom: 140 },
+  contentContainerStyle: { paddingTop: 16, paddingBottom: 140 },
 }))`
   flex: 1;
 `;
@@ -39,25 +38,29 @@ export const Style = styled.TouchableOpacity.attrs(() => ({
   flex-direction: row;
   align-items: center;
 
-  padding: 8px 18px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+  padding-right: 16px;
   border-radius: 32px;
   margin: 0 10px 10px 0;
-  background: ${colors.skillLevelBackground};
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  background: #0e0e0e;
 `;
 
 export const StyleName = styled.Text`
   color: ${props => (props.selected ? colors.success : colors.white)};
   font-size: 14px;
   font-family: ${fonts.semiBold};
-  padding-left: 9px;
+  padding-left: ${props => (props.selected ? '0px' : '32px')};
+  height: 17px;
 `;
 
 export const SelectedIcon = styled(Icon).attrs(() => ({
   name: 'check',
   size: 16,
   color: colors.success,
-}))``;
+}))`
+  margin: 0 8px;
+`;
 
 export const FooterContainer = styled(LinearGradient).attrs(() => ({
   colors: ['rgba(0,0,0,.0)', 'rgba(0,0,0,.9)', '#000', 'rgba(0,0,0,1)'],

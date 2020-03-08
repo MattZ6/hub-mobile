@@ -92,7 +92,7 @@ export default function WelcomeBack() {
             <Title>Olá novamente, {profile.firstName}</Title>
 
             <Avatar
-              id={profile.id}
+              name={profile.name}
               size={120}
               style={{ alignSelf: 'center', marginVertical: 8 }}
             />

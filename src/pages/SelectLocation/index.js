@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import api from '~/services/api';
 import googleApi, { GOOGLE_API_KEY } from '~/services/googleApi';
 
-import { useBackButton } from '~/lib/useBackButton';
+import { useBackButton } from '~/hooks/useBackButton';
 
 import { showSuccessSnack } from '~/services/toast';
 
@@ -20,6 +20,8 @@ import ErrorContainer from '~/components/ErrorContainer';
 import InformationContainer from '~/components/InformationContainer';
 import FooterButton from '~/components/FooterButton';
 
+import City from './components/City';
+
 import {
   Container,
   Header,
@@ -27,11 +29,6 @@ import {
   HeaderButton,
   HeaderIcon,
   Content,
-  City,
-  Pin,
-  CityBoldText,
-  CityText,
-  Check,
 } from './styles';
 
 function handleBack(loading) {
@@ -243,6 +240,7 @@ export default function SelectLocation({ navigation }) {
               contentContainerStyle={{
                 flex: 1,
                 paddingBottom: cities.length > 0 ? 200 : 0,
+                justifyContent: cities.length > 0 ? 'flex-start' : 'center',
               }}
               showsVerticalScrollIndicator={false}
               data={cities}
@@ -255,15 +253,11 @@ export default function SelectLocation({ navigation }) {
                 />
               }
               renderItem={({ item, index }) => (
-                <City onPress={() => handleCheck(index)} disabled={submiting}>
-                  <Pin check={item.check} />
-                  <CityText>
-                    <CityBoldText>{item.city} </CityBoldText>
-                    {item.state ? `${item.state} - ` : ' '}
-                    {item.country}
-                  </CityText>
-                  {item.check && <Check />}
-                </City>
+                <City
+                  city={item}
+                  onPress={() => handleCheck(index)}
+                  disabled={submiting}
+                />
               )}
             />
           </>

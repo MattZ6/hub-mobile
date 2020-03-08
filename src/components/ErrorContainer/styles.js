@@ -25,7 +25,7 @@ export const StyledIcon = styled(Icon).attrs(() => ({
 export const Title = styled.Text`
   text-align: center;
   font-size: 18px;
-  color: ${colors.white};
+  color: ${colors.inputPlaceholderColor};
   font-family: ${fonts.semiBold};
   margin: 8px 0;
 `;
@@ -33,6 +33,6 @@ export const Title = styled.Text`
 export const Description = styled.Text`
   text-align: center;
   font-size: 16px;
-  color: ${colors.inputPlaceholderColor};
+  color: ${colors.clearButtonTextColor};
   font-family: ${fonts.medium};
 `;

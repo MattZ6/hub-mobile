@@ -7,26 +7,15 @@ export const Button = styled.TouchableOpacity.attrs(() => ({
 }))`
   flex-direction: row;
   align-items: center;
-  padding: 8px 20px;
+  padding: 8px 16px;
   height: 74px;
   width: 100%;
   border-radius: 0;
 `;
 
-export const Avatar = styled.Image.attrs({
-  fadeDuration: 500,
-  resizeMode: 'cover',
-})`
-  width: 56px;
-  height: 56px;
-  border-radius: 28px;
-  background: ${colors.inputBackground};
-`;
-
 export const Info = styled.View`
   flex: 1;
   margin-left: 16px;
-  padding-right: 20px;
 `;
 
 export const Nick = styled.Text.attrs(() => ({

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import api from '~/services/api';
 
+import { useBackButton } from '~/hooks/useBackButton';
+
 import Header from '~/components/Header';
 import Loading from '~/components/Loading';
 import ErrorContainer from '~/components/ErrorContainer';
@@ -13,6 +15,10 @@ import Styles from './components/Styles';
 
 import { Container, Content } from './styles';
 
+function handleBackButton(handle) {
+  return handle;
+}
+
 export default function PublicProfile({ navigation }) {
   const [id] = useState(navigation.getParam('id'));
 
@@ -20,9 +26,15 @@ export default function PublicProfile({ navigation }) {
   const [skills, setSkills] = useState([]);
   const [styles, setStyles] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const [error, setError] = useState(false);
 
+  useBackButton(() => handleBackButton(loading));
+
   async function loadMusician() {
+    setLoading(true);
+
     setError(false);
 
     try {
@@ -37,6 +49,8 @@ export default function PublicProfile({ navigation }) {
       setStyles(stylesRes.data);
     } catch (err) {
       setError(true);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -46,16 +60,16 @@ export default function PublicProfile({ navigation }) {
 
   return (
     <>
-      <Header showBackButton title="Músico" />
+      <Header showBackButton disableBack={loading} title="Músico" />
 
       <Container>
-        {!user && !error && <Loading style={{ marginTop: 24 }} />}
+        {loading && !error && <Loading style={{ marginTop: 24 }} />}
 
-        {error && <ErrorContainer onPress={loadMusician} />}
+        {!loading && error && <ErrorContainer onPress={loadMusician} />}
 
-        {user && !error && (
+        {!loading && !error && (
           <Content>
-            <Info user={user} />
+            {user && <Info user={user} />}
 
             {styles.length > 0 && <Styles styles={styles} />}
 

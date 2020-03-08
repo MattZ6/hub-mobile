@@ -23,7 +23,7 @@ export default function Info({ user }) {
   return (
     <InfoContainer>
       <Avatar
-        id={user.id}
+        name={user.name}
         size={120}
         style={{ marginBottom: 16, alignSelf: 'center' }}
       />

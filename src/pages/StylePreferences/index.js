@@ -6,7 +6,6 @@ import Loading from '~/components/Loading';
 import ErrorContainer from '~/components/ErrorContainer';
 import Button from '~/components/Button';
 import ButtonClear from '~/components/ButtonClear';
-// import FooterButton from '~/components/FooterButton';
 
 import api from '~/services/api';
 import { throwRequestErrorMessage } from '~/utils/error';
@@ -29,7 +28,6 @@ import {
 
 export default function StylePreferences() {
   const dispatch = useDispatch();
-  // const updating = true;
   const updating = useSelector(state => state.user.updating);
 
   const [musicStyles, setMusicStyles] = useState(null);
@@ -92,62 +90,64 @@ export default function StylePreferences() {
   }, []);
 
   return (
-    <Container>
+    <>
       <Header title="Preferências" />
 
-      {error && (
-        <ErrorContainer
-          icon="cloud-off"
-          title="Verifique sua conexão com a internet"
-          tip="Toque para tentar novamente"
-          onPress={getStyles}
-        />
-      )}
+      <Container>
+        {error && (
+          <ErrorContainer
+            icon="cloud-off"
+            title="Verifique sua conexão com a internet"
+            tip="Toque para tentar novamente"
+            onPress={getStyles}
+          />
+        )}
 
-      {!error && !musicStyles && <Loading size={56} style={{ flex: 1 }} />}
+        {!error && !musicStyles && <Loading size={56} style={{ flex: 1 }} />}
 
-      {musicStyles?.length >= 0 && (
-        <>
-          <Scroll>
-            <Description>
-              Informar suas influências e estilos preferidos pode te ajudar a
-              encontrar pessoas com gostos parecidos
-            </Description>
+        {musicStyles?.length >= 0 && (
+          <>
+            <Scroll>
+              <Description>
+                Informar suas influências e estilos preferidos pode te ajudar a
+                encontrar pessoas com gostos parecidos
+              </Description>
 
-            <StylesContainer>
-              {musicStyles.map(x => (
-                <Style
-                  disabled={submiting || updating}
-                  onPress={() => handleToggleSelect(x.id)}
-                  key={String(x.id)}>
-                  {x.selected && <SelectedIcon />}
+              <StylesContainer>
+                {musicStyles.map(x => (
+                  <Style
+                    disabled={submiting || updating}
+                    onPress={() => handleToggleSelect(x.id)}
+                    key={String(x.id)}>
+                    {x.selected && <SelectedIcon />}
 
-                  <StyleName selected={x.selected}>{x.name}</StyleName>
-                </Style>
-              ))}
-            </StylesContainer>
-          </Scroll>
+                    <StyleName selected={x.selected}>{x.name}</StyleName>
+                  </Style>
+                ))}
+              </StylesContainer>
+            </Scroll>
 
-          {/* {showButton && ( */}
-          {/* <FooterButton
+            {/* {showButton && ( */}
+            {/* <FooterButton
             text="Salvar"
             buttonProps={{ loading: submiting }}
             onPress={handleSubmit}
           /> */}
-          {/* )} */}
+            {/* )} */}
 
-          <FooterContainer>
-            <Button loading={submiting || updating} onPress={handleSubmit}>
-              Salvar
-            </Button>
-            <ButtonClear
-              disabled={submiting || updating}
-              onPress={handleCompleteLater}>
-              Deixar pra depois...
-            </ButtonClear>
-          </FooterContainer>
-        </>
-      )}
-    </Container>
+            <FooterContainer>
+              <Button loading={submiting || updating} onPress={handleSubmit}>
+                Salvar
+              </Button>
+              <ButtonClear
+                disabled={submiting || updating}
+                onPress={handleCompleteLater}>
+                Deixar pra depois...
+              </ButtonClear>
+            </FooterContainer>
+          </>
+        )}
+      </Container>
+    </>
   );
 }

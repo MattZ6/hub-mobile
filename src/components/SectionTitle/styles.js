@@ -6,7 +6,7 @@ export const Title = styled.Text.attrs({
   numberOfLines: 1,
 })`
   color: ${colors.inputPlaceholderColor};
-  font-family: ${fonts.semiBold};
+  font-family: ${fonts.bold};
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 1px;

@@ -54,7 +54,7 @@ export const Content = styled(Animated.View)`
   justify-content: center;
 `;
 
-export const City = styled.TouchableOpacity.attrs(() => ({
+export const CityButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.5,
 }))`
   height: 56px;

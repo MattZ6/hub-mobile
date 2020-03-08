@@ -101,7 +101,7 @@ export const RoundButtonText = styled.Text`
 `;
 
 /**
- *
+ *  Skill Level
  */
 
 export const SkillLevelButton = styled.TouchableOpacity.attrs(() => ({

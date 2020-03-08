@@ -6,14 +6,7 @@ import { Container, Button, StyledIcon, Title, Description } from './styles';
 
 const ANIMATION_DURATION = 500;
 
-export default function ErrorContainer({
-  title,
-  tip,
-  icon,
-  style,
-  enabled,
-  ...rest
-}) {
+function ErrorContainer({ title, tip, icon, style, enabled, ...rest }) {
   const opacityValue = new Animated.Value(0);
   const translateValue = new Animated.Value(16);
 
@@ -51,6 +44,8 @@ export default function ErrorContainer({
     </Container>
   );
 }
+
+export default React.memo(ErrorContainer);
 
 ErrorContainer.propTypes = {
   icon: PropTypes.string,

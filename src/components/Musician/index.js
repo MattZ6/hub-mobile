@@ -3,9 +3,11 @@ import { Animated } from 'react-native';
 import PropTypes from 'prop-types';
 import { withNavigation } from 'react-navigation';
 
+import Avatar from '~/components/Avatar';
+
 import {
   Button,
-  Avatar,
+  // Avatar,
   Info,
   Nick,
   Title,
@@ -42,7 +44,8 @@ function Musician({ musician, navigation }) {
   return (
     <Animated.View style={{ opacity, transform: [{ translateY }] }}>
       <Button onPress={handleNavigate}>
-        <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} />
+        <Avatar name={musician.name} size={56} />
+        {/* <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} /> */}
 
         <Info>
           <Nick>#{musician.nickname}</Nick>
