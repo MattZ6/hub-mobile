@@ -7,7 +7,7 @@ const INITIAL_STATE = {
   submiting: false,
 };
 
-export default function auth(state = INITIAL_STATE, { type, payload }) {
+export default function region(state = INITIAL_STATE, { type, payload }) {
   return produce(state, draft => {
     switch (type) {
       case RegionActionTypes.CREATE_REQUEST: {

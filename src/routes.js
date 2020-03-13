@@ -22,6 +22,7 @@ import ChangeWhatsApp from '~/pages/ChangeWhatsApp';
 import PublicProfile from '~/pages/PublicProfile';
 import SelectLocation from '~/pages/SelectLocation';
 import Filters from '~/pages/Filters';
+import UserStylePreferences from '~/pages/UserStylePreferences';
 
 import { colors } from '~/styles';
 
@@ -117,6 +118,7 @@ export default (
             PublicProfile,
             SelectLocation,
             Filters,
+            UserStylePreferences,
           },
           routesStyleConfig
         ),

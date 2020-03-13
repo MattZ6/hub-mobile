@@ -121,20 +121,22 @@ export const StyleTitle = styled.Text`
  * Try again
  */
 
-export const TryAgainButton = styled.TouchableOpacity.attrs(() => ({
+export const RoundButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.6,
   hitSlop: { top: 20, right: 20, bottom: 20, left: 20 },
 }))`
   border-style: solid;
   border-width: 1px;
-  border-color: ${colors.skillLevelBackground};
-  padding: 8px 16px;
+  border-color: ${props =>
+    props.green ? colors.success : colors.skillLevelBackground};
+  padding: 7px 20px;
   border-radius: 4px;
   align-self: center;
 `;
 
-export const TryAgainButtonTitle = styled.Text`
-  color: ${colors.inputPlaceholderColor};
+export const RoundButtonTitle = styled.Text`
+  color: ${props =>
+    props.green ? colors.success : colors.inputPlaceholderColor};
   font-family: ${fonts.semiBold};
   font-size: 14px;
 `;

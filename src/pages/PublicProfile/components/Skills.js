@@ -24,9 +24,9 @@ export default function Skills({ skills }) {
           </SkillInfoContainer>
 
           <SkillLevelContainer>
-            <SkillLevel gold={skill.skill_level >= 3} />
-            <SkillLevel gold={skill.skill_level >= 2} />
             <SkillLevel gold={skill.skill_level >= 1} />
+            <SkillLevel gold={skill.skill_level >= 2} />
+            <SkillLevel gold={skill.skill_level >= 3} />
           </SkillLevelContainer>
         </Skill>
       ))}

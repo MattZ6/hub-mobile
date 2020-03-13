@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   styles: [],
 };
 
-export default function auth(state = INITIAL_STATE, { type, payload }) {
+export default function filters(state = INITIAL_STATE, { type, payload }) {
   return produce(state, draft => {
     switch (type) {
       /**

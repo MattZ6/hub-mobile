@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Header from '~/components/Header';
 import Loading from '~/components/Loading';
 import ErrorContainer from '~/components/ErrorContainer';
 import Button from '~/components/Button';
 import ButtonClear from '~/components/ButtonClear';
+import Refresher from '~/components/Refresher';
 
 import api from '~/services/api';
+import { showSuccessSnack } from '~/services/toast';
+
 import { throwRequestErrorMessage } from '~/utils/error';
 
 import {
   updateProfileRequest,
   updateUserStylePreferencesConfiguration,
 } from '~/store/modules/user/actions';
+
+import { addUserStyle } from '~/store/modules/userStyles/actions';
 
 import {
   Container,
@@ -26,16 +32,28 @@ import {
   FooterContainer,
 } from './styles';
 
-export default function StylePreferences() {
+export default function StylePreferences({ navigation }) {
   const dispatch = useDispatch();
   const updating = useSelector(state => state.user.updating);
 
-  const [musicStyles, setMusicStyles] = useState(null);
-  const [error, setError] = useState(false);
-  const [submiting, setSubmiting] = useState(false);
+  const [fromProfile] = React.useState(
+    navigation.getParam('fromProfile', false)
+  );
 
-  async function getStyles() {
+  const [musicStyles, setMusicStyles] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [error, setError] = React.useState(false);
+  const [submiting, setSubmiting] = React.useState(false);
+
+  async function getStyles(refresh = false) {
+    if (!refreshing && !error && musicStyles.length > 0) {
+      return;
+    }
+
     setError(false);
+    setRefreshing(refresh);
+    setLoading(!refresh);
 
     try {
       const { data } = await api.get('/v1/styles');
@@ -43,6 +61,9 @@ export default function StylePreferences() {
       setMusicStyles(data);
     } catch (err) {
       setError(true);
+    } finally {
+      setRefreshing(false);
+      setLoading(false);
     }
   }
 
@@ -58,9 +79,19 @@ export default function StylePreferences() {
     const data = { styles };
 
     try {
-      await api.post('/v1/preferences', data);
+      const { data: newStyles } = await api.post('/v1/preferences', data);
 
-      dispatch(updateUserStylePreferencesConfiguration(true));
+      if (fromProfile) {
+        dispatch(addUserStyle(newStyles));
+
+        navigation.pop();
+
+        setTimeout(() => {
+          showSuccessSnack('Gostos musicais atualizados com sucesso!');
+        }, 150);
+      } else {
+        dispatch(updateUserStylePreferencesConfiguration(true));
+      }
     } catch (err) {
       throwRequestErrorMessage(err);
 
@@ -85,38 +116,58 @@ export default function StylePreferences() {
     dispatch(updateProfileRequest(data));
   }
 
-  useEffect(() => {
+  function handleRefreshStyles() {
+    getStyles(true);
+  }
+
+  function handleGetStyles() {
     getStyles();
+  }
+
+  React.useEffect(() => {
+    handleGetStyles();
   }, []);
 
   return (
     <>
-      <Header title="Preferências" />
+      <Header
+        showBackButton={fromProfile}
+        disableBack={refreshing || submiting}
+        title={fromProfile ? 'Estilos musicais' : 'Preferências'}
+      />
 
       <Container>
-        {error && (
+        {!loading && error && (
           <ErrorContainer
             icon="cloud-off"
             title="Verifique sua conexão com a internet"
             tip="Toque para tentar novamente"
-            onPress={getStyles}
+            onPress={handleGetStyles}
           />
         )}
 
-        {!error && !musicStyles && <Loading size={56} style={{ flex: 1 }} />}
+        {!error && loading && <Loading size={56} style={{ flex: 1 }} />}
 
-        {musicStyles?.length >= 0 && (
+        {!loading && !error && (
           <>
-            <Scroll>
+            <Scroll
+              refreshControl={
+                <Refresher
+                  onRefresh={handleRefreshStyles}
+                  refreshing={refreshing}
+                  enabled={!error && !submiting && !loading}
+                />
+              }>
               <Description>
-                Informar suas influências e estilos preferidos pode te ajudar a
-                encontrar pessoas com gostos parecidos
+                {fromProfile
+                  ? 'Toque em um estilo musical para seleciona-lo'
+                  : 'Informar suas influências e estilos preferidos pode te ajudar a encontrar pessoas com gostos parecidos'}
               </Description>
 
               <StylesContainer>
                 {musicStyles.map(x => (
                   <Style
-                    disabled={submiting || updating}
+                    disabled={submiting || updating || refreshing}
                     onPress={() => handleToggleSelect(x.id)}
                     key={String(x.id)}>
                     {x.selected && <SelectedIcon />}
@@ -127,23 +178,17 @@ export default function StylePreferences() {
               </StylesContainer>
             </Scroll>
 
-            {/* {showButton && ( */}
-            {/* <FooterButton
-            text="Salvar"
-            buttonProps={{ loading: submiting }}
-            onPress={handleSubmit}
-          /> */}
-            {/* )} */}
-
             <FooterContainer>
               <Button loading={submiting || updating} onPress={handleSubmit}>
                 Salvar
               </Button>
-              <ButtonClear
-                disabled={submiting || updating}
-                onPress={handleCompleteLater}>
-                Deixar pra depois...
-              </ButtonClear>
+              {!fromProfile && (
+                <ButtonClear
+                  disabled={submiting || updating || refreshing}
+                  onPress={handleCompleteLater}>
+                  Deixar pra depois...
+                </ButtonClear>
+              )}
             </FooterContainer>
           </>
         )}
@@ -151,3 +196,10 @@ export default function StylePreferences() {
     </>
   );
 }
+
+StylePreferences.propTypes = {
+  navigation: PropTypes.shape({
+    getParam: PropTypes.func,
+    pop: PropTypes.func,
+  }).isRequired,
+};

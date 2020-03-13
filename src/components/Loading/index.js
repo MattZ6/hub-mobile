@@ -22,11 +22,11 @@ export default function Loading({ size, style, ...rest }) {
   return (
     <Animated.View style={{ opacity }}>
       <ActivityIndicator
-        {...rest}
         style={[{ alignSelf: 'center' }, style]}
         renderToHardwareTextureAndroid
         size={size}
         color={colors.success}
+        {...rest}
       />
     </Animated.View>
   );
@@ -34,7 +34,7 @@ export default function Loading({ size, style, ...rest }) {
 
 Loading.propTypes = {
   size: PropTypes.number,
-  style: PropTypes.shape(),
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
 };
 
 Loading.defaultProps = {
