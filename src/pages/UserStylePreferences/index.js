@@ -1,11 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import api from '~/services/api';
-import { showSuccessSnack } from '~/services/toast';
 
 import { removeUserStyle } from '~/store/modules/userStyles/actions';
 
@@ -19,7 +16,13 @@ import Fab from '~/components/Fab';
 
 import Style from './components/Style';
 
-import { List } from './styles';
+import {
+  Container,
+  List,
+  ListHeader,
+  ListHeaderHint,
+  ButtonIcon,
+} from './styles';
 
 function handleBack(enable) {
   return enable;
@@ -41,8 +44,6 @@ export default function UserStylePreferences({ navigation }) {
       setStyles(styles.filter(x => x.id !== id));
 
       dispatch(removeUserStyle(id));
-
-      showSuccessSnack('Gosto removido com sucesso!');
     } catch (error) {
       throwRequestErrorMessage(error);
 
@@ -113,17 +114,35 @@ export default function UserStylePreferences({ navigation }) {
         }}
       />
 
+      {styles.length === 0 && (
+        <Container>
+          <InformationContainer
+            icon="music-note"
+            title="Você ainda não possui gostos musicais registrados"
+            description="Para adiciona-los toque no botão abaixo"
+          />
+        </Container>
+      )}
+
       {styles.length > 0 && (
         <List
           data={styles}
           keyExtractor={item => String(item.id)}
           ListHeaderComponent={
-            <View>
-              <Text style={{ color: 'gray' }}>
-                Para cancelar a remoção, toque em{' '}
-                <Icon name="cancel" size={16} color="gray" /> novamente
-              </Text>
-            </View>
+            <ListHeader>
+              {!styles.some(x => x.showButton) && (
+                <ListHeaderHint>
+                  Aqui estão todos seus gostos musicais registrados
+                </ListHeaderHint>
+              )}
+
+              {styles.some(x => x.showButton) && (
+                <ListHeaderHint>
+                  Para cancelar a remoção, toque em{'  '}
+                  <ButtonIcon name="cancel" size={16} /> novamente
+                </ListHeaderHint>
+              )}
+            </ListHeader>
           }
           renderItem={({ item, index }) => (
             <Style
@@ -134,13 +153,6 @@ export default function UserStylePreferences({ navigation }) {
           )}
         />
       )}
-
-      <InformationContainer
-        style={{ flex: 1 }}
-        icon="music-note"
-        title="Batata"
-        description="Alguma descriçãozinha"
-      />
 
       <Fab icon="add" onPress={handleNavigate} disabled={someDeleting()} />
     </>

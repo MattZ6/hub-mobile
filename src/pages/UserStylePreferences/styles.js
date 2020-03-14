@@ -6,25 +6,39 @@ import Loading from '~/components/Loading';
 
 import { colors, fonts } from '~/styles';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const List = styled(FlatList).attrs(() => ({
+  showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     paddingTop: 32,
+    paddingBottom: 84,
   },
 }))``;
+
+export const ListHeader = styled.View`
+  color: ${colors.inputPlaceholderColor};
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ListHeaderHint = styled.Text`
+  color: ${colors.inputPlaceholderColor};
+  font-family: ${fonts.medium};
+  font-size: 16px;
+  text-align: center;
+`;
 
 export const Item = styled.View`
   padding: 8px 16px;
   height: 56px;
   flex-direction: row;
   align-items: center;
-  /* height: 56,
-              paddingVertical: 8,
-              paddingHorizontal: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between', */
 `;
 
 export const ItemTitle = styled.Text.attrs(() => ({
@@ -34,6 +48,7 @@ export const ItemTitle = styled.Text.attrs(() => ({
   color: ${colors.white};
   font-size: 16px;
   font-family: ${fonts.semiBold};
+  margin-left: 16px;
 `;
 
 export const DeleteHint = styled.Text`
@@ -53,7 +68,7 @@ export const RightButton = styled.TouchableOpacity.attrs(() => ({
 
 export const ButtonIcon = styled(Icon).attrs(props => ({
   color: props.selected ? colors.danger : colors.inputPlaceholderColor,
-  size: 24,
+  size: props.size || 24,
 }))``;
 
 export const Loader = styled(Loading).attrs(() => ({

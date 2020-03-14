@@ -9,6 +9,8 @@ import Button from '~/components/Button';
 import ButtonClear from '~/components/ButtonClear';
 import Refresher from '~/components/Refresher';
 
+import { useBackButton } from '~/hooks/useBackButton';
+
 import api from '~/services/api';
 import { showSuccessSnack } from '~/services/toast';
 
@@ -31,6 +33,10 @@ import {
   SelectedIcon,
   FooterContainer,
 } from './styles';
+
+function handleBack(prevent) {
+  return prevent;
+}
 
 export default function StylePreferences({ navigation }) {
   const dispatch = useDispatch();
@@ -127,6 +133,8 @@ export default function StylePreferences({ navigation }) {
   React.useEffect(() => {
     handleGetStyles();
   }, []);
+
+  useBackButton(() => handleBack(loading || refreshing));
 
   return (
     <>

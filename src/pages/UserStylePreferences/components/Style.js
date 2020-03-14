@@ -16,6 +16,8 @@ function Style({ style, ...rest }) {
 
   return (
     <Item>
+      <ButtonIcon name="music-note" />
+
       <ItemTitle>{style.style.name}</ItemTitle>
 
       {showHint && <DeleteHint>Toque para confirmar</DeleteHint>}

@@ -6,7 +6,7 @@ export default reducers => {
     {
       key: 'hub_mobile',
       storage: AsyncStorage,
-      whitelist: ['auth', 'user'],
+      whitelist: ['auth', 'user', 'userStyles'],
     },
     reducers
   );

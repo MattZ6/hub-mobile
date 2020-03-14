@@ -10,9 +10,9 @@ import {
   Description,
 } from './styles';
 
-function InformationContainer({ icon, title, description, ...rest }) {
-  const opacityValue = new Animated.Value(0);
-  const translateValue = new Animated.Value(16);
+function InformationContainer({ icon, title, description, animate, ...rest }) {
+  const opacityValue = new Animated.Value(animate ? 0 : 1);
+  const translateValue = new Animated.Value(animate ? 16 : 0);
 
   useLayoutEffect(() => {
     function handleAnimate() {
@@ -30,7 +30,9 @@ function InformationContainer({ icon, title, description, ...rest }) {
       ]).start();
     }
 
+    // if(animate){
     handleAnimate();
+    // }
   }, []);
 
   return (
@@ -55,12 +57,14 @@ InformationContainer.propTypes = {
   icon: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
+  animate: PropTypes.bool,
 };
 
 InformationContainer.defaultProps = {
   icon: null,
   title: 'Título',
   description: null,
+  animate: true,
 };
 
 export default React.memo(InformationContainer);

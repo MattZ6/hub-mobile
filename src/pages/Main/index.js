@@ -1,6 +1,10 @@
 import React from 'react';
 import { FlatList, View, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { BaseButton } from 'react-native-gesture-handler';
+
+import api from '~/services/api';
+import { setUserStyles } from '~/store/modules/userStyles/actions';
 
 import { Container, Title } from '~/pages/Main/styles';
 
@@ -57,6 +61,28 @@ const musicians = [
 ];
 
 export default function Main({ navigation }) {
+  const dispatch = useDispatch();
+
+  const styles = useSelector(state => state.userStyles.userStyles);
+
+  React.useEffect(() => {
+    async function getStyles() {
+      if (Array.isArray(styles)) {
+        return;
+      }
+
+      try {
+        const res = await api.get('/v1/preferences');
+
+        dispatch(setUserStyles(res.data));
+      } catch (err) {
+        // Não precisa fazer nada por enquanto
+      }
+    }
+
+    getStyles();
+  }, []);
+
   return (
     <>
       <Header />

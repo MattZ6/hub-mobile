@@ -1,6 +1,7 @@
 import produce from 'immer';
 
 import ActionTypes from '~/store/modules/filters/types';
+import AuthActionTypes from '~/store/modules/auth/types';
 
 const INITIAL_STATE = {
   regions: [],
@@ -95,6 +96,17 @@ export default function filters(state = INITIAL_STATE, { type, payload }) {
         draft.styles = draft.styles.map(x =>
           x.id === payload.id ? { ...x, selected: !x.selected } : x
         );
+        break;
+      }
+
+      /**
+       * Sign out
+       */
+
+      case AuthActionTypes.SIGN_OUT: {
+        draft.regions = [];
+        draft.skills = [];
+        draft.styles = [];
         break;
       }
 
