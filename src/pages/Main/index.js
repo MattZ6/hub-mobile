@@ -5,6 +5,7 @@ import { BaseButton } from 'react-native-gesture-handler';
 
 import api from '~/services/api';
 import { setUserStyles } from '~/store/modules/userStyles/actions';
+import { setUserSkills } from '~/store/modules/userSkills/actions';
 
 import { Container, Title } from '~/pages/Main/styles';
 
@@ -64,6 +65,7 @@ export default function Main({ navigation }) {
   const dispatch = useDispatch();
 
   const styles = useSelector(state => state.userStyles.userStyles);
+  const skills = useSelector(state => state.userSkills.userSkills);
 
   React.useEffect(() => {
     async function getStyles() {
@@ -81,11 +83,30 @@ export default function Main({ navigation }) {
     }
 
     getStyles();
-  }, []);
+  }, [styles]);
+
+  React.useEffect(() => {
+    async function getSkills() {
+      if (Array.isArray(skills)) {
+        return;
+      }
+
+      try {
+        const res = await api.get('/v1/skills');
+
+        dispatch(setUserSkills(res.data));
+      } catch (err) {
+        // Não precisa fazer nada por enquanto
+      }
+    }
+
+    getSkills();
+  }, [skills]);
 
   return (
     <>
       <Header />
+
       <Container>
         {/* <Title>Home</Title> */}
 

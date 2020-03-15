@@ -25,6 +25,7 @@ export const Initials = styled.Text`
   font-family: ${fonts.bold};
   color: ${darken(0.1, colors.primaryDisabled)};
   opacity: ${props => (props.loading ? 0.4 : 1)};
+  text-transform: uppercase;
 `;
 
 export const Picture = styled.Image.attrs({
