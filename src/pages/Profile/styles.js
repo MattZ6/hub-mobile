@@ -18,32 +18,35 @@ export const Container = styled.ScrollView.attrs({
   z-index: 1;
 `;
 
-export const AvatarButton = styled.TouchableOpacity.attrs(() => ({
-  activeOpacity: 0.6,
+export const AvatarButton = styled.TouchableOpacity.attrs(props => ({
+  activeOpacity: props.havePicture ? 0.9 : 0.6,
 }))`
   position: relative;
   align-self: center;
   margin-bottom: 32;
 `;
 
-export const IconContainer = styled.View`
+export const IconContainer = styled.View.attrs(() => ({
+  elevation: 5,
+}))`
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 32;
-  height: 32;
-  border-radius: 16;
-  border-color: ${colors.dark};
-  border-style: solid;
-  background: #3f3f3f;
+  bottom: -4px;
+  right: -4px;
+  width: 38;
+  height: 38;
+  border-radius: 19;
+  /* border-width: 2px; */
+  /* border-color: ${colors.dark};
+  border-style: solid; */
+  background: #202020;
 `;
 
 export const ChangePictureIcon = styled(Icon).attrs(() => ({
   color: colors.inputPlaceholderColor,
   name: 'edit',
-  size: 20,
+  size: 18,
 }))``;
 
 export const Nickname = styled.Text.attrs(() => ({
@@ -140,3 +143,49 @@ export const RoundButtonTitle = styled.Text`
   font-family: ${fonts.semiBold};
   font-size: 14px;
 `;
+
+/**
+ * Skills
+ */
+
+export const Skill = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+`;
+
+export const SkillInfoContainer = styled.View`
+  flex: 1;
+`;
+
+export const SkillTitle = styled.Text.attrs(() => ({
+  numberOfLines: 1,
+}))`
+  flex: 1;
+  font-family: ${fonts.semiBold};
+  color: ${colors.white};
+  font-size: 16px;
+  text-transform: capitalize;
+`;
+
+export const SkillDescription = styled.Text.attrs(() => ({
+  numberOfLines: 1,
+}))`
+  flex: 1;
+  font-family: ${fonts.semiBold};
+  color: ${colors.inputPlaceholderColor};
+  font-size: 14px;
+  text-transform: capitalize;
+`;
+
+export const SkillLevelContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-left: 16px;
+`;
+
+export const SkillLevel = styled(Icon).attrs(props => ({
+  color: props.gold ? colors.gold : colors.inputPlaceholderColor,
+  name: 'star',
+  size: 16,
+}))``;

@@ -5,6 +5,7 @@ import user from '~/store/modules/user/reducer';
 import region from '~/store/modules/region/reducer';
 import filters from '~/store/modules/filters/reducer';
 import userStyles from '~/store/modules/userStyles/reducer';
+import userSkills from '~/store/modules/userSkills/reducer';
 
 export default combineReducers({
   auth,
@@ -12,4 +13,5 @@ export default combineReducers({
   region,
   filters,
   userStyles,
+  userSkills,
 });

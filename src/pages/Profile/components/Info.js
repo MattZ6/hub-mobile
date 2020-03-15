@@ -3,14 +3,7 @@ import { withNavigation } from 'react-navigation';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Avatar from '~/components/Avatar';
-
-import {
-  AvatarButton,
-  IconContainer,
-  ChangePictureIcon,
-  Item,
-} from '../styles';
+import { Item } from '../styles';
 
 function Info({ navigation }) {
   const profile = useSelector(state => state.user.profile);
@@ -33,14 +26,6 @@ function Info({ navigation }) {
 
   return (
     <>
-      <AvatarButton>
-        <Avatar name={profile.name} size={120} />
-
-        <IconContainer>
-          <ChangePictureIcon />
-        </IconContainer>
-      </AvatarButton>
-
       <Item
         title={profile.nickname}
         description="Alterar meu apelido"

@@ -20,10 +20,15 @@ export default function Info({ user }) {
     console.tron.log(user.whatsapp);
   }
 
+  function getAvatarUrl() {
+    return user.avatar ? user.avatar.url : null;
+  }
+
   return (
     <InfoContainer>
       <Avatar
         name={user.name}
+        url={getAvatarUrl()}
         size={120}
         style={{ marginBottom: 16, alignSelf: 'center' }}
       />
@@ -55,6 +60,9 @@ Info.propTypes = {
     whatsapp: PropTypes.string,
     region: PropTypes.shape({
       name: PropTypes.string,
+    }),
+    avatar: PropTypes.shape({
+      url: PropTypes.string,
     }),
   }).isRequired,
 };

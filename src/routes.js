@@ -23,6 +23,7 @@ import PublicProfile from '~/pages/PublicProfile';
 import SelectLocation from '~/pages/SelectLocation';
 import Filters from '~/pages/Filters';
 import UserStylePreferences from '~/pages/UserStylePreferences';
+import UserSkills from '~/pages/UserSkills';
 
 import { colors } from '~/styles';
 
@@ -119,6 +120,7 @@ export default (
             SelectLocation,
             Filters,
             UserStylePreferences,
+            UserSkills,
           },
           routesStyleConfig
         ),

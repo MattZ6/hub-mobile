@@ -66,6 +66,10 @@ export default function WelcomeBack() {
     }
   }
 
+  function getAvatarUrl() {
+    return profile.avatar ? profile.avatar.url : null;
+  }
+
   useEffect(() => {
     animate();
   }, []);
@@ -93,6 +97,7 @@ export default function WelcomeBack() {
 
             <Avatar
               name={profile.name}
+              url={getAvatarUrl()}
               size={120}
               style={{ alignSelf: 'center', marginVertical: 8 }}
             />

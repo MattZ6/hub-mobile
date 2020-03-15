@@ -44,8 +44,7 @@ function Musician({ musician, navigation }) {
   return (
     <Animated.View style={{ opacity, transform: [{ translateY }] }}>
       <Button onPress={handleNavigate}>
-        <Avatar name={musician.name} size={56} />
-        {/* <Avatar source={{ uri: `https:i.pravatar.cc/200?u=${musician.id}` }} /> */}
+        <Avatar name={musician.name} url={musician.avatar_url} size={56} />
 
         <Info>
           <Nick>#{musician.nickname}</Nick>
@@ -63,6 +62,7 @@ Musician.propTypes = {
     nickname: PropTypes.string,
     name: PropTypes.string,
     skills: PropTypes.string,
+    avatar_url: PropTypes.string,
   }).isRequired,
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
