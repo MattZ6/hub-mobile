@@ -2,6 +2,8 @@ import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import Loading from '~/components/Loading';
+
 import { colors, fonts } from '~/styles';
 
 export const List = styled(FlatList).attrs(() => ({
@@ -39,21 +41,25 @@ export const SkillTitle = styled.Text.attrs(() => ({
   text-transform: capitalize;
 `;
 
-export const SkillDescription = styled.Text.attrs(() => ({
-  numberOfLines: 1,
-}))`
-  color: ${colors.inputPlaceholderColor};
-  font-size: 14px;
-  font-family: ${fonts.semiBold};
-  text-transform: capitalize;
+export const DeleteHint = styled.Text`
+  color: ${colors.danger};
+  font-size: 12px;
+  font-family: ${fonts.medium};
+  margin: 0 8px 0 16px;
 `;
 
 export const RemoveButton = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.6,
   hitSlop: { top: 20, right: 20, bottom: 20, left: 20 },
-}))``;
+}))`
+  opacity: ${props => (props.disabled ? 0.5 : 1)};
+`;
 
 export const StyledIcon = styled(Icon).attrs(props => ({
   size: props.size || 24,
-  color: props.color || colors.inputPlaceholderColor,
+  color: props.selected ? colors.danger : colors.inputPlaceholderColor,
 }))``;
+
+export const Loader = styled(Loading)`
+  color: ${colors.primary};
+`;

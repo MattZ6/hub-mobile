@@ -14,6 +14,13 @@ export function addUserSkills(data) {
   };
 }
 
+export function updateUserSkills(data) {
+  return {
+    type: ActionTypes.UPDATE,
+    payload: { data },
+  };
+}
+
 export function removeUserSkills(id) {
   return {
     type: ActionTypes.REMOVE,

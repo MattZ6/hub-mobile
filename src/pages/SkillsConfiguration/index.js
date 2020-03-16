@@ -3,6 +3,7 @@ import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
 
 import api from '~/services/api';
+import { showSuccessSnack } from '~/services/toast';
 import { throwRequestErrorMessage } from '~/utils/error';
 
 import {
@@ -10,21 +11,27 @@ import {
   updateUserFirsSkillConfiguration,
 } from '~/store/modules/user/actions';
 
+import { addUserSkills } from '~/store/modules/userSkills/actions';
+
 import Header from '~/components/Header';
 import Refresher from '~/components/Refresher';
 import Button from '~/components/Button';
 import Loading from '~/components/Loading';
 import ErrorContainer from '~/components/ErrorContainer';
 import ButtonClear from '~/components/ButtonClear';
+import SkillLevelBottomSheet from '~/components/SkillLevelBottomSheet';
 
 import Skill from './components/Skill';
-import BottomSheet from './components/BottomSheet';
 
 import { Container, Description, List, FooterContainer } from './styles';
 
-export default function SkillsConfiguration() {
+export default function SkillsConfiguration({ navigation }) {
   const dispatch = useDispatch();
   const updating = useSelector(state => state.user.updating);
+
+  const [fromProfile] = React.useState(
+    navigation.getParam('fromProfile', false)
+  );
 
   const [skills, setSkills] = React.useState(null);
   const [submiting, setSubmiting] = React.useState(false);
@@ -46,13 +53,23 @@ export default function SkillsConfiguration() {
     }
   }
 
-  async function submit(data) {
+  async function submit(proxy) {
     setSubmiting(true);
 
     try {
-      await api.post('/v1/skills', data);
+      const { data } = await api.post('/v1/skills', proxy);
 
-      dispatch(updateUserFirsSkillConfiguration(true));
+      if (fromProfile) {
+        dispatch(addUserSkills(data));
+
+        navigation.pop();
+
+        setTimeout(() => {
+          showSuccessSnack('Habilidades atualizadas');
+        }, 150);
+      } else {
+        dispatch(updateUserFirsSkillConfiguration(true));
+      }
     } catch (err) {
       throwRequestErrorMessage(err);
 
@@ -121,7 +138,8 @@ export default function SkillsConfiguration() {
 
   return (
     <>
-      <Header title="Habilidades" />
+      <Header showBackButton={fromProfile} title="Habilidades" />
+
       <Container>
         {error && (
           <ErrorContainer
@@ -158,14 +176,16 @@ export default function SkillsConfiguration() {
                 // valid={valid}
                 loading={submiting || updating}
                 onPress={handleSubmit}>
-                Prosseguir
+                {fromProfile ? 'Salvar' : 'Prosseguir'}
               </Button>
 
-              <ButtonClear
-                onPress={handleCompleteLater}
-                disabled={submiting || updating}>
-                Deixar pra depois...
-              </ButtonClear>
+              {!fromProfile && (
+                <ButtonClear
+                  onPress={handleCompleteLater}
+                  disabled={submiting || updating}>
+                  Deixar pra depois...
+                </ButtonClear>
+              )}
             </FooterContainer>
           </>
         )}
@@ -178,8 +198,10 @@ export default function SkillsConfiguration() {
         useNativeDriver
         backdropOpacity={0.8}
         style={{ margin: 0 }}>
-        <BottomSheet
-          skill={currentSelectedSkill}
+        <SkillLevelBottomSheet
+          skillLabel={currentSelectedSkill?.label}
+          skillLevel={currentSelectedSkill?.skillLevel || 0}
+          showRemoveButton={!!currentSelectedSkill?.skillLevel}
           onConfirm={handleModalConfirmation}
           onRemove={handleModalRemove}
         />

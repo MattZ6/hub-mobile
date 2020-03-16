@@ -9,6 +9,6 @@ export const Container = styled.View`
 
 export const Star = styled(Icon).attrs(props => ({
   color: props.gold ? colors.gold : colors.inputPlaceholderColor,
-  size: 16,
+  size: props.size || 16,
   name: 'star',
 }))``;

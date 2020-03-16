@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import SkillLevel from './SkillLevel';
+import SkillLevel from './components/SkillLevel';
 
 import {
   BottomSheetContainer,
@@ -12,14 +12,16 @@ import {
   ButtonsContainer,
   BottomButton,
   BottomButtonText,
-} from '../styles';
+} from './styles';
 
-function BottomSheet({ skill, onConfirm, onRemove }) {
-  const [showRemove] = React.useState(skill && skill.skillLevel);
-
-  const [selected, setSelected] = React.useState(
-    skill ? skill.skillLevel : null
-  );
+function BottomSheet({
+  skillLabel,
+  skillLevel,
+  showRemoveButton,
+  onConfirm,
+  onRemove,
+}) {
+  const [selected, setSelected] = React.useState(skillLevel);
 
   function handleSelect(level) {
     setSelected(level);
@@ -30,8 +32,9 @@ function BottomSheet({ skill, onConfirm, onRemove }) {
       <BottomSheetContent>
         <SkillLevelContainer>
           <SkillLevelHint>
-            {skill &&
-              `Como você caracteriza seu nível de habilidade como ${skill.label}?`}
+            {skillLabel
+              ? `Como você caracteriza seu nível de habilidade como ${skillLabel}?`
+              : 'Como você caracteriza seu nível de habilidade com este instrumento?'}
           </SkillLevelHint>
 
           <SkillLevelList>
@@ -53,8 +56,8 @@ function BottomSheet({ skill, onConfirm, onRemove }) {
           </SkillLevelList>
         </SkillLevelContainer>
 
-        <ButtonsContainer single={!showRemove}>
-          {showRemove && (
+        <ButtonsContainer single={!showRemoveButton}>
+          {showRemoveButton && onRemove && (
             <BottomButton onPress={onRemove}>
               <BottomButtonText>Remover</BottomButtonText>
             </BottomButton>
@@ -73,12 +76,17 @@ function BottomSheet({ skill, onConfirm, onRemove }) {
 }
 
 BottomSheet.propTypes = {
-  skill: PropTypes.shape({
-    label: PropTypes.string,
-    skillLevel: PropTypes.number,
-  }).isRequired,
-  onRemove: PropTypes.func.isRequired,
+  skillLabel: PropTypes.string,
+  skillLevel: PropTypes.number.isRequired,
+  showRemoveButton: PropTypes.bool,
+  onRemove: PropTypes.func,
   onConfirm: PropTypes.func.isRequired,
+};
+
+BottomSheet.defaultProps = {
+  skillLabel: null,
+  showRemoveButton: false,
+  onRemove: null,
 };
 
 export default BottomSheet;
