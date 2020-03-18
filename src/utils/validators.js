@@ -147,4 +147,18 @@ export function returnFirstName(name) {
   return firstName;
 }
 
-export function validateWhatsAppNumber() {}
+export function validateWhatsAppNumber(whatsapp) {
+  if (whatsapp.trim().length === 0) {
+    return null;
+  }
+
+  if (!new RegExp('^[0-9]+$').test(whatsapp)) {
+    return 'Somente números';
+  }
+
+  if (whatsapp.trim().length < 10) {
+    return 'O número precisa conter pelo menos 10 caracteres';
+  }
+
+  return null;
+}

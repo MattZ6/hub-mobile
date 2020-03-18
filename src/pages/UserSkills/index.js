@@ -15,11 +15,12 @@ import {
 
 import Header from '~/components/Header';
 import Fab from '~/components/Fab';
+import InformationContainer from '~/components/InformationContainer';
 import SkillLevelBottomSheet from '~/components/SkillLevelBottomSheet';
 
 import Skill from './components/Skill';
 
-import { List } from './styles';
+import { Container, List } from './styles';
 
 function handleBackButton(handled) {
   return handled;
@@ -126,21 +127,35 @@ export default function UserSkills({ navigation }) {
         }}
       />
 
-      <List
-        data={skills}
-        keyExtractor={item => String(item.id)}
-        renderItem={({ item }) => (
-          <Skill
-            skill={item}
-            removeEnabled={removeEnabled}
-            selected={selectedSkill === item.id}
-            loading={removingSkillId === item.id || updatingSkillId === item.id}
-            removeDisabled={!!removingSkillId}
-            onSelect={handleSelect}
-            onPress={() => handleChangeSkill(item)}
+      {skills.length === 0 && (
+        <Container>
+          <InformationContainer
+            icon="whatshot"
+            title="Você não possui habilidades registradas"
+            description="Para adiciona-las toque no botão abaixo"
           />
-        )}
-      />
+        </Container>
+      )}
+
+      {skills.length > 0 && (
+        <List
+          data={skills}
+          keyExtractor={item => String(item.id)}
+          renderItem={({ item }) => (
+            <Skill
+              skill={item}
+              removeEnabled={removeEnabled}
+              selected={selectedSkill === item.id}
+              loading={
+                removingSkillId === item.id || updatingSkillId === item.id
+              }
+              removeDisabled={!!removingSkillId}
+              onSelect={handleSelect}
+              onPress={() => handleChangeSkill(item)}
+            />
+          )}
+        />
+      )}
 
       <Modal
         isVisible={isModalVisible}

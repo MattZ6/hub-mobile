@@ -6,6 +6,12 @@ import Loading from '~/components/Loading';
 
 import { colors, fonts } from '~/styles';
 
+export const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const List = styled(FlatList).attrs(() => ({
   paddingTop: 32,
   paddingBottom: 84,

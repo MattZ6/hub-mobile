@@ -28,7 +28,7 @@ function Skill({
 
   return (
     <SkillContainer disabled={removeEnabled} {...rest}>
-      <StyledIcon name="stars" />
+      <StyledIcon name="whatshot" />
 
       <SkillInfo>
         <SkillLevelStars level={skill.skill_level} size={12} />

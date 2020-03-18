@@ -86,7 +86,7 @@ function Styles({ navigation }) {
             <>
               <Hint>
                 Adicionar seus gostos musicias pode te ajudar a encontrar
-                pessoas com gostos parecidos
+                músicos com gostos parecidos
               </Hint>
 
               <RoundButton

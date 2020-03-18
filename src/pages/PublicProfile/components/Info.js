@@ -1,4 +1,5 @@
 import React from 'react';
+import { Linking } from 'react-native';
 import PropTypes from 'prop-types';
 
 import Avatar from '~/components/Avatar';
@@ -18,6 +19,7 @@ import {
 export default function Info({ user }) {
   function openWhatsApp() {
     console.tron.log(user.whatsapp);
+    Linking.openURL(`whatsapp://send?phone=55${user.whatsapp}`);
   }
 
   function getAvatarUrl() {

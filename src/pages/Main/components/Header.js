@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors } from '~/styles';
 
-import { HeaderContainer, HeaderButton } from '../styles';
+import { HeaderContainer, Shadow, HeaderButton } from '../styles';
 
 function Header({ navigation }) {
   function handleNavigateToSearch() {
@@ -24,6 +24,7 @@ function Header({ navigation }) {
       <HeaderButton onPress={handleNavigateProfile}>
         <Icon name="person" size={28} color={colors.inputPlaceholderColor} />
       </HeaderButton>
+      <Shadow />
     </HeaderContainer>
   );
 }

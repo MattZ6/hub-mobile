@@ -8,6 +8,8 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { useBackButton } from '~/hooks/useBackButton';
+
 import { updateProfileSuccess } from '~/store/modules/user/actions';
 
 import api from '~/services/api';
@@ -16,17 +18,21 @@ import { showSuccessSnack } from '~/services/toast';
 import Header from '~/components/Header';
 import Input from '~/components/Input';
 
-import { validateName } from '~/utils/validators';
+import { validateWhatsAppNumber } from '~/utils/validators';
 import { throwRequestErrorMessage } from '~/utils/error';
 
 import { Form, SubmitButton } from '~/pages/UpdateName/styles';
+
+function handleBack(loading) {
+  return loading;
+}
 
 export default function ChangeWhatsApp({ navigation }) {
   const dispatch = useDispatch();
 
   const profile = useSelector(state => state.user.profile);
 
-  const [whatsapp, setWhatsapp] = useState(profile.whatsapp);
+  const [whatsapp, setWhatsapp] = useState(profile.whatsapp ?? '');
   const [error, setError] = useState();
   const [touched, setTouched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,7 +47,7 @@ export default function ChangeWhatsApp({ navigation }) {
 
   useEffect(() => {
     if (touched) {
-      setError(validateName(whatsapp));
+      setError(validateWhatsAppNumber(whatsapp));
     }
   }, [whatsapp, touched]);
 
@@ -50,6 +56,7 @@ export default function ChangeWhatsApp({ navigation }) {
 
     const data = {
       whatsapp: whatsapp.trim(),
+      removeWhatsApp: whatsapp.trim().length === 0,
     };
 
     try {
@@ -57,7 +64,13 @@ export default function ChangeWhatsApp({ navigation }) {
 
       dispatch(updateProfileSuccess(response.data));
 
-      showSuccessSnack('Número adicionado com sucesso');
+      if (!profile.whatsapp && data.whatsapp.length > 0) {
+        showSuccessSnack('Número adicionado com sucesso');
+      } else if (profile.whatsapp && data.whatsapp.length > 0) {
+        showSuccessSnack('Número atualizado com sucesso');
+      } else {
+        showSuccessSnack('Número removido com sucesso');
+      }
 
       navigation.pop();
     } catch (err) {
@@ -70,16 +83,18 @@ export default function ChangeWhatsApp({ navigation }) {
   function handleSubmit() {
     Keyboard.dismiss();
 
-    if (!validateName(whatsapp)) {
-      // _submit();
+    if (!validateWhatsAppNumber(whatsapp)) {
+      _submit();
     } else {
       setTouched(true);
     }
   }
 
+  useBackButton(() => handleBack(loading));
+
   return (
     <>
-      <Header showBackButton title="WhastApp" />
+      <Header showBackButton disableBack={loading} title="WhastApp" />
 
       <TouchableWithoutFeedback
         onPress={Keyboard.dismiss}
@@ -100,6 +115,7 @@ export default function ChangeWhatsApp({ navigation }) {
               invalid={!!error}
               errorMessage={error}
               disabled={loading}
+              maxLength={11}
             />
 
             <SubmitButton onPress={handleSubmit} loading={loading}>

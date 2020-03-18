@@ -16,7 +16,7 @@ function Avatar({ name, url, size, loading, style }) {
         </LoadingContainer>
       )}
 
-      {initials && (
+      {initials && !url && (
         <Initials size={size} loading={loading}>
           {initials}
         </Initials>

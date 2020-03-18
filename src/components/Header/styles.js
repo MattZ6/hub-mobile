@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { colors, fonts } from '~/styles';
 
-const TOOLBAR_HEIGHT = 82;
+export const TOOLBAR_HEIGHT = 82;
 
 export const Container = styled.View`
   z-index: 10;
@@ -15,7 +15,7 @@ export const Toolbar = styled.View`
   align-items: center;
   justify-content: space-between;
   padding: 34px 16px 16px;
-  height: ${TOOLBAR_HEIGHT}px;
+  height: ${TOOLBAR_HEIGHT};
   background: ${colors.dark};
 `;
 

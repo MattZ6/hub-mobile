@@ -15,6 +15,26 @@ function Contact({ navigation }) {
   function navigateToChangeWhatsApp() {
     navigation.navigate('ChangeWhatsApp');
   }
+
+  function whatsapp() {
+    const whats = profile.whatsapp || '';
+
+    const ddd = whats.substr(0, 2);
+
+    const ninthDigit = whats.substr(2, 1);
+
+    const firstPart =
+      whats.length === 11 ? whats.substr(3, 4) : whats.substr(2, 4);
+
+    const secondPart = whats.length === 11 ? whats.substr(7) : whats.substr(6);
+
+    if (whats.length === 11) {
+      return `+55 (${ddd}) ${ninthDigit} ${firstPart}-${secondPart}`;
+    }
+
+    return `+55 (${ddd}) ${firstPart}-${secondPart}`;
+  }
+
   return (
     <>
       <SectionTitle
@@ -30,7 +50,7 @@ function Contact({ navigation }) {
       )}
 
       <Item
-        title={profile.whatsapp || 'Adicionar meu WhatsApp'}
+        title={profile.whatsapp ? whatsapp() : 'Adicionar meu WhatsApp'}
         description={profile.whatsapp ? 'Alterar meu WhatsApp' : null}
         rightSrc={WhatsIcon}
         onPress={navigateToChangeWhatsApp}
